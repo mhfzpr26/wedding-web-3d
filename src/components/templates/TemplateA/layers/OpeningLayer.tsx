@@ -47,10 +47,10 @@ export const OpeningLayer: React.FC<OpeningLayerProps> = ({ couple, guest }) => 
       </div>
 
       {/* 4. Bismillah */}
-      <div className="my-1">
-        <span className="text-2xl sm:text-3xl text-[#8C7851] font-serif block tracking-wider leading-none">
-          ﷽
-        </span>
+      <div className="my-1.5 w-full max-w-xs sm:max-w-sm px-2" dir="rtl">
+        <p className="font-serif text-sm sm:text-base text-[#8C7851] tracking-normal leading-relaxed text-center font-normal">
+          بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+        </p>
       </div>
 
       {/* 5. Ayat (Arabic Text) */}
