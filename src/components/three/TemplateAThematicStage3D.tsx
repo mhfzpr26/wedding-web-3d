@@ -150,7 +150,50 @@ function useParchmentCanvasTexture() {
   }, [])
 }
 
-// Physical 3D Torn Parchment Container with Synchronous Swapping Motion
+// Option 1: Pristine Luxury Cardstock with Gold Gilded Edge (600gsm Cotton Board)
+function createGildedCardShape(w = 0.98, h = 1.38, radius = 0.035) {
+  const shape = new THREE.Shape()
+  const x = -w
+  const y = -h
+  const width = w * 2
+  const height = h * 2
+
+  shape.moveTo(x + radius, y)
+  shape.lineTo(x + width - radius, y)
+  shape.quadraticCurveTo(x + width, y, x + width, y + radius)
+  shape.lineTo(x + width, y + height - radius)
+  shape.quadraticCurveTo(x + width, y + height, x + width - radius, y + height)
+  shape.lineTo(x + radius, y + height)
+  shape.quadraticCurveTo(x, y + height, x, y + height - radius)
+  shape.lineTo(x, y + radius)
+  shape.quadraticCurveTo(x, y, x + radius, y)
+
+  return shape
+}
+
+// Procedural Rectangular Frame with Hollow Center for Debossed Gold Foil Borders
+function createRectFrameShape(w: number, h: number, thickness: number) {
+  const shape = new THREE.Shape()
+  shape.moveTo(-w, -h)
+  shape.lineTo(w, -h)
+  shape.lineTo(w, h)
+  shape.lineTo(-w, h)
+  shape.closePath()
+
+  const hole = new THREE.Path()
+  const iw = w - thickness
+  const ih = h - thickness
+  hole.moveTo(-iw, -ih)
+  hole.lineTo(-iw, ih)
+  hole.lineTo(iw, ih)
+  hole.lineTo(iw, -ih)
+  hole.closePath()
+  shape.holes.push(hole)
+
+  return shape
+}
+
+// Physical 3D Card / Parchment Container with Synchronous Swapping Motion
 function TornParchmentContainer3D({
   sectionIndex,
   activeSection,
@@ -165,10 +208,37 @@ function TornParchmentContainer3D({
   children?: React.ReactNode
 }) {
   const groupRef = useRef<THREE.Group | null>(null)
-  const parchmentShape = useMemo(
-    () => createTornParchmentShape(sectionIndex, 0.98, 1.38),
-    [sectionIndex]
+  const isGildedCard = sectionIndex === 0
+  const cardShape = useMemo(
+    () =>
+      isGildedCard
+        ? createGildedCardShape(0.98, 1.38, 0.035)
+        : createTornParchmentShape(sectionIndex, 0.98, 1.38),
+    [sectionIndex, isGildedCard]
   )
+
+  // Material setup: For Gilded Cardstock, front/back is cotton paper (mat 0) and edges/bevels are 24K gold leaf (mat 1)
+  const gildedMaterials = useMemo(() => {
+    if (!isGildedCard) return null
+    const faceMat = new THREE.MeshStandardMaterial({
+      color: '#FAF6EE',
+      roughness: 0.78,
+      metalness: 0.02,
+      emissive: new THREE.Color('#FFFFFF'),
+      emissiveIntensity: 0.16,
+      map: paperTexture || undefined,
+      side: THREE.DoubleSide,
+    })
+    const goldEdgeMat = new THREE.MeshStandardMaterial({
+      color: '#D4AF37',
+      metalness: 0.98,
+      roughness: 0.12,
+      emissive: new THREE.Color('#524010'),
+      emissiveIntensity: 0.28,
+      side: THREE.DoubleSide,
+    })
+    return [faceMat, goldEdgeMat]
+  }, [isGildedCard, paperTexture])
 
   const isActive = sectionIndex === activeSection
   const isPreviousActive = useRef(isActive)
@@ -234,48 +304,67 @@ function TornParchmentContainer3D({
 
   return (
     <group ref={groupRef} position={[0, isActive ? 0 : 3.4, 0]}>
-      {/* 1. Realistic Clean Soft Drop Shadow (Flat Shape, Zero Bevel Artifacts) */}
+      {/* 1. Realistic Clean Soft Drop Shadow */}
       <mesh position={[0.024, -0.032, -0.02]}>
-        <shapeGeometry args={[parchmentShape]} />
-        <meshBasicMaterial color="#2B1D12" transparent opacity={0.14} />
+        <shapeGeometry args={[cardShape]} />
+        <meshBasicMaterial color="#2B1D12" transparent opacity={isGildedCard ? 0.18 : 0.14} />
       </mesh>
 
-      {/* 2. Gilded Gold Leaf Deckle Underlay (Peeks along ragged torn perimeter) */}
-      <mesh position={[0, 0, -0.004]} scale={[1.014, 1.01, 1]}>
-        <shapeGeometry args={[parchmentShape]} />
-        <meshStandardMaterial
-          color="#D4AF37"
-          metalness={0.96}
-          roughness={0.16}
-          emissive="#524010"
-          emissiveIntensity={0.25}
-        />
-      </mesh>
+      {/* 2. Gilded Gold Leaf Deckle Underlay (For torn paper acts only) */}
+      {!isGildedCard && (
+        <mesh position={[0, 0, -0.004]} scale={[1.014, 1.01, 1]}>
+          <shapeGeometry args={[cardShape]} />
+          <meshStandardMaterial
+            color="#D4AF37"
+            metalness={0.96}
+            roughness={0.16}
+            emissive="#524010"
+            emissiveIntensity={0.25}
+          />
+        </mesh>
+      )}
 
-      {/* 3. 3D Asymmetric Weathered Parchment Slab Body (Radiant Ivory Cotton Rag Paper) */}
-      <mesh position={[0, 0, 0]}>
-        <extrudeGeometry
-          args={[
-            parchmentShape,
-            {
-              depth: 0.03,
-              bevelEnabled: true,
-              bevelThickness: 0.004,
-              bevelSize: 0.003,
-              bevelSegments: 2,
-            },
-          ]}
-        />
-        <meshStandardMaterial
-          color="#FAF6EE"
-          roughness={0.76}
-          metalness={0.02}
-          emissive="#FFFFFF"
-          emissiveIntensity={0.16}
-          map={paperTexture || undefined}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
+      {/* 3. 3D Card / Parchment Slab Body */}
+      {isGildedCard && gildedMaterials ? (
+        <mesh position={[0, 0, 0]} material={gildedMaterials}>
+          <extrudeGeometry
+            args={[
+              cardShape,
+              {
+                depth: 0.034,
+                bevelEnabled: true,
+                bevelThickness: 0.006,
+                bevelSize: 0.005,
+                bevelSegments: 3,
+              },
+            ]}
+          />
+        </mesh>
+      ) : (
+        <mesh position={[0, 0, 0]}>
+          <extrudeGeometry
+            args={[
+              cardShape,
+              {
+                depth: 0.03,
+                bevelEnabled: true,
+                bevelThickness: 0.004,
+                bevelSize: 0.003,
+                bevelSegments: 2,
+              },
+            ]}
+          />
+          <meshStandardMaterial
+            color="#FAF6EE"
+            roughness={0.76}
+            metalness={0.02}
+            emissive="#FFFFFF"
+            emissiveIntensity={0.16}
+            map={paperTexture || undefined}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+      )}
 
       {/* 4. Bespoke Physical Accents for this Act */}
       {children}
@@ -283,17 +372,71 @@ function TornParchmentContainer3D({
   )
 }
 
-// 1. Act 00 Accents: Antique Gold Keystone Seal
+// 1. Act 00 Accents: Gold Foil Debossed Hairline Frame & Keystone Royal Seal (Option 1 Gilded Edge Cardstock)
 function Act00Accents() {
+  const outerFrameShape = useMemo(() => createRectFrameShape(0.91, 1.31, 0.004), [])
+  const innerFrameShape = useMemo(() => createRectFrameShape(0.88, 1.28, 0.0025), [])
+
+  const cornerDiamonds = useMemo(
+    () => [
+      [-0.88, 1.28],
+      [0.88, 1.28],
+      [-0.88, -1.28],
+      [0.88, -1.28],
+    ],
+    []
+  )
+
   return (
-    <group position={[0, 1.28, 0.048]}>
-      <mesh>
-        <octahedronGeometry args={[0.055, 0]} />
-        <meshStandardMaterial color="#D4AF37" metalness={0.96} roughness={0.12} />
+    <group position={[0, 0, 0]}>
+      {/* Outer Hairline Gold Foil Border */}
+      <mesh position={[0, 0, 0.041]}>
+        <shapeGeometry args={[outerFrameShape]} />
+        <meshStandardMaterial
+          color="#D4AF37"
+          metalness={0.96}
+          roughness={0.14}
+          emissive="#524010"
+          emissiveIntensity={0.2}
+        />
       </mesh>
-      <mesh position={[0, 0, -0.005]}>
-        <torusGeometry args={[0.09, 0.01, 16, 32]} />
-        <meshStandardMaterial color="#D4AF37" metalness={0.96} roughness={0.12} />
+
+      {/* Inner Hairline Gold Foil Border */}
+      <mesh position={[0, 0, 0.041]}>
+        <shapeGeometry args={[innerFrameShape]} />
+        <meshStandardMaterial
+          color="#D4AF37"
+          metalness={0.96}
+          roughness={0.14}
+          emissive="#524010"
+          emissiveIntensity={0.2}
+        />
+      </mesh>
+
+      {/* 4 Corner Ornate Diamond Inlays */}
+      {cornerDiamonds.map(([cx, cy], idx) => (
+        <mesh key={idx} position={[cx, cy, 0.042]}>
+          <octahedronGeometry args={[0.016, 0]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.98} roughness={0.12} />
+        </mesh>
+      ))}
+
+      {/* Top Royal Keystone Seal Medallion */}
+      <group position={[0, 1.23, 0.048]}>
+        <mesh>
+          <octahedronGeometry args={[0.052, 0]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.98} roughness={0.1} />
+        </mesh>
+        <mesh position={[0, 0, -0.004]}>
+          <torusGeometry args={[0.085, 0.01, 16, 32]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.98} roughness={0.1} />
+        </mesh>
+      </group>
+
+      {/* Bottom Center Delicate Diamond Accent */}
+      <mesh position={[0, -1.23, 0.044]}>
+        <octahedronGeometry args={[0.02, 0]} />
+        <meshStandardMaterial color="#D4AF37" metalness={0.98} roughness={0.12} />
       </mesh>
     </group>
   )
