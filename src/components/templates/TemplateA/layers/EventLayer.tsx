@@ -1,6 +1,6 @@
 'use client'
 
-import { Calendar, CalendarPlus, Clock, ExternalLink, MapPin, Sparkles, Ticket } from 'lucide-react'
+import { Calendar, CalendarPlus, Clock, ExternalLink, MapPin } from 'lucide-react'
 import React, { useState } from 'react'
 import { Countdown } from '@/components/shared/Countdown'
 import { formatDate, formatTime } from '@/lib/utils'
@@ -39,17 +39,6 @@ export const EventLayer: React.FC<EventLayerProps> = ({ couple }) => {
 
   return (
     <div className="w-full p-3 sm:p-5 text-center select-text relative">
-      {/* Header Tag */}
-      <div className="flex items-center justify-between mb-2 select-none">
-        <span className="text-[9px] sm:text-[10px] font-mono tracking-widest text-[#8C7851] uppercase bg-[#FAF8F5] px-2.5 py-0.5 rounded-full border border-[#E2D9CE]/80 shadow-sm inline-flex items-center space-x-1">
-          <Ticket className="w-3 h-3 text-[#D4AF37]" />
-          <span>Royal Invitation Pass</span>
-        </span>
-        <div className="flex items-center space-x-1 text-[#D4AF37]">
-          <Sparkles className="w-3.5 h-3.5" />
-        </div>
-      </div>
-
       <div className="space-y-0.5 mb-2.5">
         <h2 className="text-xl sm:text-2xl font-serif text-[#1B2A4A]">Rangkaian Acara</h2>
         <p className="text-[10px] sm:text-[11px] text-[#8A7968]">

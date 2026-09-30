@@ -1,6 +1,6 @@
 'use client'
 
-import { ChevronDown, Sparkles } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import React from 'react'
 import type { CoupleWithDetails, Guest } from '@/types'
 
@@ -12,12 +12,6 @@ interface OpeningLayerProps {
 export const OpeningLayer: React.FC<OpeningLayerProps> = ({ couple, guest }) => {
   return (
     <div className="w-full p-2.5 sm:p-4 text-center select-text relative flex flex-col items-center">
-      {/* Top Royal Decree Badge */}
-      <div className="inline-flex items-center space-x-1.5 px-3 py-0.5 rounded-full bg-[#FAF8F5] border border-[#E2D9CE] text-[9px] sm:text-[10px] font-mono uppercase tracking-[0.25em] text-[#8C7851] shadow-sm select-none mb-2">
-        <Sparkles className="w-3 h-3 text-[#D4AF37]" />
-        <span>Walimatul &apos;Ursy</span>
-      </div>
-
       {/* 1. Salam */}
       <div className="mb-2">
         <p className="text-[11px] sm:text-xs font-serif italic text-[#8A7968] tracking-wide">

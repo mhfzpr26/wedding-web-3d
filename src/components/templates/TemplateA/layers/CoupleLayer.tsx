@@ -1,6 +1,5 @@
 'use client'
 
-import { Sparkles } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 import type { CoupleWithDetails } from '@/types'
@@ -31,16 +30,6 @@ export const CoupleLayer: React.FC<CoupleLayerProps> = ({ couple }) => {
 
   return (
     <div className="w-full p-3 sm:p-5 text-center select-text relative">
-      {/* Top Header Tag */}
-      <div className="flex items-center justify-between mb-2 select-none">
-        <span className="text-[9px] sm:text-[10px] font-mono tracking-widest text-[#8C7851] uppercase bg-[#FAF8F5] px-2.5 py-0.5 rounded-full border border-[#E2D9CE]/80 shadow-sm">
-          Act 02 &bull; The Couple
-        </span>
-        <div className="flex items-center space-x-1 text-[#D4AF37]">
-          <Sparkles className="w-3.5 h-3.5" />
-        </div>
-      </div>
-
       <div className="space-y-0.5 mb-3">
         <h2 className="text-xl sm:text-2xl font-serif text-[#1B2A4A]">Kedua Mempelai</h2>
         <p className="text-[10px] sm:text-[11px] text-[#8A7968]">
