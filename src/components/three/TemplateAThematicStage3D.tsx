@@ -317,16 +317,28 @@ function createCameoRingShape(outerR = 0.34, innerR = 0.26) {
 }
 
 // Robust Texture Loader Hook: Creates 1:1 Square Texture with Object-Fit Cover & Face Bias
+// Robust Texture Loader Hook: Safely Proxies External Images to Prevent CORS Taint & Maps Perfectly onto 3D Medallions
 function usePhotoTexture(url?: string | null) {
-  const [texture, setTexture] = React.useState<THREE.CanvasTexture | null>(null)
+  const [texture, setTexture] = React.useState<THREE.Texture | null>(null)
 
   React.useEffect(() => {
-    if (!url || typeof document === 'undefined') {
+    if (!url || typeof window === 'undefined') {
       setTexture(null)
       return
     }
 
     let isMounted = true
+
+    // Safe URL: If external URL, route through same-origin /api/proxy-image to guarantee 0 CORS issues
+    const safeUrl =
+      url.startsWith('http://') || url.startsWith('https://')
+        ? `/api/proxy-image?url=${encodeURIComponent(url)}`
+        : url
+
+    const loader = new THREE.TextureLoader()
+    loader.setCrossOrigin('anonymous')
+
+    // Try canvas center-crop for 1:1 portrait face alignment
     const img = new Image()
     img.crossOrigin = 'anonymous'
 
@@ -339,16 +351,14 @@ function usePhotoTexture(url?: string | null) {
         const ctx = canvas.getContext('2d')
         if (!ctx) return
 
-        // Subtle ivory warm backing in case image has alpha
         ctx.fillStyle = '#FAF6EE'
         ctx.fillRect(0, 0, 512, 512)
 
-        // Center cover crop with slight headshot bias
         const scale = Math.max(512 / img.width, 512 / img.height)
         const w = img.width * scale
         const h = img.height * scale
         const x = (512 - w) / 2
-        const y = Math.min(0, Math.max(512 - h, (512 - h) * 0.32))
+        const y = Math.min(0, Math.max(512 - h, (512 - h) * 0.3))
         ctx.drawImage(img, x, y, w, h)
 
         const canvasTexture = new THREE.CanvasTexture(canvas)
@@ -359,17 +369,48 @@ function usePhotoTexture(url?: string | null) {
         canvasTexture.needsUpdate = true
 
         setTexture(canvasTexture)
-      } catch (err) {
-        console.warn('Canvas texture creation error:', err)
-        if (isMounted) setTexture(null)
+      } catch (e) {
+        console.warn('Canvas cropping fallback to direct texture:', e)
+        loader.load(safeUrl, (tex) => {
+          if (!isMounted) return
+          tex.colorSpace = THREE.SRGBColorSpace
+          tex.needsUpdate = true
+          setTexture(tex)
+        })
       }
     }
 
     img.onerror = () => {
-      if (isMounted) setTexture(null)
+      // Fallback: try loading directly via TextureLoader
+      loader.load(
+        safeUrl,
+        (tex) => {
+          if (!isMounted) return
+          tex.colorSpace = THREE.SRGBColorSpace
+          tex.needsUpdate = true
+          setTexture(tex)
+        },
+        undefined,
+        () => {
+          // Final fallback: try raw URL
+          loader.load(
+            url,
+            (rawTex) => {
+              if (!isMounted) return
+              rawTex.colorSpace = THREE.SRGBColorSpace
+              rawTex.needsUpdate = true
+              setTexture(rawTex)
+            },
+            undefined,
+            () => {
+              if (isMounted) setTexture(null)
+            }
+          )
+        }
+      )
     }
 
-    img.src = url
+    img.src = safeUrl
 
     return () => {
       isMounted = false
@@ -698,13 +739,16 @@ function Act01Accents({
         </mesh>
 
         {/* Groom Photo Aperture Disk */}
-        <mesh position={[0, 0, 0.014]}>
-          <circleGeometry args={[0.264, 48]} />
+        <mesh position={[0, 0, 0.018]}>
+          <circleGeometry args={[0.262, 48]} />
           {groomTexture ? (
             <meshStandardMaterial
               map={groomTexture}
-              roughness={0.2}
-              metalness={0.02}
+              color="#FFFFFF"
+              roughness={0.4}
+              metalness={0.0}
+              emissive="#FFFFFF"
+              emissiveIntensity={0.16}
               side={THREE.DoubleSide}
             />
           ) : (
@@ -714,28 +758,27 @@ function Act01Accents({
 
         {/* Monogram Crest Fallback when photo is absent */}
         {!groomTexture && (
-          <group position={[0, 0, 0.022]}>
+          <group position={[0, 0, 0.024]}>
             <mesh>
               <torusGeometry args={[0.09, 0.008, 16, 32]} />
               <meshStandardMaterial color="#D4AF37" metalness={0.96} roughness={0.12} />
             </mesh>
-            <mesh position={[0, 0, 0.002]}>
+            <mesh position={[0, 0, 0.004]}>
               <octahedronGeometry args={[0.045, 0]} />
               <meshStandardMaterial color="#F7E7CE" metalness={0.96} roughness={0.1} />
             </mesh>
           </group>
         )}
 
-        {/* Protective Crystal Glass Lens Cover */}
+        {/* Subtle Glass Surface Sheen (Glossy reflection highlight, NOT black transmission) */}
         <mesh position={[0, 0, 0.026]}>
-          <circleGeometry args={[0.262, 48]} />
-          <meshPhysicalMaterial
-            transmission={0.92}
-            roughness={0.06}
-            ior={1.46}
-            opacity={0.3}
-            transparent
+          <circleGeometry args={[0.26, 48]} />
+          <meshStandardMaterial
             color="#FFFFFF"
+            roughness={0.1}
+            metalness={0.05}
+            transparent
+            opacity={0.08}
           />
         </mesh>
       </group>
@@ -773,13 +816,16 @@ function Act01Accents({
         </mesh>
 
         {/* Bride Photo Aperture Disk */}
-        <mesh position={[0, 0, 0.014]}>
-          <circleGeometry args={[0.264, 48]} />
+        <mesh position={[0, 0, 0.018]}>
+          <circleGeometry args={[0.262, 48]} />
           {brideTexture ? (
             <meshStandardMaterial
               map={brideTexture}
-              roughness={0.2}
-              metalness={0.02}
+              color="#FFFFFF"
+              roughness={0.4}
+              metalness={0.0}
+              emissive="#FFFFFF"
+              emissiveIntensity={0.16}
               side={THREE.DoubleSide}
             />
           ) : (
@@ -789,28 +835,27 @@ function Act01Accents({
 
         {/* Monogram Crest Fallback when photo is absent */}
         {!brideTexture && (
-          <group position={[0, 0, 0.022]}>
+          <group position={[0, 0, 0.024]}>
             <mesh>
               <torusGeometry args={[0.09, 0.008, 16, 32]} />
               <meshStandardMaterial color="#D4AF37" metalness={0.96} roughness={0.12} />
             </mesh>
-            <mesh position={[0, 0, 0.002]}>
+            <mesh position={[0, 0, 0.004]}>
               <octahedronGeometry args={[0.045, 0]} />
               <meshStandardMaterial color="#F7E7CE" metalness={0.96} roughness={0.1} />
             </mesh>
           </group>
         )}
 
-        {/* Protective Crystal Glass Lens Cover */}
+        {/* Subtle Glass Surface Sheen (Glossy reflection highlight, NOT black transmission) */}
         <mesh position={[0, 0, 0.026]}>
-          <circleGeometry args={[0.262, 48]} />
-          <meshPhysicalMaterial
-            transmission={0.92}
-            roughness={0.06}
-            ior={1.46}
-            opacity={0.3}
-            transparent
+          <circleGeometry args={[0.26, 48]} />
+          <meshStandardMaterial
             color="#FFFFFF"
+            roughness={0.1}
+            metalness={0.05}
+            transparent
+            opacity={0.08}
           />
         </mesh>
       </group>
