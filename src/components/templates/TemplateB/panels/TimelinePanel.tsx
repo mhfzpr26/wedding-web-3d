@@ -1,11 +1,11 @@
 'use client'
 
+import { ArrowUpRight, Calendar, CalendarPlus, Clock, MapPin } from 'lucide-react'
 import React from 'react'
-import type { CoupleWithDetails, Event } from '@/types'
-import { Calendar, Clock, MapPin, ArrowUpRight, CalendarPlus } from 'lucide-react'
 import { Countdown } from '@/components/shared/Countdown'
 import { VideoPlayer } from '@/components/shared/VideoPlayer'
 import { formatDate, formatTime } from '@/lib/utils'
+import type { CoupleWithDetails, Event } from '@/types'
 
 interface TimelinePanelProps {
   couple: CoupleWithDetails
@@ -16,7 +16,9 @@ function createGoogleCalendarUrl(event: Event, coupleNames: string) {
     const start = new Date(event.startTime).toISOString().replace(/-|:|\.\d+/g, '')
     const end = event.endTime
       ? new Date(event.endTime).toISOString().replace(/-|:|\.\d+/g, '')
-      : new Date(new Date(event.startTime).getTime() + 2 * 60 * 60 * 1000).toISOString().replace(/-|:|\.\d+/g, '')
+      : new Date(new Date(event.startTime).getTime() + 2 * 60 * 60 * 1000)
+          .toISOString()
+          .replace(/-|:|\.\d+/g, '')
 
     const text = encodeURIComponent(`${event.title} - ${coupleNames}`)
     const details = encodeURIComponent(
@@ -76,17 +78,13 @@ export const TimelinePanel: React.FC<TimelinePanelProps> = ({ couple }) => {
                 className="border-t-2 border-neutral-950 pt-3 pb-4 space-y-3 bg-white p-4 border-x border-b border-neutral-900/10"
               >
                 <div className="flex justify-between items-baseline font-mono text-[10px]">
-                  <span className="font-bold text-neutral-950 uppercase">
-                    PHASE 0{idx + 1}
-                  </span>
+                  <span className="font-bold text-neutral-950 uppercase">PHASE 0{idx + 1}</span>
                   <span className="text-neutral-500 uppercase tracking-wider">
                     {idx === 0 ? 'SOLEMNIZATION' : 'RECEPTION'}
                   </span>
                 </div>
 
-                <h3 className="font-serif text-xl font-light text-neutral-950">
-                  {event.title}
-                </h3>
+                <h3 className="font-serif text-xl font-light text-neutral-950">{event.title}</h3>
 
                 <div className="font-mono text-xs text-neutral-600 space-y-2 border-l border-neutral-300 pl-3">
                   <div className="flex items-center space-x-2">

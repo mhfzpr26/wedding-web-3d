@@ -1,11 +1,11 @@
 'use client'
 
-import React from 'react'
+import { Heart, Sparkles } from 'lucide-react'
 import Image from 'next/image'
-import type { CoupleWithDetails, Guest } from '@/types'
-import { Sparkles, Heart } from 'lucide-react'
+import React from 'react'
 import { RsvpForm } from '@/components/shared/RsvpForm'
 import { WishesFeed } from '@/components/shared/WishesFeed'
+import type { CoupleWithDetails, Guest } from '@/types'
 
 interface RsvpWhispersSlabProps {
   couple: CoupleWithDetails
@@ -38,7 +38,8 @@ export const RsvpWhispersSlab: React.FC<RsvpWhispersSlabProps> = ({ couple, gues
         </span>
         <h2 className="text-2xl font-serif text-slate-900">Buku Tamu &amp; Doa</h2>
         <p className="text-xs text-slate-600 max-w-xs mx-auto leading-relaxed">
-          Mohon konfirmasikan kehadiran dan tinggalkan doa tulus Anda untuk mengiringi babak baru kami:
+          Mohon konfirmasikan kehadiran dan tinggalkan doa tulus Anda untuk mengiringi babak baru
+          kami:
         </p>
       </div>
 
@@ -110,9 +111,7 @@ export const RsvpWhispersSlab: React.FC<RsvpWhispersSlabProps> = ({ couple, gues
           <p className="font-serif text-xl font-medium text-slate-900 mt-0.5">
             {groomShort} &amp; {brideShort}
           </p>
-          <p className="text-[11px] text-slate-500 mt-0.5">
-            Beserta Seluruh Keluarga Besar
-          </p>
+          <p className="text-[11px] text-slate-500 mt-0.5">Beserta Seluruh Keluarga Besar</p>
         </div>
       </div>
     </div>

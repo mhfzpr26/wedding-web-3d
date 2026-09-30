@@ -1,7 +1,7 @@
 'use client'
 
-import React, { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
+import React, { Suspense } from 'react'
 import TemplateAThematicStage3D from './TemplateAThematicStage3D'
 
 export interface TemplateAStageCanvasProps {

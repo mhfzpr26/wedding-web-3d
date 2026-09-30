@@ -1,35 +1,28 @@
 'use client'
 
-import React, { useState } from 'react'
-import type { CoverProps } from '@/types/cover'
-import dynamic from 'next/dynamic'
 import { Sparkles, Zap } from 'lucide-react'
+import dynamic from 'next/dynamic'
+import React, { useState } from 'react'
 import type { GlassState } from '@/components/three/TemplateCCover3D'
+import type { CoverProps } from '@/types/cover'
 
-const DynamicTemplateCCanvas = dynamic(
-  () => import('@/components/three/TemplateCCanvas'),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-80 sm:h-96 flex items-center justify-center">
-        <div className="w-64 h-44 rounded-3xl backdrop-blur-md bg-white/40 border border-white/60 shadow-lg p-4 animate-pulse flex flex-col items-center justify-center space-y-2">
-          <div className="w-9 h-9 rounded-full bg-teal-100/60 flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-teal-600" />
-          </div>
-          <span className="text-[10px] font-sans tracking-widest text-slate-500 uppercase">
-            Mempersiapkan Undangan Kaca...
-          </span>
+const DynamicTemplateCCanvas = dynamic(() => import('@/components/three/TemplateCCanvas'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-80 sm:h-96 flex items-center justify-center">
+      <div className="w-64 h-44 rounded-3xl backdrop-blur-md bg-white/40 border border-white/60 shadow-lg p-4 animate-pulse flex flex-col items-center justify-center space-y-2">
+        <div className="w-9 h-9 rounded-full bg-teal-100/60 flex items-center justify-center">
+          <Sparkles className="w-4 h-4 text-teal-600" />
         </div>
+        <span className="text-[10px] font-sans tracking-widest text-slate-500 uppercase">
+          Mempersiapkan Undangan Kaca...
+        </span>
       </div>
-    ),
-  }
-)
+    </div>
+  ),
+})
 
-export const CoverC: React.FC<CoverProps> = ({
-  couple,
-  guest,
-  onOpenComplete,
-}) => {
+export const CoverC: React.FC<CoverProps> = ({ couple, guest, onOpenComplete }) => {
   const [glassState, setGlassState] = useState<GlassState>('INTACT')
 
   const groomShort = couple.groomName.split(',')[0]
@@ -106,4 +99,3 @@ export const CoverC: React.FC<CoverProps> = ({
 }
 
 export default CoverC
-

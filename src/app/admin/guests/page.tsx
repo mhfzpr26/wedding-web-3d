@@ -1,7 +1,7 @@
-import React from 'react'
-import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
+import React from 'react'
 import { GuestManagerClient } from '@/components/admin/GuestManagerClient'
+import { prisma } from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
 

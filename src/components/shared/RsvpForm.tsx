@@ -1,11 +1,10 @@
 'use client'
 
+import { CheckCircle2, HelpCircle, Lock, Send, Users, XCircle } from 'lucide-react'
 import React, { useState } from 'react'
-import type { Guest, RsvpStatus } from '@/types'
-import { CheckCircle2, HelpCircle, XCircle, Users, Lock, Send } from 'lucide-react'
 import { toast } from 'sonner'
-
 import { submitRsvp } from '@/actions/rsvp'
+import type { Guest, RsvpStatus } from '@/types'
 
 interface RsvpFormProps {
   coupleId: string
@@ -92,11 +91,10 @@ export const RsvpForm: React.FC<RsvpFormProps> = ({
           <div className="w-14 h-14 bg-emerald-50 border border-emerald-200 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
             <CheckCircle2 className="w-8 h-8" />
           </div>
-          <h4 className="font-serif text-xl font-bold text-[#1B2A4A]">
-            Terima Kasih!
-          </h4>
+          <h4 className="font-serif text-xl font-bold text-[#1B2A4A]">Terima Kasih!</h4>
           <p className="text-xs text-[#8A7968] max-w-xs mx-auto">
-            Konfirmasi kehadiran atas nama <span className="font-medium text-[#1B2A4A]">{name}</span> telah tersimpan.
+            Konfirmasi kehadiran atas nama{' '}
+            <span className="font-medium text-[#1B2A4A]">{name}</span> telah tersimpan.
           </p>
           <button
             type="button"
@@ -111,7 +109,10 @@ export const RsvpForm: React.FC<RsvpFormProps> = ({
           {/* Nama Tamu */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label htmlFor="guest-name" className="text-xs font-serif font-semibold text-[#1B2A4A]">
+              <label
+                htmlFor="guest-name"
+                className="text-xs font-serif font-semibold text-[#1B2A4A]"
+              >
                 Nama Tamu
               </label>
               {isLocked && (
@@ -198,7 +199,10 @@ export const RsvpForm: React.FC<RsvpFormProps> = ({
           {/* Jumlah Tamu (jika Hadir) */}
           {statusRsvp === 'ATTENDING' && (
             <div className="animate-in fade-in duration-200">
-              <label htmlFor="attendees-count" className="block text-xs font-serif font-semibold text-[#1B2A4A] mb-1.5">
+              <label
+                htmlFor="attendees-count"
+                className="block text-xs font-serif font-semibold text-[#1B2A4A] mb-1.5"
+              >
                 Jumlah Hadir
               </label>
               <div className="relative">

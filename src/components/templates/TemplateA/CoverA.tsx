@@ -1,37 +1,30 @@
 'use client'
 
-import React, { useState } from 'react'
-import type { CoverProps } from '@/types/cover'
+import { MailOpen, Sparkles } from 'lucide-react'
 import dynamic from 'next/dynamic'
-import { Sparkles, MailOpen } from 'lucide-react'
-import { playWaxSealCrackSound, playPaperSlideSound, triggerHaptic } from '@/lib/audio/soundEffects'
-import { formatDate } from '@/lib/utils'
+import React, { useState } from 'react'
 import type { EnvelopeThemeKey } from '@/components/three/TemplateACover3D'
+import { playPaperSlideSound, playWaxSealCrackSound, triggerHaptic } from '@/lib/audio/soundEffects'
+import { formatDate } from '@/lib/utils'
+import type { CoverProps } from '@/types/cover'
 
-const DynamicTemplateACanvas = dynamic(
-  () => import('@/components/three/TemplateACanvas'),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-64 sm:h-72 flex items-center justify-center">
-        <div className="w-60 h-40 rounded-3xl bg-white/70 border border-[#E2D9CE] shadow-sm animate-pulse flex flex-col items-center justify-center space-y-2.5">
-          <div className="w-8 h-8 rounded-full bg-[#D4AF37]/20 flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-[#D4AF37]" />
-          </div>
-          <span className="text-[10px] font-serif tracking-widest text-[#8A7968] uppercase">
-            Mempersiapkan Undangan...
-          </span>
+const DynamicTemplateACanvas = dynamic(() => import('@/components/three/TemplateACanvas'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-64 sm:h-72 flex items-center justify-center">
+      <div className="w-60 h-40 rounded-3xl bg-white/70 border border-[#E2D9CE] shadow-sm animate-pulse flex flex-col items-center justify-center space-y-2.5">
+        <div className="w-8 h-8 rounded-full bg-[#D4AF37]/20 flex items-center justify-center">
+          <Sparkles className="w-4 h-4 text-[#D4AF37]" />
         </div>
+        <span className="text-[10px] font-serif tracking-widest text-[#8A7968] uppercase">
+          Mempersiapkan Undangan...
+        </span>
       </div>
-    ),
-  }
-)
+    </div>
+  ),
+})
 
-export const CoverA: React.FC<CoverProps> = ({
-  couple,
-  guest,
-  onOpenComplete,
-}) => {
+export const CoverA: React.FC<CoverProps> = ({ couple, guest, onOpenComplete }) => {
   const [isSealBroken, setIsSealBroken] = useState(false)
   const [isOpening, setIsOpening] = useState(false)
   const [forceOpen, setForceOpen] = useState(false)
@@ -96,7 +89,8 @@ export const CoverA: React.FC<CoverProps> = ({
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-serif text-[#1B2A4A] tracking-tight leading-tight">
-            {groomShort} <span className="italic font-normal text-[#8C7851]">&amp;</span> {brideShort}
+            {groomShort} <span className="italic font-normal text-[#8C7851]">&amp;</span>{' '}
+            {brideShort}
           </h1>
 
           {weddingDateStr && (
@@ -187,9 +181,7 @@ export const CoverA: React.FC<CoverProps> = ({
               {guest?.name || 'Tamu Undangan'}
             </p>
 
-            <p className="text-[10px] font-serif italic text-[#8A7968] mt-0.5">
-              Di Tempat
-            </p>
+            <p className="text-[10px] font-serif italic text-[#8A7968] mt-0.5">Di Tempat</p>
           </div>
         </div>
       </div>

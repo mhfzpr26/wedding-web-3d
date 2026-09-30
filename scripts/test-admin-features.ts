@@ -1,6 +1,6 @@
+import { updateCoupleSettings } from '../src/actions/admin'
 import { login } from '../src/actions/auth'
 import { createGuest, deleteGuest, getGuests } from '../src/actions/guests'
-import { updateCoupleSettings } from '../src/actions/admin'
 import { prisma } from '../src/lib/prisma'
 
 async function testAdminFeatures() {

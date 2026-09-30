@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import type { CoupleWithDetails, Wish } from '@/types'
-import { Sparkles, MessageSquareQuote, ChevronLeft, ChevronRight, BookOpen } from 'lucide-react'
+import { BookOpen, ChevronLeft, ChevronRight, MessageSquareQuote, Sparkles } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
 import { formatDate } from '@/lib/utils'
+import type { CoupleWithDetails, Wish } from '@/types'
 
 interface WishesClosingLayerProps {
   couple: CoupleWithDetails
@@ -61,7 +61,10 @@ export const WishesClosingLayer: React.FC<WishesClosingLayerProps> = ({ couple }
         </div>
 
         <p className="font-serif italic text-xs text-[#4A5568] leading-relaxed line-clamp-2">
-          &ldquo;{activeWish?.message || 'Semoga menjadi keluarga yang sakinah, mawaddah, warahmah. Aamiin yaa Rabbal aalamin.'}&rdquo;
+          &ldquo;
+          {activeWish?.message ||
+            'Semoga menjadi keluarga yang sakinah, mawaddah, warahmah. Aamiin yaa Rabbal aalamin.'}
+          &rdquo;
         </p>
 
         {/* Carousel Dots & Controls */}
@@ -73,7 +76,9 @@ export const WishesClosingLayer: React.FC<WishesClosingLayerProps> = ({ couple }
             <div className="flex items-center space-x-1">
               <button
                 type="button"
-                onClick={() => setCurrentWishIndex((prev) => (prev - 1 + wishes.length) % wishes.length)}
+                onClick={() =>
+                  setCurrentWishIndex((prev) => (prev - 1 + wishes.length) % wishes.length)
+                }
                 className="p-1 rounded-full text-[#8C7851] hover:bg-[#FAF8F5]/80 cursor-pointer"
               >
                 <ChevronLeft className="w-3.5 h-3.5" />

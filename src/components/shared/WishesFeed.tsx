@@ -1,12 +1,11 @@
 'use client'
 
+import { Clock, MessageSquareHeart, Send, User } from 'lucide-react'
 import React, { useState } from 'react'
-import type { Wish, Guest } from '@/types'
-import { MessageSquareHeart, Send, User, Clock } from 'lucide-react'
 import { toast } from 'sonner'
-import { formatDate } from '@/lib/utils'
-
 import { submitWish } from '@/actions/wishes'
+import { formatDate } from '@/lib/utils'
+import type { Guest, Wish } from '@/types'
 
 interface WishesFeedProps {
   initialWishes: Wish[]
@@ -83,9 +82,7 @@ export const WishesFeed: React.FC<WishesFeedProps> = ({
       <div className="bg-white/90 backdrop-blur-sm border border-[#E2D9CE] rounded-3xl p-6 shadow-sm">
         <div className="flex items-center space-x-2 mb-4">
           <MessageSquareHeart className="w-5 h-5 text-[#8C7851]" />
-          <h4 className="font-serif text-lg font-bold text-[#1B2A4A]">
-            Kirim Doa &amp; Ucapan
-          </h4>
+          <h4 className="font-serif text-lg font-bold text-[#1B2A4A]">Kirim Doa &amp; Ucapan</h4>
         </div>
 
         <form onSubmit={handleSubmitWish} className="space-y-3.5">

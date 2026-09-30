@@ -1,20 +1,17 @@
 'use client'
 
-import React, { useState } from 'react'
-import type { BankAccount } from '@/types'
-import { Copy, Check, QrCode, X, CreditCard } from 'lucide-react'
-import { toast } from 'sonner'
+import { Check, Copy, CreditCard, QrCode, X } from 'lucide-react'
 import Image from 'next/image'
+import React, { useState } from 'react'
+import { toast } from 'sonner'
+import type { BankAccount } from '@/types'
 
 interface GiftCardProps {
   bankAccounts: BankAccount[]
   className?: string
 }
 
-export const GiftCard: React.FC<GiftCardProps> = ({
-  bankAccounts,
-  className = '',
-}) => {
+export const GiftCard: React.FC<GiftCardProps> = ({ bankAccounts, className = '' }) => {
   const [copiedId, setCopiedId] = useState<string | null>(null)
   const [selectedQrisAccount, setSelectedQrisAccount] = useState<BankAccount | null>(null)
 
@@ -122,9 +119,7 @@ export const GiftCard: React.FC<GiftCardProps> = ({
             <h3 className="font-serif text-lg font-bold text-[#1B2A4A]">
               QRIS {selectedQrisAccount.bankName}
             </h3>
-            <p className="text-xs text-[#8A7968] mt-1">
-              a.n {selectedQrisAccount.accountHolder}
-            </p>
+            <p className="text-xs text-[#8A7968] mt-1">a.n {selectedQrisAccount.accountHolder}</p>
 
             <div className="mt-4 p-2 bg-white rounded-2xl border border-neutral-200 flex justify-center">
               <div className="relative w-56 h-56">

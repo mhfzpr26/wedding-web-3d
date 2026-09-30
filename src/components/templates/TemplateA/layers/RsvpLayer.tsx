@@ -1,9 +1,9 @@
 'use client'
 
+import { Mail, Sparkles } from 'lucide-react'
 import React from 'react'
-import type { CoupleWithDetails, Guest } from '@/types'
-import { Sparkles, Mail } from 'lucide-react'
 import { RsvpForm } from '@/components/shared/RsvpForm'
+import type { CoupleWithDetails, Guest } from '@/types'
 
 interface RsvpLayerProps {
   couple: CoupleWithDetails
@@ -13,7 +13,6 @@ interface RsvpLayerProps {
 export const RsvpLayer: React.FC<RsvpLayerProps> = ({ couple, guest }) => {
   return (
     <div className="w-full p-3 sm:p-5 text-center select-text relative">
-
       {/* Header Tag */}
       <div className="flex items-center justify-between mb-2 select-none">
         <span className="text-[9px] sm:text-[10px] font-mono tracking-widest text-[#8C7851] uppercase bg-[#FAF8F5] px-2.5 py-0.5 rounded-full border border-[#E2D9CE]/80 shadow-sm inline-flex items-center space-x-1">

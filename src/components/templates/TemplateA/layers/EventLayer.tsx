@@ -1,10 +1,10 @@
 'use client'
 
+import { Calendar, CalendarPlus, Clock, ExternalLink, MapPin, Sparkles, Ticket } from 'lucide-react'
 import React, { useState } from 'react'
-import type { CoupleWithDetails, Event } from '@/types'
-import { Calendar, Clock, MapPin, CalendarPlus, ExternalLink, Sparkles, Ticket } from 'lucide-react'
 import { Countdown } from '@/components/shared/Countdown'
 import { formatDate, formatTime } from '@/lib/utils'
+import type { CoupleWithDetails, Event } from '@/types'
 
 interface EventLayerProps {
   couple: CoupleWithDetails
@@ -15,8 +15,10 @@ function createGoogleCalendarUrl(event: Event, coupleNames: string) {
     const start = new Date(event.startTime).toISOString().replace(/-|:|\.\d+/g, '')
     const end = event.endTime
       ? new Date(event.endTime).toISOString().replace(/-|:|\.\d+/g, '')
-      : new Date(new Date(event.startTime).getTime() + 2 * 60 * 60 * 1000).toISOString().replace(/-|:|\.\d+/g, '')
-    
+      : new Date(new Date(event.startTime).getTime() + 2 * 60 * 60 * 1000)
+          .toISOString()
+          .replace(/-|:|\.\d+/g, '')
+
     const text = encodeURIComponent(`${event.title} - ${coupleNames}`)
     const details = encodeURIComponent(
       `Pernikahan ${coupleNames}\nAcara: ${event.title}\nLokasi: ${event.locationName}\nAlamat: ${event.address}`
@@ -37,7 +39,6 @@ export const EventLayer: React.FC<EventLayerProps> = ({ couple }) => {
 
   return (
     <div className="w-full p-3 sm:p-5 text-center select-text relative">
-
       {/* Header Tag */}
       <div className="flex items-center justify-between mb-2 select-none">
         <span className="text-[9px] sm:text-[10px] font-mono tracking-widest text-[#8C7851] uppercase bg-[#FAF8F5] px-2.5 py-0.5 rounded-full border border-[#E2D9CE]/80 shadow-sm inline-flex items-center space-x-1">
@@ -119,9 +120,7 @@ export const EventLayer: React.FC<EventLayerProps> = ({ couple }) => {
               <MapPin className="w-3.5 h-3.5 text-[#8C7851] shrink-0 mt-0.5" />
               <div>
                 <span className="font-semibold text-[#1B2A4A] block">Lokasi:</span>
-                <span className="text-[#556270] line-clamp-2">
-                  {activeEvent.locationName}
-                </span>
+                <span className="text-[#556270] line-clamp-2">{activeEvent.locationName}</span>
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 'use server'
 
-import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
+import { prisma } from '@/lib/prisma'
 
 export async function markGuestAsOpened(guestId: string) {
   if (!guestId) return { success: false, message: 'ID tamu tidak valid' }
@@ -98,9 +98,7 @@ export async function createBatchGuests({
   names: string[]
 }) {
   try {
-    const cleanNames = names
-      .map((n) => n.trim())
-      .filter((n) => n.length > 0)
+    const cleanNames = names.map((n) => n.trim()).filter((n) => n.length > 0)
 
     if (cleanNames.length === 0) {
       return { success: false, message: 'Daftar nama kosong' }

@@ -1,8 +1,8 @@
 'use server'
 
+import bcrypt from 'bcryptjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/prisma'
 
 const SESSION_COOKIE_NAME = 'admin_session'
@@ -13,8 +13,8 @@ export interface AuthResponse {
 }
 
 export async function login(formData: FormData): Promise<AuthResponse> {
-  const email = (formData.get('email') as string || '').trim().toLowerCase()
-  const password = (formData.get('password') as string || '')
+  const email = ((formData.get('email') as string) || '').trim().toLowerCase()
+  const password = (formData.get('password') as string) || ''
 
   if (!email || !password) {
     return { success: false, message: 'Email dan password wajib diisi' }
@@ -70,9 +70,7 @@ export async function getAdminSession() {
     const sessionCookie = cookieStore.get(SESSION_COOKIE_NAME)
     if (!sessionCookie?.value) return null
 
-    const decoded = JSON.parse(
-      Buffer.from(sessionCookie.value, 'base64').toString('utf-8')
-    )
+    const decoded = JSON.parse(Buffer.from(sessionCookie.value, 'base64').toString('utf-8'))
     if (!decoded?.id || !decoded?.email) return null
 
     return decoded as { id: string; email: string; timestamp: number }

@@ -1,9 +1,9 @@
 'use client'
 
-import React from 'react'
-import Image from 'next/image'
-import type { CoupleWithDetails, Guest } from '@/types'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
+import React from 'react'
+import type { CoupleWithDetails, Guest } from '@/types'
 
 const InstagramIcon = ({ className = 'w-3.5 h-3.5' }: { className?: string }) => (
   <svg
@@ -87,9 +87,7 @@ export const UnionPanel: React.FC<UnionPanelProps> = ({ couple, guest }) => {
                   MATRIMONIAL UNION
                 </p>
               </div>
-              <div className="font-mono text-[9px] text-neutral-400 text-right">
-                FOLIO // 01
-              </div>
+              <div className="font-mono text-[9px] text-neutral-400 text-right">FOLIO // 01</div>
             </div>
           )}
         </div>
@@ -171,9 +169,7 @@ export const UnionPanel: React.FC<UnionPanelProps> = ({ couple, guest }) => {
             <p className="font-mono text-[9px] uppercase tracking-widest text-neutral-500">
               CORDIALLY INVITED:
             </p>
-            <p className="font-serif text-base font-normal text-neutral-950">
-              {guest.name}
-            </p>
+            <p className="font-serif text-base font-normal text-neutral-950">{guest.name}</p>
           </div>
           <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-widest">
             SWIPE &rarr;

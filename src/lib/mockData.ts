@@ -14,10 +14,14 @@ export const mockCoupleData: CoupleWithDetails = {
     'Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.',
   closingMessage:
     'Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu kepada kedua mempelai. Atas kehadiran dan doa restunya kami ucapkan terima kasih.',
-  coverPhotoUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop',
-  groomPhotoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop',
-  bridePhotoUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop',
-  closingPhotoUrl: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200&auto=format&fit=crop',
+  coverPhotoUrl:
+    'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop',
+  groomPhotoUrl:
+    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop',
+  bridePhotoUrl:
+    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop',
+  closingPhotoUrl:
+    'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200&auto=format&fit=crop',
   videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
   backgroundMusicUrl: '/audio/romantic-wedding.mp3',
   dressCodeDesc: 'Formal & Batik Modern (Earth Tone / Champagne Gold)',
@@ -60,7 +64,8 @@ export const mockCoupleData: CoupleWithDetails = {
       bankName: 'BCA',
       accountNumber: '8820192831',
       accountHolder: 'Budi Santoso',
-      qrisImageUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=Budi-Santoso-Wedding-Gift',
+      qrisImageUrl:
+        'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=Budi-Santoso-Wedding-Gift',
       sortOrder: 1,
       createdAt: new Date('2026-01-01T00:00:00Z'),
       updatedAt: new Date('2026-01-01T00:00:00Z'),
@@ -83,7 +88,8 @@ export const mockCoupleData: CoupleWithDetails = {
       coupleId: 'couple-budi-ani-001',
       guestId: 'guest-001',
       senderName: 'Rian & Keluarga',
-      message: 'Selamat menempuh hidup baru Budi dan Anin! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah.',
+      message:
+        'Selamat menempuh hidup baru Budi dan Anin! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah.',
       createdAt: new Date('2026-09-10T10:30:00Z'),
       updatedAt: new Date('2026-09-10T10:30:00Z'),
     },
@@ -92,7 +98,8 @@ export const mockCoupleData: CoupleWithDetails = {
       coupleId: 'couple-budi-ani-001',
       guestId: null,
       senderName: 'Nadia Salsabila',
-      message: 'Happy wedding dear Anindya! Semoga bahagia selalu bersama suami sampai kakek nenek, aamiin.',
+      message:
+        'Happy wedding dear Anindya! Semoga bahagia selalu bersama suami sampai kakek nenek, aamiin.',
       createdAt: new Date('2026-09-11T14:15:00Z'),
       updatedAt: new Date('2026-09-11T14:15:00Z'),
     },

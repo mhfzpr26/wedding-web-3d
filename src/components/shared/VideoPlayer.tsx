@@ -22,12 +22,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     <div className={`w-full ${className}`}>
       <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-lg border border-[#E2D9CE] bg-black">
         {isDirectVideo ? (
-          <video
-            src={url}
-            controls
-            playsInline
-            className="w-full h-full object-cover"
-          />
+          <video src={url} controls playsInline className="w-full h-full object-cover" />
         ) : (
           <iframe
             src={url}

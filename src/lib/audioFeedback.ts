@@ -102,7 +102,7 @@ export function playPaperRustleSound() {
   const data = buffer.getChannelData(0)
 
   for (let i = 0; i < bufferSize; i++) {
-    data[i] = (Math.random() * 2 - 1)
+    data[i] = Math.random() * 2 - 1
   }
 
   const noise = ctx.createBufferSource()
@@ -150,7 +150,7 @@ export function playTearSound(progress: number) {
   const data = buffer.getChannelData(0)
 
   for (let i = 0; i < bufferSize; i++) {
-    data[i] = (Math.random() * 2 - 1)
+    data[i] = Math.random() * 2 - 1
   }
 
   const noise = ctx.createBufferSource()
@@ -323,4 +323,3 @@ export function playGlassShatterSound() {
   noise.start(now)
   noise.stop(now + 0.26)
 }
-

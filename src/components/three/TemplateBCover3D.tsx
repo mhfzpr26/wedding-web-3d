@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useRef, useState, useEffect } from 'react'
-import { useFrame, ThreeEvent } from '@react-three/fiber'
+import { ThreeEvent, useFrame } from '@react-three/fiber'
+import React, { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { playTearSound } from '@/lib/audioFeedback'
 
@@ -121,7 +121,8 @@ export const TemplateBCover3D: React.FC<TemplateBCover3DProps> = ({
       const remainingRatio = 1 - tearProgress
       if (remainingRatio > 0.01 && !isTearComplete) {
         remainingStripRef.current.scale.x = Math.max(0.001, remainingRatio)
-        remainingStripRef.current.position.x = LEFT_X + STRIP_WIDTH * (tearProgress + remainingRatio / 2)
+        remainingStripRef.current.position.x =
+          LEFT_X + STRIP_WIDTH * (tearProgress + remainingRatio / 2)
       } else {
         remainingStripRef.current.scale.x = 0.0001
       }
@@ -169,11 +170,7 @@ export const TemplateBCover3D: React.FC<TemplateBCover3DProps> = ({
       }
 
       // Check transition finish
-      if (
-        !hasTriggeredFinished &&
-        topHalfRef.current &&
-        topHalfRef.current.position.y > 1.3
-      ) {
+      if (!hasTriggeredFinished && topHalfRef.current && topHalfRef.current.position.y > 1.3) {
         setHasTriggeredFinished(true)
         onOpenComplete()
       }

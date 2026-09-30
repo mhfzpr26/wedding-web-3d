@@ -1,5 +1,5 @@
-import React from 'react'
 import type { Metadata } from 'next'
+import React from 'react'
 import { getAdminSession } from '@/actions/auth'
 import { AdminLayoutClient } from '@/components/admin/AdminLayoutClient'
 
@@ -8,11 +8,7 @@ export const metadata: Metadata = {
   description: 'Panel Manajemen Undangan Pernikahan Digital',
 }
 
-export default async function AdminRootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default async function AdminRootLayout({ children }: { children: React.ReactNode }) {
   const session = await getAdminSession()
 
   return (

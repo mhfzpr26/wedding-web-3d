@@ -1,10 +1,10 @@
 'use client'
 
-import React, { useState } from 'react'
-import type { BankAccount } from '@/types'
-import { Copy, Check, QrCode, X, CreditCard, Sparkles } from 'lucide-react'
-import { toast } from 'sonner'
+import { Check, Copy, CreditCard, QrCode, Sparkles, X } from 'lucide-react'
 import Image from 'next/image'
+import React, { useState } from 'react'
+import { toast } from 'sonner'
+import type { BankAccount } from '@/types'
 
 interface GiftVaultSlabProps {
   bankAccounts: BankAccount[]
@@ -19,7 +19,8 @@ export const GiftVaultSlab: React.FC<GiftVaultSlabProps> = ({ bankAccounts }) =>
       await navigator.clipboard.writeText(account.accountNumber)
       setCopiedId(account.id)
       toast.success(`Nomor rekening ${account.bankName} berhasil disalin!`, {
-        className: 'backdrop-blur-md bg-white/80 text-teal-900 border border-teal-200 shadow-lg font-sans',
+        className:
+          'backdrop-blur-md bg-white/80 text-teal-900 border border-teal-200 shadow-lg font-sans',
       })
       setTimeout(() => {
         setCopiedId(null)
@@ -51,7 +52,8 @@ export const GiftVaultSlab: React.FC<GiftVaultSlabProps> = ({ bankAccounts }) =>
         </span>
         <h2 className="text-2xl font-serif text-slate-900">Amplop Akrilik</h2>
         <p className="text-xs text-slate-600 max-w-xs mx-auto leading-relaxed">
-          Doa restu Anda merupakan karunia terindah bagi kami. Namun jika ingin memberikan tanda kasih secara digital, Anda dapat menyampaikannya di bawah ini:
+          Doa restu Anda merupakan karunia terindah bagi kami. Namun jika ingin memberikan tanda
+          kasih secara digital, Anda dapat menyampaikannya di bawah ini:
         </p>
       </div>
 
@@ -147,9 +149,7 @@ export const GiftVaultSlab: React.FC<GiftVaultSlabProps> = ({ bankAccounts }) =>
             <h3 className="font-serif text-lg font-semibold text-slate-900">
               QRIS {selectedQrisAccount.bankName}
             </h3>
-            <p className="text-xs text-slate-600 mt-0.5">
-              a.n {selectedQrisAccount.accountHolder}
-            </p>
+            <p className="text-xs text-slate-600 mt-0.5">a.n {selectedQrisAccount.accountHolder}</p>
 
             <div className="mt-4 p-2 bg-white rounded-2xl border border-slate-200 flex justify-center">
               <div className="relative w-52 h-52">

@@ -1,33 +1,29 @@
 'use client'
 
-import React, { useState } from 'react'
-import type { Couple, TemplateType } from '@/types'
 import {
-  Save,
-  Palette,
-  Image as ImageIcon,
-  User,
-  Heart,
-  Video,
-  Music,
-  ExternalLink,
-  Sparkles,
   Check,
+  ExternalLink,
+  Heart,
+  Image as ImageIcon,
+  Music,
+  Palette,
+  Save,
+  Sparkles,
+  User,
+  Video,
 } from 'lucide-react'
-import { updateCoupleSettings } from '@/actions/admin'
-import { toast } from 'sonner'
 import Link from 'next/link'
+import React, { useState } from 'react'
+import { toast } from 'sonner'
+import { updateCoupleSettings } from '@/actions/admin'
+import type { Couple, TemplateType } from '@/types'
 
 interface CoupleSettingsClientProps {
   couple: Couple
 }
 
-export const CoupleSettingsClient: React.FC<CoupleSettingsClientProps> = ({
-  couple,
-}) => {
-  const [selectedTemplate, setSelectedTemplate] = useState<TemplateType>(
-    couple.selectedTemplate
-  )
+export const CoupleSettingsClient: React.FC<CoupleSettingsClientProps> = ({ couple }) => {
+  const [selectedTemplate, setSelectedTemplate] = useState<TemplateType>(couple.selectedTemplate)
   const [groomName, setGroomName] = useState(couple.groomName)
   const [brideName, setBrideName] = useState(couple.brideName)
   const [groomParents, setGroomParents] = useState(couple.groomParents || '')
@@ -155,7 +151,8 @@ export const CoupleSettingsClient: React.FC<CoupleSettingsClientProps> = ({
           <h2>Pilihan Desain Template</h2>
         </div>
         <p className="text-xs text-neutral-500">
-          Ubah gaya visual undangan. Data konten akan otomatis diadaptasikan tanpa perlu input ulang.
+          Ubah gaya visual undangan. Data konten akan otomatis diadaptasikan tanpa perlu input
+          ulang.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
@@ -180,9 +177,7 @@ export const CoupleSettingsClient: React.FC<CoupleSettingsClientProps> = ({
 
                 <div className="space-y-1">
                   <div className="flex items-center space-x-2">
-                    <span className="font-serif font-bold text-sm text-neutral-900">
-                      {t.title}
-                    </span>
+                    <span className="font-serif font-bold text-sm text-neutral-900">{t.title}</span>
                     <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-neutral-200/70 text-neutral-700">
                       {t.badge}
                     </span>
@@ -207,7 +202,8 @@ export const CoupleSettingsClient: React.FC<CoupleSettingsClientProps> = ({
             </h3>
           </div>
           <p className="text-xs text-neutral-500 max-w-lg">
-            Aktifkan jika pengantin memilih untuk tidak memajang foto/video wajah. Undangan akan otomatis beralih menampilkan monogram inisial emas dan tipografi editorial yang elegan.
+            Aktifkan jika pengantin memilih untuk tidak memajang foto/video wajah. Undangan akan
+            otomatis beralih menampilkan monogram inisial emas dan tipografi editorial yang elegan.
           </p>
         </div>
 

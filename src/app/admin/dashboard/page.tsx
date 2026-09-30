@@ -1,18 +1,18 @@
-import React from 'react'
-import { prisma } from '@/lib/prisma'
-import Link from 'next/link'
 import {
-  Users,
-  CheckCircle,
-  HelpCircle,
-  XCircle,
-  UserCheck,
-  MessageSquareHeart,
-  Eye,
   ArrowRight,
+  CheckCircle,
+  Eye,
+  HelpCircle,
+  MessageSquareHeart,
   TrendingUp,
+  UserCheck,
+  Users,
+  XCircle,
 } from 'lucide-react'
+import Link from 'next/link'
+import React from 'react'
 import { DashboardWishesList } from '@/components/admin/DashboardWishesList'
+import { prisma } from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,10 +36,7 @@ export default async function AdminDashboardPage() {
   const pendingGuests = guests.filter((g) => g.statusRsvp === 'PENDING')
   const declinedGuests = guests.filter((g) => g.statusRsvp === 'DECLINED')
 
-  const totalAttendeesSum = attendingGuests.reduce(
-    (acc, cur) => acc + (cur.attendeesCount || 1),
-    0
-  )
+  const totalAttendeesSum = attendingGuests.reduce((acc, cur) => acc + (cur.attendeesCount || 1), 0)
 
   const metrics = [
     {
@@ -123,9 +120,7 @@ export default async function AdminDashboardPage() {
               className="p-5 rounded-2xl bg-white border border-neutral-200/80 shadow-xs flex flex-col justify-between space-y-3"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-neutral-500">
-                  {m.label}
-                </span>
+                <span className="text-xs font-medium text-neutral-500">{m.label}</span>
                 <div
                   className={`w-9 h-9 rounded-xl border flex items-center justify-center ${m.color}`}
                 >
@@ -137,9 +132,7 @@ export default async function AdminDashboardPage() {
                 <span className="text-2xl sm:text-3xl font-serif font-bold text-neutral-900 tabular-nums">
                   {m.value}
                 </span>
-                <p className="text-[11px] text-neutral-400 mt-0.5">
-                  {m.sublabel}
-                </p>
+                <p className="text-[11px] text-neutral-400 mt-0.5">{m.sublabel}</p>
               </div>
             </div>
           )
@@ -157,23 +150,16 @@ export default async function AdminDashboardPage() {
                 Doa &amp; Ucapan Terbaru
               </h2>
             </div>
-            <span className="text-xs text-neutral-400 font-mono">
-              {wishes.length} Pesan
-            </span>
+            <span className="text-xs text-neutral-400 font-mono">{wishes.length} Pesan</span>
           </div>
 
-          <DashboardWishesList
-            initialWishes={wishes}
-            coupleSlug={couple?.slug || 'budi-ani'}
-          />
+          <DashboardWishesList initialWishes={wishes} coupleSlug={couple?.slug || 'budi-ani'} />
         </div>
 
         {/* Quick Links & Info Card */}
         <div className="space-y-6">
           <div className="bg-white rounded-2xl border border-neutral-200/80 p-5 shadow-xs space-y-4">
-            <h3 className="font-serif font-bold text-base text-neutral-900">
-              Navigasi Cepat
-            </h3>
+            <h3 className="font-serif font-bold text-base text-neutral-900">Navigasi Cepat</h3>
             <div className="space-y-2">
               <Link
                 href="/admin/guests"

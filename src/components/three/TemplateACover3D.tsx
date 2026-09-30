@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useRef, useMemo, useState, useEffect } from 'react'
-import { useFrame, ThreeEvent } from '@react-three/fiber'
+import { ThreeEvent, useFrame } from '@react-three/fiber'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
-import { playWaxCrackSound, playPaperRustleSound } from '@/lib/audioFeedback'
+import { playPaperRustleSound, playWaxCrackSound } from '@/lib/audioFeedback'
 
 export type EnvelopeThemeKey = 'navy' | 'burgundy' | 'olive' | 'saddle'
 
@@ -148,7 +148,7 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
   const backPlateShape = useMemo(() => {
     const s = new THREE.Shape()
     const w = 1.34
-    const h = 0.90
+    const h = 0.9
     const r = 0.06
     s.moveTo(-w + r, -h)
     s.lineTo(w - r, -h)
@@ -169,7 +169,7 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
   const frontPocketShape = useMemo(() => {
     const s = new THREE.Shape()
     const w = 1.34
-    const h = 0.90
+    const h = 0.9
     const r = 0.06
     s.moveTo(-w + r, -h)
     s.lineTo(w - r, -h)
@@ -177,8 +177,8 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
     s.lineTo(w, h - 0.02)
     s.quadraticCurveTo(w, h, w - 0.02, h)
     // Dip gracefully down toward center
-    s.bezierCurveTo(w * 0.65, h - 0.28, 0.40, 0.20, 0, 0.16)
-    s.bezierCurveTo(-0.40, 0.20, -w * 0.65, h - 0.28, -w + 0.02, h)
+    s.bezierCurveTo(w * 0.65, h - 0.28, 0.4, 0.2, 0, 0.16)
+    s.bezierCurveTo(-0.4, 0.2, -w * 0.65, h - 0.28, -w + 0.02, h)
     s.quadraticCurveTo(-w, h, -w, h - 0.02)
     s.lineTo(-w, -h + r)
     s.quadraticCurveTo(-w, -h, -w + r, -h)
@@ -210,9 +210,9 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
     const t = 0.018 // fine gold trim line
     s.moveTo(-w, 0)
     s.lineTo(-w + t, 0)
-    s.bezierCurveTo(-w * 0.68 + t * 0.7, -0.40, -0.34, -0.90, -0.07, -1.00)
-    s.bezierCurveTo(-0.03, -1.03, 0.03, -1.03, 0.07, -1.00)
-    s.bezierCurveTo(0.34, -0.90, w * 0.68 - t * 0.7, -0.40, w - t, 0)
+    s.bezierCurveTo(-w * 0.68 + t * 0.7, -0.4, -0.34, -0.9, -0.07, -1.0)
+    s.bezierCurveTo(-0.03, -1.03, 0.03, -1.03, 0.07, -1.0)
+    s.bezierCurveTo(0.34, -0.9, w * 0.68 - t * 0.7, -0.4, w - t, 0)
     s.lineTo(w, 0)
     s.bezierCurveTo(w * 0.68, -0.42, 0.36, -0.92, 0.08, -1.02)
     s.bezierCurveTo(0.04, -1.06, -0.04, -1.06, -0.08, -1.02)
@@ -227,9 +227,9 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
     const w = 1.26
     s.moveTo(-w, -0.02)
     s.lineTo(w, -0.02)
-    s.bezierCurveTo(w * 0.66, -0.42, 0.34, -0.90, 0.08, -0.98)
+    s.bezierCurveTo(w * 0.66, -0.42, 0.34, -0.9, 0.08, -0.98)
     s.bezierCurveTo(0.04, -1.01, -0.04, -1.01, -0.08, -0.98)
-    s.bezierCurveTo(-0.34, -0.90, -w * 0.66, -0.42, -w, -0.02)
+    s.bezierCurveTo(-0.34, -0.9, -w * 0.66, -0.42, -w, -0.02)
     s.closePath()
     return s
   }, [])
@@ -240,8 +240,8 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
     const points = 16
     const baseR = 0.28
     const rOffsets = [
-      0.020, -0.012, 0.028, 0.008, -0.018, 0.030, 0.006, -0.022,
-      0.018, 0.028, -0.010, 0.020, -0.022, 0.012, 0.026, -0.014,
+      0.02, -0.012, 0.028, 0.008, -0.018, 0.03, 0.006, -0.022, 0.018, 0.028, -0.01, 0.02, -0.022,
+      0.012, 0.026, -0.014,
     ]
     const angleStep = (Math.PI * 2) / points
     const coords: [number, number][] = []
@@ -266,7 +266,7 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
   // 7. Pristine Cotton Invitation Card inside
   const cardShape = useMemo(() => {
     const s = new THREE.Shape()
-    const w = 1.20
+    const w = 1.2
     const h = 1.58
     const r = 0.08
     s.moveTo(-w + r, -h / 2)
@@ -334,7 +334,10 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
     if (!isDragging || !pointerStartRef.current || isFullySlidingOut || hasFinished) return
     const deltaY = pointerStartRef.current.y - e.clientY
     const sensitivity = 0.0055
-    const newY = Math.max(0, Math.min(1.5, pointerStartRef.current.startDragY + deltaY * sensitivity))
+    const newY = Math.max(
+      0,
+      Math.min(1.5, pointerStartRef.current.startDragY + deltaY * sensitivity)
+    )
     if (setDragY) setDragY(newY)
 
     if (newY > 0.45) {
@@ -372,8 +375,18 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
         groupRef.current.rotation.y = -0.05 + Math.sin(time * 0.8) * 0.02
         groupRef.current.rotation.x = 0.15 + Math.sin(time * 1.1) * 0.012
       } else {
-        groupRef.current.rotation.y = THREE.MathUtils.damp(groupRef.current.rotation.y, 0, 4.0, delta)
-        groupRef.current.rotation.x = THREE.MathUtils.damp(groupRef.current.rotation.x, 0.04, 4.0, delta)
+        groupRef.current.rotation.y = THREE.MathUtils.damp(
+          groupRef.current.rotation.y,
+          0,
+          4.0,
+          delta
+        )
+        groupRef.current.rotation.x = THREE.MathUtils.damp(
+          groupRef.current.rotation.x,
+          0.04,
+          4.0,
+          delta
+        )
       }
     }
 
@@ -383,9 +396,24 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
         const pulse = 1 + Math.sin(time * 3.2) * 0.045
         sealMeshRef.current.scale.set(pulse, pulse, pulse)
       } else {
-        sealMeshRef.current.scale.x = THREE.MathUtils.damp(sealMeshRef.current.scale.x, 0.001, 8.0, delta)
-        sealMeshRef.current.scale.y = THREE.MathUtils.damp(sealMeshRef.current.scale.y, 0.001, 8.0, delta)
-        sealMeshRef.current.scale.z = THREE.MathUtils.damp(sealMeshRef.current.scale.z, 0.001, 8.0, delta)
+        sealMeshRef.current.scale.x = THREE.MathUtils.damp(
+          sealMeshRef.current.scale.x,
+          0.001,
+          8.0,
+          delta
+        )
+        sealMeshRef.current.scale.y = THREE.MathUtils.damp(
+          sealMeshRef.current.scale.y,
+          0.001,
+          8.0,
+          delta
+        )
+        sealMeshRef.current.scale.z = THREE.MathUtils.damp(
+          sealMeshRef.current.scale.z,
+          0.001,
+          8.0,
+          delta
+        )
       }
     }
 
@@ -474,11 +502,7 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
         {/* Fine Metallic Gold Foil Border Trim */}
         <mesh position={[0, 0, 0.003]}>
           <shapeGeometry args={[cardShape]} />
-          <meshStandardMaterial
-            color={activeTheme.goldAccent}
-            roughness={0.16}
-            metalness={0.94}
-          />
+          <meshStandardMaterial color={activeTheme.goldAccent} roughness={0.16} metalness={0.94} />
         </mesh>
 
         {/* Inner Card White Mask (retaining crisp gold border frame) */}
@@ -490,31 +514,19 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
         {/* Gold Foil Couple Initials Crest (reveals majestically as card emerges) */}
         <mesh position={[0, 0.18, 0.006]} scale={[1, 1, 0.02]}>
           <octahedronGeometry args={[0.065, 0]} />
-          <meshStandardMaterial
-            color={activeTheme.goldAccent}
-            metalness={0.96}
-            roughness={0.12}
-          />
+          <meshStandardMaterial color={activeTheme.goldAccent} metalness={0.96} roughness={0.12} />
         </mesh>
 
         {/* Decorative gold laurel ring around monogram */}
         <mesh position={[0, 0.18, 0.006]} scale={[1, 1, 0.02]}>
           <torusGeometry args={[0.12, 0.008, 16, 32]} />
-          <meshStandardMaterial
-            color={activeTheme.goldAccent}
-            metalness={0.95}
-            roughness={0.14}
-          />
+          <meshStandardMaterial color={activeTheme.goldAccent} metalness={0.95} roughness={0.14} />
         </mesh>
 
         {/* Card header accent line */}
         <mesh position={[0, 0.02, 0.006]}>
           <planeGeometry args={[0.55, 0.006]} />
-          <meshStandardMaterial
-            color={activeTheme.goldAccent}
-            metalness={0.90}
-            roughness={0.15}
-          />
+          <meshStandardMaterial color={activeTheme.goldAccent} metalness={0.9} roughness={0.15} />
         </mesh>
       </group>
 
@@ -537,13 +549,13 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
       </mesh>
 
       {/* 4. Top Triangular Euro Flap (Hinged along top edge y = 0.90) */}
-      <group ref={flapPivotRef} position={[0, 0.90, 0.044]}>
+      <group ref={flapPivotRef} position={[0, 0.9, 0.044]}>
         {/* Exterior Flap Surface (Deep Luxury Linen) */}
         <mesh position={[0, 0, 0]}>
           <shapeGeometry args={[topFlapShape]} />
           <meshStandardMaterial
             color={activeTheme.flap}
-            roughness={0.50}
+            roughness={0.5}
             metalness={0.07}
             side={THREE.FrontSide}
           />
@@ -575,7 +587,7 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
 
             {/* Gold foil botanical floral damask accent on the inner liner */}
             <mesh position={[0, -0.38, 0.002]}>
-              <torusGeometry args={[0.20, 0.009, 16, 32]} />
+              <torusGeometry args={[0.2, 0.009, 16, 32]} />
               <meshStandardMaterial
                 color={activeTheme.goldAccent}
                 metalness={0.92}
@@ -598,18 +610,14 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
         {/* 5. Authentic Organic Wax Seal (Stamped right on the tip of the triangular flap) */}
         <group
           ref={sealMeshRef}
-          position={[0, -1.00, 0.026]}
+          position={[0, -1.0, 0.026]}
           onClick={handleSealTap}
           onPointerDown={handleSealTap}
         >
           {/* Organic Melted Wax Outer Puddle (Natural wavy edge) */}
           <mesh position={[0, 0, 0]}>
             <shapeGeometry args={[waxPuddleShape]} />
-            <meshStandardMaterial
-              color={activeTheme.waxColor}
-              roughness={0.26}
-              metalness={0.18}
-            />
+            <meshStandardMaterial color={activeTheme.waxColor} roughness={0.26} metalness={0.18} />
           </mesh>
 
           {/* Raised Wax Rim Ridge */}
@@ -618,7 +626,7 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
             <meshStandardMaterial
               color={activeTheme.waxRimColor}
               roughness={0.24}
-              metalness={0.20}
+              metalness={0.2}
             />
           </mesh>
 
@@ -645,11 +653,7 @@ export const TemplateACover3D: React.FC<TemplateACover3DProps> = ({
           {/* Embossed Center Royal Monogram Sparkle */}
           <mesh position={[0, 0, 0.028]}>
             <octahedronGeometry args={[0.048, 0]} />
-            <meshStandardMaterial
-              color="#FFF2D6"
-              metalness={0.96}
-              roughness={0.12}
-            />
+            <meshStandardMaterial color="#FFF2D6" metalness={0.96} roughness={0.12} />
           </mesh>
         </group>
       </group>

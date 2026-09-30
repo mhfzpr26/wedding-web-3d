@@ -1,29 +1,26 @@
 'use client'
 
-import React, { useState } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { logout } from '@/actions/auth'
 import {
-  LayoutDashboard,
-  Users,
-  Settings,
   ExternalLink,
+  LayoutDashboard,
   LogOut,
   Menu,
-  X,
+  Settings,
   Sparkles,
+  Users,
+  X,
 } from 'lucide-react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import React, { useState } from 'react'
+import { logout } from '@/actions/auth'
 
 interface AdminLayoutClientProps {
   children: React.ReactNode
   adminEmail: string
 }
 
-export const AdminLayoutClient: React.FC<AdminLayoutClientProps> = ({
-  children,
-  adminEmail,
-}) => {
+export const AdminLayoutClient: React.FC<AdminLayoutClientProps> = ({ children, adminEmail }) => {
   const pathname = usePathname()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -56,9 +53,7 @@ export const AdminLayoutClient: React.FC<AdminLayoutClientProps> = ({
       <header className="md:hidden flex items-center justify-between px-4 py-3 bg-neutral-900 text-white sticky top-0 z-40 border-b border-neutral-800">
         <div className="flex items-center space-x-2">
           <Sparkles className="w-4 h-4 text-[#D4AF37]" />
-          <span className="font-serif font-semibold text-sm tracking-wide">
-            Wedding Admin
-          </span>
+          <span className="font-serif font-semibold text-sm tracking-wide">Wedding Admin</span>
         </div>
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -152,9 +147,7 @@ export const AdminLayoutClient: React.FC<AdminLayoutClientProps> = ({
       )}
 
       {/* Main Content Area */}
-      <main className="flex-1 min-w-0 p-4 sm:p-6 md:p-8 max-w-6xl mx-auto w-full">
-        {children}
-      </main>
+      <main className="flex-1 min-w-0 p-4 sm:p-6 md:p-8 max-w-6xl mx-auto w-full">{children}</main>
     </div>
   )
 }

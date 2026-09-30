@@ -1,13 +1,13 @@
 export const dynamic = 'force-dynamic'
 
-import React from 'react'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { prisma } from '@/lib/prisma'
-import type { Guest, InvitationProps, TemplateType, CoupleWithDetails } from '@/types'
+import React from 'react'
 import { TemplateA } from '@/components/templates/TemplateA'
 import { TemplateB } from '@/components/templates/TemplateB'
 import { TemplateC } from '@/components/templates/TemplateC'
+import { prisma } from '@/lib/prisma'
+import type { CoupleWithDetails, Guest, InvitationProps, TemplateType } from '@/types'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -53,9 +53,7 @@ function findGuest(couple: CoupleWithDetails, toParam?: string): Guest | null {
   // Match against preloaded guests from DB relation
   if (couple.guests && couple.guests.length > 0) {
     const matched = couple.guests.find(
-      (g) =>
-        g.slug.toLowerCase() === guestSlug ||
-        g.name.toLowerCase() === cleanName.toLowerCase()
+      (g) => g.slug.toLowerCase() === guestSlug || g.name.toLowerCase() === cleanName.toLowerCase()
     )
     if (matched) {
       return matched
@@ -77,16 +75,10 @@ function findGuest(couple: CoupleWithDetails, toParam?: string): Guest | null {
   }
 }
 
-export async function generateMetadata({
-  params,
-  searchParams,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const { slug } = await params
   const resolvedSearchParams = await searchParams
-  const to =
-    typeof resolvedSearchParams?.to === 'string'
-      ? resolvedSearchParams.to
-      : undefined
+  const to = typeof resolvedSearchParams?.to === 'string' ? resolvedSearchParams.to : undefined
 
   const couple = await getCoupleData(slug)
   if (!couple) {
@@ -97,22 +89,14 @@ export async function generateMetadata({
 
   return {
     title: `The Wedding of ${couple.groomName} & ${couple.brideName}`,
-    description: to
-      ? `Undangan Spesial untuk ${to}`
-      : 'Undangan Pernikahan Digital 3D',
+    description: to ? `Undangan Spesial untuk ${to}` : 'Undangan Pernikahan Digital 3D',
   }
 }
 
-export default async function InvitationPage({
-  params,
-  searchParams,
-}: PageProps) {
+export default async function InvitationPage({ params, searchParams }: PageProps) {
   const { slug } = await params
   const resolvedSearchParams = await searchParams
-  const toParam =
-    typeof resolvedSearchParams?.to === 'string'
-      ? resolvedSearchParams.to
-      : undefined
+  const toParam = typeof resolvedSearchParams?.to === 'string' ? resolvedSearchParams.to : undefined
 
   const couple = await getCoupleData(slug)
   if (!couple) {
@@ -121,8 +105,7 @@ export default async function InvitationPage({
 
   const guest = findGuest(couple, toParam)
 
-  const SelectedTemplate =
-    TEMPLATE_MAP[couple.selectedTemplate] || TemplateA
+  const SelectedTemplate = TEMPLATE_MAP[couple.selectedTemplate] || TemplateA
 
   return <SelectedTemplate couple={couple} guest={guest} />
 }

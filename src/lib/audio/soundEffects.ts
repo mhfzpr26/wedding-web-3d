@@ -99,7 +99,7 @@ export function playPaperSlideSound() {
   const data = buffer.getChannelData(0)
 
   for (let i = 0; i < bufferSize; i++) {
-    data[i] = (Math.random() * 2 - 1)
+    data[i] = Math.random() * 2 - 1
   }
 
   const noise = ctx.createBufferSource()

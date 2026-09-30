@@ -1,1 +1,1 @@
-export { TemplateA, default } from './TemplateA'
+export { default, TemplateA } from './TemplateA'

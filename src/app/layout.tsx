@@ -7,11 +7,7 @@ export const metadata: Metadata = {
   description: 'Spesial Undangan Pernikahan Digital 3D',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id">
       <body className="antialiased selection:bg-[#B39365] selection:text-white">

@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useRef, useMemo } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
+import React, { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
 export interface TemplateAThematicStage3DProps {
@@ -33,10 +33,10 @@ function createTornParchmentShape(seed: number, w = 0.98, h = 1.38) {
       seed === 0 && t > 0.68
         ? -0.14 * Math.sin(((t - 0.68) / 0.32) * Math.PI) // Torn bottom-right corner chip
         : seed === 5 && t > 0.32 && t < 0.68
-        ? -0.16 * Math.sin(((t - 0.32) / 0.36) * Math.PI) // Deep jagged rip on Act 05 (sealed by wax seal)
-        : seed === 2 && t > 0.45 && t < 0.55
-        ? -0.06 * Math.sin(((t - 0.45) / 0.1) * Math.PI) // Perforation notch
-        : 0
+          ? -0.16 * Math.sin(((t - 0.32) / 0.36) * Math.PI) // Deep jagged rip on Act 05 (sealed by wax seal)
+          : seed === 2 && t > 0.45 && t < 0.55
+            ? -0.06 * Math.sin(((t - 0.45) / 0.1) * Math.PI) // Perforation notch
+            : 0
     const y = -h + noise(t * 5.5) + tear
     shape.lineTo(x, y)
   }
@@ -51,10 +51,10 @@ function createTornParchmentShape(seed: number, w = 0.98, h = 1.38) {
       seed === 2 && t > 0.44 && t < 0.56
         ? -0.16 * Math.sin(((t - 0.44) / 0.12) * Math.PI) // Ticket cutout notch
         : seed === 4 && t > 0.72
-        ? -0.09 * Math.sin(((t - 0.72) / 0.28) * Math.PI) // Postcard weathered edge
-        : seed === 0 && t < 0.2
-        ? -0.1 * ((0.2 - t) / 0.2) // Chipped corner matching bottom tear
-        : 0
+          ? -0.09 * Math.sin(((t - 0.72) / 0.28) * Math.PI) // Postcard weathered edge
+          : seed === 0 && t < 0.2
+            ? -0.1 * ((0.2 - t) / 0.2) // Chipped corner matching bottom tear
+            : 0
     const x = w + noise(t * 5.5 + 10) + rip
     shape.lineTo(x, y)
   }
@@ -68,8 +68,8 @@ function createTornParchmentShape(seed: number, w = 0.98, h = 1.38) {
       seed === 1 && t > 0.78
         ? -0.11 * ((t - 0.78) / 0.22) // Chipped top-left corner
         : seed === 3 && t > 0.38 && t < 0.62
-        ? 0.05 * Math.sin(((t - 0.38) / 0.24) * Math.PI) // Fold crease flap
-        : 0
+          ? 0.05 * Math.sin(((t - 0.38) / 0.24) * Math.PI) // Fold crease flap
+          : 0
     const y = h + noise(t * 5.5 + 20) + tornCorner
     shape.lineTo(x, y)
   }
@@ -83,8 +83,8 @@ function createTornParchmentShape(seed: number, w = 0.98, h = 1.38) {
       seed === 1 && t > 0.32 && t < 0.52
         ? 0.12 * Math.sin(((t - 0.32) / 0.2) * Math.PI) // Antique binding tear notch
         : seed === 2 && t > 0.44 && t < 0.56
-        ? 0.16 * Math.sin(((t - 0.44) / 0.12) * Math.PI) // Ticket cutout notch left side
-        : 0
+          ? 0.16 * Math.sin(((t - 0.44) / 0.12) * Math.PI) // Ticket cutout notch left side
+          : 0
     const x = -w + noise(t * 5.5 + 30) + tear
     shape.lineTo(x, y)
   }
@@ -165,7 +165,10 @@ function TornParchmentContainer3D({
   children?: React.ReactNode
 }) {
   const groupRef = useRef<THREE.Group | null>(null)
-  const parchmentShape = useMemo(() => createTornParchmentShape(sectionIndex, 0.98, 1.38), [sectionIndex])
+  const parchmentShape = useMemo(
+    () => createTornParchmentShape(sectionIndex, 0.98, 1.38),
+    [sectionIndex]
+  )
 
   const isActive = sectionIndex === activeSection
   const isPreviousActive = useRef(isActive)
@@ -254,7 +257,13 @@ function TornParchmentContainer3D({
         <extrudeGeometry
           args={[
             parchmentShape,
-            { depth: 0.03, bevelEnabled: true, bevelThickness: 0.004, bevelSize: 0.003, bevelSegments: 2 },
+            {
+              depth: 0.03,
+              bevelEnabled: true,
+              bevelThickness: 0.004,
+              bevelSize: 0.003,
+              bevelSegments: 2,
+            },
           ]}
         />
         <meshStandardMaterial
@@ -419,7 +428,10 @@ function Act05Accents() {
     const s = new THREE.Shape()
     const points = 16
     const baseR = 0.22
-    const rOffsets = [0.02, -0.01, 0.03, 0.01, -0.02, 0.03, 0.01, -0.02, 0.02, 0.03, -0.01, 0.02, -0.02, 0.01, 0.03, -0.01]
+    const rOffsets = [
+      0.02, -0.01, 0.03, 0.01, -0.02, 0.03, 0.01, -0.02, 0.02, 0.03, -0.01, 0.02, -0.02, 0.01, 0.03,
+      -0.01,
+    ]
     const angleStep = (Math.PI * 2) / points
     const coords: [number, number][] = []
     for (let i = 0; i < points; i++) {
@@ -531,9 +543,7 @@ export const TemplateAThematicStage3D: React.FC<TemplateAThematicStage3DProps> =
   // At camera dist 4.4, FOV 45, visible vertical height is 3.645 units
   // Frustum width is 3.645 * aspect. Paper width is 2 * 0.98 = 1.96 units.
   const frustumWidth = 3.645 * aspect
-  const stageScale = isPortrait
-    ? Math.max(0.72, Math.min(0.84, (frustumWidth * 0.88) / 1.96))
-    : 1.0
+  const stageScale = isPortrait ? Math.max(0.72, Math.min(0.84, (frustumWidth * 0.88) / 1.96)) : 1.0
 
   const paperTexture = useParchmentCanvasTexture()
 

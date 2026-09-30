@@ -1,7 +1,7 @@
 'use client'
 
-import React, { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
+import React, { Suspense } from 'react'
 import TemplateACover3D, { type TemplateACover3DProps } from './TemplateACover3D'
 
 export const TemplateACanvas: React.FC<TemplateACover3DProps> = (props) => {

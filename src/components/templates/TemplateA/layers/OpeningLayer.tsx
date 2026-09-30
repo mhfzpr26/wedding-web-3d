@@ -1,8 +1,8 @@
 'use client'
 
+import { ChevronDown, Sparkles } from 'lucide-react'
 import React from 'react'
 import type { CoupleWithDetails, Guest } from '@/types'
-import { Sparkles, ChevronDown } from 'lucide-react'
 
 interface OpeningLayerProps {
   couple: CoupleWithDetails
@@ -12,7 +12,6 @@ interface OpeningLayerProps {
 export const OpeningLayer: React.FC<OpeningLayerProps> = ({ couple, guest }) => {
   return (
     <div className="w-full p-2.5 sm:p-4 text-center select-text relative flex flex-col items-center">
-
       {/* Top Royal Decree Badge */}
       <div className="inline-flex items-center space-x-1.5 px-3 py-0.5 rounded-full bg-[#FAF8F5] border border-[#E2D9CE] text-[9px] sm:text-[10px] font-mono uppercase tracking-[0.25em] text-[#8C7851] shadow-sm select-none mb-2">
         <Sparkles className="w-3 h-3 text-[#D4AF37]" />
@@ -35,7 +34,8 @@ export const OpeningLayer: React.FC<OpeningLayerProps> = ({ couple, guest }) => 
           {guest?.name || 'Tamu Undangan'}
         </p>
         <p className="text-[10px] sm:text-[11px] text-[#4A5568] leading-relaxed">
-          Merupakan suatu kehormatan bagi kami apabila Anda berkenan hadir dan memberikan doa restu kepada kedua mempelai.
+          Merupakan suatu kehormatan bagi kami apabila Anda berkenan hadir dan memberikan doa restu
+          kepada kedua mempelai.
         </p>
       </div>
 
@@ -83,7 +83,9 @@ export const OpeningLayer: React.FC<OpeningLayerProps> = ({ couple, guest }) => 
 
       {/* Subtle Scroll Down Prompt */}
       <div className="flex flex-col items-center pt-1 text-[#8A7968]/75 animate-bounce select-none">
-        <span className="text-[8px] sm:text-[9px] font-mono uppercase tracking-[0.2em]">Scroll ke bawah</span>
+        <span className="text-[8px] sm:text-[9px] font-mono uppercase tracking-[0.2em]">
+          Scroll ke bawah
+        </span>
         <ChevronDown className="w-3.5 h-3.5 text-[#D4AF37]" />
       </div>
     </div>

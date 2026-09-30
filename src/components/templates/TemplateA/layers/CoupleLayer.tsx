@@ -1,9 +1,9 @@
 'use client'
 
-import React from 'react'
-import Image from 'next/image'
-import type { CoupleWithDetails } from '@/types'
 import { Sparkles } from 'lucide-react'
+import Image from 'next/image'
+import React from 'react'
+import type { CoupleWithDetails } from '@/types'
 
 const InstagramIcon = ({ className = 'w-3 h-3' }: { className?: string }) => (
   <svg
@@ -66,7 +66,9 @@ export const CoupleLayer: React.FC<CoupleLayerProps> = ({ couple }) => {
           ) : (
             <div className="w-16 h-20 sm:w-20 sm:h-24 rounded-[36px] bg-gradient-to-b from-[#1B2A4A] to-[#142036] border-2 border-white ring-2 ring-[#D4AF37]/65 flex flex-col items-center justify-center text-white mb-2 shadow-md">
               <span className="font-serif text-2xl text-[#E8C872]">{groomInitial}</span>
-              <span className="text-[8px] font-mono tracking-widest text-[#D4AF37]/80 uppercase">Groom</span>
+              <span className="text-[8px] font-mono tracking-widest text-[#D4AF37]/80 uppercase">
+                Groom
+              </span>
             </div>
           )}
 
@@ -113,7 +115,9 @@ export const CoupleLayer: React.FC<CoupleLayerProps> = ({ couple }) => {
           ) : (
             <div className="w-16 h-20 sm:w-20 sm:h-24 rounded-[36px] bg-gradient-to-b from-[#1B2A4A] to-[#142036] border-2 border-white ring-2 ring-[#D4AF37]/65 flex flex-col items-center justify-center text-white mb-2 shadow-md">
               <span className="font-serif text-2xl text-[#E8C872]">{brideInitial}</span>
-              <span className="text-[8px] font-mono tracking-widest text-[#D4AF37]/80 uppercase">Bride</span>
+              <span className="text-[8px] font-mono tracking-widest text-[#D4AF37]/80 uppercase">
+                Bride
+              </span>
             </div>
           )}
 

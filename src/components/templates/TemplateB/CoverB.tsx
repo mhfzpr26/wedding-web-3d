@@ -1,35 +1,29 @@
 'use client'
 
+import { ArrowRight, Sparkles } from 'lucide-react'
+import dynamic from 'next/dynamic'
 import React, { useState } from 'react'
 import type { CoverProps } from '@/types/cover'
-import dynamic from 'next/dynamic'
-import { ArrowRight, Sparkles } from 'lucide-react'
-const DynamicTemplateBCanvas = dynamic(
-  () => import('@/components/three/TemplateBCanvas'),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-80 sm:h-96 flex items-center justify-center">
-        <div className="w-64 h-44 border border-neutral-300 bg-neutral-100/70 p-4 animate-pulse flex flex-col items-center justify-center space-y-2">
-          <div className="w-8 h-8 rounded-full bg-neutral-300 flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-neutral-600" />
-          </div>
-          <span className="text-[10px] font-mono tracking-widest text-neutral-500 uppercase">
-            Loading Monolith Envelope...
-          </span>
+
+const DynamicTemplateBCanvas = dynamic(() => import('@/components/three/TemplateBCanvas'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-80 sm:h-96 flex items-center justify-center">
+      <div className="w-64 h-44 border border-neutral-300 bg-neutral-100/70 p-4 animate-pulse flex flex-col items-center justify-center space-y-2">
+        <div className="w-8 h-8 rounded-full bg-neutral-300 flex items-center justify-center">
+          <Sparkles className="w-4 h-4 text-neutral-600" />
         </div>
+        <span className="text-[10px] font-mono tracking-widest text-neutral-500 uppercase">
+          Loading Monolith Envelope...
+        </span>
       </div>
-    ),
-  }
-)
+    </div>
+  ),
+})
 
 export type CoverBStage = 'LOCKED' | 'TEARING' | 'OPENED'
 
-export const CoverB: React.FC<CoverProps> = ({
-  couple,
-  guest,
-  onOpenComplete,
-}) => {
+export const CoverB: React.FC<CoverProps> = ({ couple, guest, onOpenComplete }) => {
   const [stage, setStage] = useState<CoverBStage>('LOCKED')
   const [tearProgress, setTearProgress] = useState(0)
 
@@ -97,9 +91,7 @@ export const CoverB: React.FC<CoverProps> = ({
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping inline-block ml-1" />
                 </>
               )}
-              {stage === 'OPENED' && (
-                <span className="font-bold text-neutral-950">UNVEILED</span>
-              )}
+              {stage === 'OPENED' && <span className="font-bold text-neutral-950">UNVEILED</span>}
             </span>
             <span className="font-mono text-neutral-900 font-semibold">
               {Math.round(tearProgress * 100)}%
@@ -132,4 +124,3 @@ export const CoverB: React.FC<CoverProps> = ({
 }
 
 export default CoverB
-

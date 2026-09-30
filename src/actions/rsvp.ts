@@ -1,7 +1,7 @@
 'use server'
 
-import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
+import { prisma } from '@/lib/prisma'
 import type { RsvpStatus } from '@/types'
 
 export interface SubmitRsvpPayload {
@@ -18,9 +18,7 @@ export interface RsvpResponse {
   message: string
 }
 
-export async function submitRsvp(
-  payload: SubmitRsvpPayload
-): Promise<RsvpResponse> {
+export async function submitRsvp(payload: SubmitRsvpPayload): Promise<RsvpResponse> {
   try {
     const { coupleId, guestId, status, attendeesCount, name, slug } = payload
 

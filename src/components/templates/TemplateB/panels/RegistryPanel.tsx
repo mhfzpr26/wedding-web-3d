@@ -1,10 +1,10 @@
 'use client'
 
-import React, { useState } from 'react'
-import type { BankAccount } from '@/types'
-import { Copy, Check, QrCode, X, CreditCard } from 'lucide-react'
-import { toast } from 'sonner'
+import { Check, Copy, CreditCard, QrCode, X } from 'lucide-react'
 import Image from 'next/image'
+import React, { useState } from 'react'
+import { toast } from 'sonner'
+import type { BankAccount } from '@/types'
 
 interface RegistryPanelProps {
   bankAccounts: BankAccount[]
@@ -52,7 +52,8 @@ export const RegistryPanel: React.FC<RegistryPanelProps> = ({ bankAccounts }) =>
             Wedding Registry
           </h2>
           <p className="font-sans text-xs text-neutral-600 mt-2 max-w-lg leading-relaxed">
-            Your presence and prayers are our greatest honor. Should you wish to send a token of congratulations, you may do so through our official accounts below:
+            Your presence and prayers are our greatest honor. Should you wish to send a token of
+            congratulations, you may do so through our official accounts below:
           </p>
         </div>
 
@@ -98,7 +99,10 @@ export const RegistryPanel: React.FC<RegistryPanelProps> = ({ bankAccounts }) =>
                     {account.accountNumber}
                   </p>
                   <p className="font-mono text-xs text-neutral-600 mt-1">
-                    BENEFICIARY: <span className="text-neutral-950 font-bold uppercase">{account.accountHolder}</span>
+                    BENEFICIARY:{' '}
+                    <span className="text-neutral-950 font-bold uppercase">
+                      {account.accountHolder}
+                    </span>
                   </p>
                 </div>
 

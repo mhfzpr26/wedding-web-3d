@@ -1,7 +1,7 @@
 'use server'
 
-import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
+import { prisma } from '@/lib/prisma'
 import type { Wish } from '@/types'
 
 export interface SubmitWishPayload {
@@ -18,9 +18,7 @@ export interface WishResponse {
   data?: Wish
 }
 
-export async function submitWish(
-  payload: SubmitWishPayload
-): Promise<WishResponse> {
+export async function submitWish(payload: SubmitWishPayload): Promise<WishResponse> {
   try {
     const { coupleId, guestId, senderName, message, slug } = payload
 

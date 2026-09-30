@@ -1,25 +1,25 @@
 'use client'
 
-import React, { useState } from 'react'
-import type { Guest } from '@/types'
 import {
-  UserPlus,
-  Copy,
   Check,
-  Trash2,
-  Search,
-  ExternalLink,
-  MessageCircle,
-  Users,
   CheckCircle2,
-  XCircle,
-  HelpCircle,
   Clock,
+  Copy,
+  ExternalLink,
+  HelpCircle,
+  MessageCircle,
+  Search,
   Send,
+  Trash2,
+  UserPlus,
+  Users,
   X,
+  XCircle,
 } from 'lucide-react'
+import React, { useState } from 'react'
 import { toast } from 'sonner'
-import { createGuest, createBatchGuests, deleteGuest } from '@/actions/guests'
+import { createBatchGuests, createGuest, deleteGuest } from '@/actions/guests'
+import type { Guest } from '@/types'
 
 interface GuestManagerClientProps {
   initialGuests: Guest[]
@@ -86,7 +86,9 @@ ${url}
 
 Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila berkenan hadir dan memberikan doa restu. Terima kasih. 🙏`
 
-    const phone = guest.phoneNumber ? guest.phoneNumber.replace(/^0/, '62').replace(/[^0-9]/g, '') : ''
+    const phone = guest.phoneNumber
+      ? guest.phoneNumber.replace(/^0/, '62').replace(/[^0-9]/g, '')
+      : ''
     const waUrl = phone
       ? `https://wa.me/${phone}?text=${encodeURIComponent(text)}`
       : `https://wa.me/?text=${encodeURIComponent(text)}`
@@ -143,7 +145,10 @@ Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila berkenan hadir dan 
 
   const handleAddBatch = async (e: React.FormEvent) => {
     e.preventDefault()
-    const names = batchNames.split('\n').map((n) => n.trim()).filter(Boolean)
+    const names = batchNames
+      .split('\n')
+      .map((n) => n.trim())
+      .filter(Boolean)
     if (names.length === 0) {
       toast.error('Masukkan minimal 1 nama tamu')
       return
@@ -208,8 +213,12 @@ Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila berkenan hadir dan 
         </div>
 
         <div className="flex items-center space-x-4 text-xs font-mono text-neutral-500">
-          <span>Total: <strong className="text-neutral-900">{guests.length}</strong></span>
-          <span>Ditemukan: <strong className="text-neutral-900">{filteredGuests.length}</strong></span>
+          <span>
+            Total: <strong className="text-neutral-900">{guests.length}</strong>
+          </span>
+          <span>
+            Ditemukan: <strong className="text-neutral-900">{filteredGuests.length}</strong>
+          </span>
         </div>
       </div>
 
@@ -238,10 +247,7 @@ Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila berkenan hadir dan 
                   const isCopied = copiedId === guest.id
 
                   return (
-                    <tr
-                      key={guest.id}
-                      className="hover:bg-neutral-50/60 transition-colors"
-                    >
+                    <tr key={guest.id} className="hover:bg-neutral-50/60 transition-colors">
                       {/* Name & Phone */}
                       <td className="px-5 py-4 font-medium text-neutral-900">
                         <div className="font-semibold text-sm">{guest.name}</div>
@@ -291,9 +297,7 @@ Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila berkenan hadir dan 
 
                       {/* Attendees Count */}
                       <td className="px-5 py-4 font-mono font-medium text-neutral-800">
-                        {guest.statusRsvp === 'ATTENDING'
-                          ? `${guest.attendeesCount} Orang`
-                          : '-'}
+                        {guest.statusRsvp === 'ATTENDING' ? `${guest.attendeesCount} Orang` : '-'}
                       </td>
 
                       {/* Actions */}
@@ -308,7 +312,9 @@ Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila berkenan hadir dan 
                             {isCopied ? (
                               <>
                                 <Check className="w-3.5 h-3.5 text-emerald-600" />
-                                <span className="text-[11px] text-emerald-600 font-medium">Tersalin</span>
+                                <span className="text-[11px] text-emerald-600 font-medium">
+                                  Tersalin
+                                </span>
                               </>
                             ) : (
                               <>

@@ -1,16 +1,16 @@
 'use client'
 
-import React, { useState, useRef, useEffect, useCallback } from 'react'
-import type { InvitationProps } from '@/types'
-import { AudioPlayer } from '@/components/shared/AudioPlayer'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { markGuestAsOpened } from '@/actions/guests'
+import { AudioPlayer } from '@/components/shared/AudioPlayer'
+import type { InvitationProps } from '@/types'
+import type { CoverState } from '@/types/cover'
 import { CoverB } from './CoverB'
-import { UnionPanel } from './panels/UnionPanel'
-import { TimelinePanel } from './panels/TimelinePanel'
 import { RegistryPanel } from './panels/RegistryPanel'
 import { RsvpWordsPanel } from './panels/RsvpWordsPanel'
+import { TimelinePanel } from './panels/TimelinePanel'
+import { UnionPanel } from './panels/UnionPanel'
 import { RunwayProgress } from './RunwayProgress'
-import type { CoverState } from '@/types/cover'
 
 export const TemplateB: React.FC<InvitationProps> = ({ couple, guest }) => {
   const [coverState, setCoverState] = useState<CoverState>('LOCKED')
@@ -59,11 +59,7 @@ export const TemplateB: React.FC<InvitationProps> = ({ couple, guest }) => {
         className="h-screen overflow-hidden bg-[#F5F5F3] py-0 md:py-8 flex justify-center selection:bg-neutral-900 selection:text-white font-sans text-neutral-900"
       >
         <div className="w-full max-w-md bg-[#FAFAF8] shadow-2xl relative overflow-hidden flex flex-col h-full border-x border-neutral-200">
-          <CoverB
-            couple={couple}
-            guest={guest}
-            onOpenComplete={handleOpenComplete}
-          />
+          <CoverB couple={couple} guest={guest} onOpenComplete={handleOpenComplete} />
         </div>
       </div>
     )
@@ -132,11 +128,7 @@ export const TemplateB: React.FC<InvitationProps> = ({ couple, guest }) => {
       </div>
 
       {/* Bottom Editorial Progress & Navigation Bar */}
-      <RunwayProgress
-        currentIndex={activePanel}
-        totalPanels={4}
-        onNavigate={handleNavigate}
-      />
+      <RunwayProgress currentIndex={activePanel} totalPanels={4} onNavigate={handleNavigate} />
     </div>
   )
 }

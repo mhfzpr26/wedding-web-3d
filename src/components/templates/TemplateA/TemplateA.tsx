@@ -1,20 +1,19 @@
 'use client'
 
-import React, { useState, useRef, useCallback, useEffect } from 'react'
-import dynamic from 'next/dynamic'
-import { motion, AnimatePresence } from 'framer-motion'
-import type { InvitationProps } from '@/types'
-import { AudioPlayer } from '@/components/shared/AudioPlayer'
-import { markGuestAsOpened } from '@/actions/guests'
-import { CoverA } from './CoverA'
-import type { CoverState } from '@/types/cover'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
-
-// Import 6 Dedicated Compact Layers (100% Viewport-Budgeted, Zero Internal Scroll)
-import { OpeningLayer } from './layers/OpeningLayer'
+import dynamic from 'next/dynamic'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { markGuestAsOpened } from '@/actions/guests'
+import { AudioPlayer } from '@/components/shared/AudioPlayer'
+import type { InvitationProps } from '@/types'
+import type { CoverState } from '@/types/cover'
+import { CoverA } from './CoverA'
 import { CoupleLayer } from './layers/CoupleLayer'
 import { EventLayer } from './layers/EventLayer'
 import { GiftLayer } from './layers/GiftLayer'
+// Import 6 Dedicated Compact Layers (100% Viewport-Budgeted, Zero Internal Scroll)
+import { OpeningLayer } from './layers/OpeningLayer'
 import { RsvpLayer } from './layers/RsvpLayer'
 import { WishesClosingLayer } from './layers/WishesClosingLayer'
 
@@ -51,18 +50,21 @@ export const TemplateA: React.FC<InvitationProps> = ({ couple, guest }) => {
   }, [guest])
 
   // Move to target section with transition lock (~650ms)
-  const goToSection = useCallback((targetIndex: number) => {
-    if (isTransitioningRef.current) return
-    if (targetIndex < 0 || targetIndex >= TOTAL_SECTIONS) return
+  const goToSection = useCallback(
+    (targetIndex: number) => {
+      if (isTransitioningRef.current) return
+      if (targetIndex < 0 || targetIndex >= TOTAL_SECTIONS) return
 
-    isTransitioningRef.current = true
-    setDirection(targetIndex > activeSection ? 1 : -1)
-    setActiveSection(targetIndex)
+      isTransitioningRef.current = true
+      setDirection(targetIndex > activeSection ? 1 : -1)
+      setActiveSection(targetIndex)
 
-    setTimeout(() => {
-      isTransitioningRef.current = false
-    }, 650)
-  }, [activeSection])
+      setTimeout(() => {
+        isTransitioningRef.current = false
+      }, 650)
+    },
+    [activeSection]
+  )
 
   // 1. Mouse Wheel Listener (Desktop): 1 wheel notch = 1 layer transition
   useEffect(() => {
@@ -151,11 +153,7 @@ export const TemplateA: React.FC<InvitationProps> = ({ couple, guest }) => {
         className="fixed inset-0 h-screen overflow-hidden touch-none z-50 bg-[#F4F1EA] flex justify-center selection:bg-[#B39365] selection:text-white"
       >
         <div className="w-full max-w-md bg-[#FAF8F5] shadow-2xl relative overflow-hidden flex flex-col h-full">
-          <CoverA
-            couple={couple}
-            guest={guest}
-            onOpenComplete={handleOpenComplete}
-          />
+          <CoverA couple={couple} guest={guest} onOpenComplete={handleOpenComplete} />
         </div>
       </div>
     )
@@ -258,9 +256,7 @@ export const TemplateA: React.FC<InvitationProps> = ({ couple, guest }) => {
           <div
             key={sec.id}
             className={`w-1 rounded-full transition-all duration-500 ${
-              activeSection === idx
-                ? 'h-6 sm:h-8 bg-[#D4AF37] shadow-sm'
-                : 'h-1.5 bg-[#D5CBBC]/60'
+              activeSection === idx ? 'h-6 sm:h-8 bg-[#D4AF37] shadow-sm' : 'h-1.5 bg-[#D5CBBC]/60'
             }`}
           />
         ))}

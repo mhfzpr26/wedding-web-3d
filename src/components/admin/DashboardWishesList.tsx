@@ -1,11 +1,11 @@
 'use client'
 
+import { Clock, MessageSquare, Trash2 } from 'lucide-react'
 import React, { useState } from 'react'
-import type { Wish } from '@/types'
-import { Trash2, MessageSquare, Clock } from 'lucide-react'
-import { deleteWish } from '@/actions/wishes'
 import { toast } from 'sonner'
+import { deleteWish } from '@/actions/wishes'
 import { formatDate } from '@/lib/utils'
+import type { Wish } from '@/types'
 
 interface DashboardWishesListProps {
   initialWishes: Wish[]
@@ -55,9 +55,7 @@ export const DashboardWishesList: React.FC<DashboardWishesListProps> = ({
         >
           <div className="space-y-1 pr-4">
             <div className="flex items-center space-x-2">
-              <span className="font-semibold text-sm text-neutral-900">
-                {wish.senderName}
-              </span>
+              <span className="font-semibold text-sm text-neutral-900">{wish.senderName}</span>
               <span className="text-[11px] text-neutral-400 flex items-center">
                 <Clock className="w-3 h-3 mr-1" />
                 {formatDate(wish.createdAt, {
@@ -68,9 +66,7 @@ export const DashboardWishesList: React.FC<DashboardWishesListProps> = ({
                 })}
               </span>
             </div>
-            <p className="text-xs text-neutral-600 leading-relaxed">
-              {wish.message}
-            </p>
+            <p className="text-xs text-neutral-600 leading-relaxed">{wish.message}</p>
           </div>
 
           <button

@@ -1,17 +1,17 @@
 'use client'
 
-import React, { useState, useRef, useCallback } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import type { InvitationProps } from '@/types'
-import { AudioPlayer } from '@/components/shared/AudioPlayer'
+import React, { useCallback, useRef, useState } from 'react'
 import { markGuestAsOpened } from '@/actions/guests'
+import { AudioPlayer } from '@/components/shared/AudioPlayer'
+import type { InvitationProps } from '@/types'
+import type { CoverState } from '@/types/cover'
 import { CoverC } from './CoverC'
 import { FloatingCrystalShards } from './FloatingCrystalShards'
 import { CoupleSlab } from './slabs/CoupleSlab'
-import { MomentSlab } from './slabs/MomentSlab'
 import { GiftVaultSlab } from './slabs/GiftVaultSlab'
+import { MomentSlab } from './slabs/MomentSlab'
 import { RsvpWhispersSlab } from './slabs/RsvpWhispersSlab'
-import type { CoverState } from '@/types/cover'
 
 interface ZAxisSlabItemProps {
   index: number
@@ -19,11 +19,7 @@ interface ZAxisSlabItemProps {
   children: React.ReactNode
 }
 
-const ZAxisSlabItem: React.FC<ZAxisSlabItemProps> = ({
-  index,
-  total,
-  children,
-}) => {
+const ZAxisSlabItem: React.FC<ZAxisSlabItemProps> = ({ index, total, children }) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const isLast = index === total - 1
 
@@ -34,7 +30,11 @@ const ZAxisSlabItem: React.FC<ZAxisSlabItemProps> = ({
 
   // Spatial Z-Axis movement: slab zooms past toward the camera and dissolves as next slab arrives
   const scale = useTransform(scrollYProgress, [0, 1], [1, isLast ? 1 : 1.05])
-  const opacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, isLast ? 1 : 0.75, isLast ? 1 : 0.45])
+  const opacity = useTransform(
+    scrollYProgress,
+    [0, 0.8, 1],
+    [1, isLast ? 1 : 0.75, isLast ? 1 : 0.45]
+  )
   const z = useTransform(scrollYProgress, [0, 1], [0, isLast ? 0 : 70])
   const y = useTransform(scrollYProgress, [0, 1], [0, isLast ? 0 : -15])
 
@@ -88,11 +88,7 @@ export const TemplateC: React.FC<InvitationProps> = ({ couple, guest }) => {
         className="h-screen overflow-hidden bg-[#EEF2EC] py-0 md:py-8 flex justify-center selection:bg-teal-700 selection:text-white font-sans text-slate-800"
       >
         <div className="w-full max-w-md bg-gradient-to-b from-[#F5F8F4] via-[#EEF2EC] to-[#E5EBE3] shadow-2xl relative overflow-hidden flex flex-col h-full border-x border-white/50">
-          <CoverC
-            couple={couple}
-            guest={guest}
-            onOpenComplete={handleOpenComplete}
-          />
+          <CoverC couple={couple} guest={guest} onOpenComplete={handleOpenComplete} />
         </div>
       </div>
     )
@@ -159,11 +155,7 @@ export const TemplateC: React.FC<InvitationProps> = ({ couple, guest }) => {
         {/* 3D Z-Axis Floating Slabs */}
         <div className="relative" style={{ transformStyle: 'preserve-3d' }}>
           {slabs.map((slab, index) => (
-            <ZAxisSlabItem
-              key={slab.id}
-              index={index}
-              total={slabs.length}
-            >
+            <ZAxisSlabItem key={slab.id} index={index} total={slabs.length}>
               {slab.component}
             </ZAxisSlabItem>
           ))}

@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react'
 import { VolumeX } from 'lucide-react'
+import React, { useEffect, useRef } from 'react'
 
 interface AudioPlayerProps {
   src?: string | null
@@ -9,11 +9,7 @@ interface AudioPlayerProps {
   onToggle: () => void
 }
 
-export const AudioPlayer: React.FC<AudioPlayerProps> = ({
-  src,
-  isPlaying,
-  onToggle,
-}) => {
+export const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, isPlaying, onToggle }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [hasError, setHasError] = React.useState(false)
 
@@ -53,13 +49,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
 
   return (
     <>
-      <audio
-        ref={audioRef}
-        src={src}
-        loop
-        preload="auto"
-        onError={() => setHasError(true)}
-      />
+      <audio ref={audioRef} src={src} loop preload="auto" onError={() => setHasError(true)} />
       <div className="fixed bottom-6 right-6 z-50">
         <button
           onClick={onToggle}

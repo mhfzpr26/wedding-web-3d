@@ -1,7 +1,7 @@
 'use client'
 
-import React from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import React from 'react'
 
 export interface FloatingCrystalShardsProps {
   containerRef?: React.RefObject<HTMLDivElement | null>

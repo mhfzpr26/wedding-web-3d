@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useRef, useState, useMemo, useEffect } from 'react'
-import { useFrame, ThreeEvent } from '@react-three/fiber'
+import { ThreeEvent, useFrame } from '@react-three/fiber'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
-import { playGlassTickSound, playGlassShatterSound } from '@/lib/audioFeedback'
+import { playGlassShatterSound, playGlassTickSound } from '@/lib/audioFeedback'
 
 export type GlassState = 'INTACT' | 'CRACKED' | 'SHATTERING' | 'OPENED'
 
@@ -202,11 +202,7 @@ export const TemplateCCover3D: React.FC<TemplateCCover3DProps> = ({
       {glassState !== 'SHATTERING' && glassState !== 'OPENED' && (
         <group>
           {/* Main Translucent Glass Pane */}
-          <mesh
-            ref={glassPlaneRef}
-            position={[0, 0, 0.05]}
-            onPointerDown={handleTap}
-          >
+          <mesh ref={glassPlaneRef} position={[0, 0, 0.05]} onPointerDown={handleTap}>
             <boxGeometry args={[2.36, 1.62, 0.05]} />
             <meshPhysicalMaterial
               color="#F0F8F4"
@@ -266,10 +262,7 @@ export const TemplateCCover3D: React.FC<TemplateCCover3DProps> = ({
 
       {/* 3. InstancedMesh Crystal Shards (Active during SHATTERING) */}
       {glassState === 'SHATTERING' && (
-        <instancedMesh
-          ref={instancedMeshRef}
-          args={[shardGeometry, undefined, SHARD_COUNT]}
-        >
+        <instancedMesh ref={instancedMeshRef} args={[shardGeometry, undefined, SHARD_COUNT]}>
           <meshPhysicalMaterial
             ref={shardMaterialRef}
             color="#E8F8F5"

@@ -23,7 +23,9 @@ async function verify() {
   const hasTemplateB = htmlB.includes('data-template="TEMPLATE_B"')
   console.log(`Checking data-template="TEMPLATE_B": ${hasTemplateB ? '✅ FOUND' : '❌ NOT FOUND'}`)
   if (!hasTemplateB) {
-    throw new Error('Verification failed: data-template="TEMPLATE_B" was not rendered in HTML response!')
+    throw new Error(
+      'Verification failed: data-template="TEMPLATE_B" was not rendered in HTML response!'
+    )
   }
 
   // 2. Test TEMPLATE_C
@@ -43,7 +45,9 @@ async function verify() {
   const hasTemplateC = htmlC.includes('data-template="TEMPLATE_C"')
   console.log(`Checking data-template="TEMPLATE_C": ${hasTemplateC ? '✅ FOUND' : '❌ NOT FOUND'}`)
   if (!hasTemplateC) {
-    throw new Error('Verification failed: data-template="TEMPLATE_C" was not rendered in HTML response!')
+    throw new Error(
+      'Verification failed: data-template="TEMPLATE_C" was not rendered in HTML response!'
+    )
   }
 
   // 3. Restore to TEMPLATE_A
@@ -59,7 +63,9 @@ async function verify() {
   const hasTemplateA = htmlA.includes('data-template="TEMPLATE_A"')
   console.log(`Checking data-template="TEMPLATE_A": ${hasTemplateA ? '✅ FOUND' : '❌ NOT FOUND'}`)
   if (!hasTemplateA) {
-    throw new Error('Verification failed: data-template="TEMPLATE_A" was not rendered in HTML response!')
+    throw new Error(
+      'Verification failed: data-template="TEMPLATE_A" was not rendered in HTML response!'
+    )
   }
 
   console.log('\n🎉 ALL TEMPLATE SWITCHING VERIFICATIONS PASSED SUCCESSFULLY!')

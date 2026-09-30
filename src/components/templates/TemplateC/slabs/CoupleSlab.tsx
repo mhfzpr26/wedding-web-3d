@@ -1,10 +1,10 @@
 'use client'
 
-import React, { useRef } from 'react'
-import Image from 'next/image'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { Heart, Sparkles } from 'lucide-react'
+import Image from 'next/image'
+import React, { useRef } from 'react'
 import type { CoupleWithDetails, Guest } from '@/types'
-import { Sparkles, Heart } from 'lucide-react'
 
 const InstagramIcon = ({ className = 'w-3.5 h-3.5' }: { className?: string }) => (
   <svg
@@ -92,7 +92,8 @@ export const CoupleSlab: React.FC<CoupleSlabProps> = ({ couple, guest }) => {
             Assalamu&apos;alaikum Warahmatullahi Wabarakatuh
           </p>
           <p className="text-xs text-slate-600 max-w-xs mx-auto leading-relaxed">
-            Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Dengan kerendahan hati, kami mengundang Anda dalam ikatan suci kami:
+            Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Dengan kerendahan
+            hati, kami mengundang Anda dalam ikatan suci kami:
           </p>
         </div>
 
@@ -128,9 +129,7 @@ export const CoupleSlab: React.FC<CoupleSlabProps> = ({ couple, guest }) => {
           {/* Couple Names */}
           <h1 className="mt-4 text-2xl sm:text-3xl font-serif font-normal text-slate-900 leading-tight">
             {couple.groomName.split(',')[0]}
-            <span className="block text-xl text-teal-700 font-serif italic my-0.5">
-              &amp;
-            </span>
+            <span className="block text-xl text-teal-700 font-serif italic my-0.5">&amp;</span>
             {couple.brideName.split(',')[0]}
           </h1>
         </div>
@@ -139,9 +138,7 @@ export const CoupleSlab: React.FC<CoupleSlabProps> = ({ couple, guest }) => {
         <div className="relative z-10 space-y-4 pt-1">
           {/* Groom Profile */}
           <div className="p-4 rounded-2xl backdrop-blur-md bg-white/60 border border-white/80 shadow-2xs">
-            <h3 className="font-serif text-base font-medium text-slate-900">
-              {couple.groomName}
-            </h3>
+            <h3 className="font-serif text-base font-medium text-slate-900">{couple.groomName}</h3>
             {couple.groomParents && (
               <p className="text-xs text-slate-600 mt-1 leading-relaxed">
                 Putra dari {couple.groomParents}
@@ -169,9 +166,7 @@ export const CoupleSlab: React.FC<CoupleSlabProps> = ({ couple, guest }) => {
 
           {/* Bride Profile */}
           <div className="p-4 rounded-2xl backdrop-blur-md bg-white/60 border border-white/80 shadow-2xs">
-            <h3 className="font-serif text-base font-medium text-slate-900">
-              {couple.brideName}
-            </h3>
+            <h3 className="font-serif text-base font-medium text-slate-900">{couple.brideName}</h3>
             {couple.brideParents && (
               <p className="text-xs text-slate-600 mt-1 leading-relaxed">
                 Putri dari {couple.brideParents}
@@ -208,9 +203,7 @@ export const CoupleSlab: React.FC<CoupleSlabProps> = ({ couple, guest }) => {
         {/* Guest Badge */}
         {guest && (
           <div className="mt-5 p-3 rounded-2xl backdrop-blur-md bg-white/70 border border-white/90 shadow-2xs relative z-10">
-            <p className="text-[9px] uppercase tracking-wider text-slate-500">
-              Tamu Kehormatan:
-            </p>
+            <p className="text-[9px] uppercase tracking-wider text-slate-500">Tamu Kehormatan:</p>
             <p className="mt-0.5 text-sm font-serif font-semibold text-slate-900 truncate">
               {guest.name}
             </p>

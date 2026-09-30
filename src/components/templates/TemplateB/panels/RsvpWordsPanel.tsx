@@ -1,10 +1,10 @@
 'use client'
 
-import React from 'react'
 import Image from 'next/image'
-import type { CoupleWithDetails, Guest } from '@/types'
+import React from 'react'
 import { RsvpForm } from '@/components/shared/RsvpForm'
 import { WishesFeed } from '@/components/shared/WishesFeed'
+import type { CoupleWithDetails, Guest } from '@/types'
 
 interface RsvpWordsPanelProps {
   couple: CoupleWithDetails
@@ -37,7 +37,8 @@ export const RsvpWordsPanel: React.FC<RsvpWordsPanelProps> = ({ couple, guest })
             Attendance &amp; Wishes
           </h2>
           <p className="font-sans text-xs text-neutral-600 mt-1 max-w-lg leading-relaxed">
-            Please confirm your attendance and leave your heartfelt blessings for our new journey together:
+            Please confirm your attendance and leave your heartfelt blessings for our new journey
+            together:
           </p>
         </div>
 

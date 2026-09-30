@@ -1,10 +1,10 @@
 'use client'
 
-import React, { useState } from 'react'
+import { Eye, EyeOff, Lock, Mail, ShieldCheck, Sparkles } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { login } from '@/actions/auth'
+import React, { useState } from 'react'
 import { toast } from 'sonner'
-import { Lock, Mail, Eye, EyeOff, ShieldCheck, Sparkles } from 'lucide-react'
+import { login } from '@/actions/auth'
 
 export default function AdminLoginPage() {
   const router = useRouter()
@@ -77,9 +77,7 @@ export default function AdminLoginPage() {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-neutral-300 mb-1.5">
-              Kata Sandi
-            </label>
+            <label className="block text-xs font-medium text-neutral-300 mb-1.5">Kata Sandi</label>
             <div className="relative">
               <Lock className="w-4 h-4 absolute left-3.5 top-3 text-neutral-500" />
               <input
@@ -106,8 +104,12 @@ export default function AdminLoginPage() {
               <Sparkles className="w-3.5 h-3.5" />
               <span className="font-semibold">Kredensial Default:</span>
             </div>
-            <p>Email: <code className="text-neutral-300">admin@wedding.com</code></p>
-            <p>Password: <code className="text-neutral-300">adminpassword123</code></p>
+            <p>
+              Email: <code className="text-neutral-300">admin@wedding.com</code>
+            </p>
+            <p>
+              Password: <code className="text-neutral-300">adminpassword123</code>
+            </p>
           </div>
 
           <button

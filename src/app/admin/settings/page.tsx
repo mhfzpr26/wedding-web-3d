@@ -1,7 +1,7 @@
-import React from 'react'
-import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
+import React from 'react'
 import { CoupleSettingsClient } from '@/components/admin/CoupleSettingsClient'
+import { prisma } from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
 
