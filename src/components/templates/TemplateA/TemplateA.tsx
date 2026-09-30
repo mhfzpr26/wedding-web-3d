@@ -286,7 +286,7 @@ export const TemplateA: React.FC<InvitationProps> = ({ couple, guest }) => {
               duration: 0.46,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="w-full max-w-[310px] sm:max-w-[340px] md:max-w-[370px] select-text relative"
+            className="w-full max-w-[330px] sm:max-w-[355px] md:max-w-[385px] select-text relative"
           >
             {/* Bespoke Layer Content */}
             {currentSection.component}

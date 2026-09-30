@@ -40,8 +40,8 @@ export const EventLayer: React.FC<EventLayerProps> = ({ couple }) => {
   return (
     <div className="w-full p-3 sm:p-5 text-center select-text relative">
       <div className="space-y-0.5 mb-2.5">
-        <h2 className="text-xl sm:text-2xl font-serif text-[#1B2A4A]">Rangkaian Acara</h2>
-        <p className="text-[10px] sm:text-[11px] text-[#8A7968]">
+        <h2 className="text-2xl sm:text-[26px] font-serif text-[#1B2A4A]">Rangkaian Acara</h2>
+        <p className="text-xs sm:text-[13px] text-[#8A7968]">
           Menghitung hari menuju ikatan suci kedua mempelai
         </p>
       </div>
@@ -55,7 +55,7 @@ export const EventLayer: React.FC<EventLayerProps> = ({ couple }) => {
 
       {/* Dotted Perforation Stitch Line */}
       <div className="my-2.5 border-t border-dashed border-[#D4AF37]/45 relative">
-        <span className="absolute left-1/2 -translate-x-1/2 -top-2 bg-[#FAF8F5]/90 px-2 text-[8px] font-mono tracking-widest text-[#8C7851] uppercase">
+        <span className="absolute left-1/2 -translate-x-1/2 -top-2 bg-[#FAF8F5]/90 px-2 text-[9px] sm:text-[10px] font-mono tracking-widest text-[#8C7851] uppercase">
           Admit One &bull; VIP Pass
         </span>
       </div>
@@ -68,7 +68,7 @@ export const EventLayer: React.FC<EventLayerProps> = ({ couple }) => {
               key={ev.id}
               type="button"
               onClick={() => setSelectedEventIndex(idx)}
-              className={`px-3 py-1 rounded-full text-xs font-serif transition-all cursor-pointer ${
+              className={`px-3 py-1 rounded-full text-xs sm:text-sm font-serif transition-all cursor-pointer ${
                 selectedEventIndex === idx
                   ? 'bg-[#1B2A4A] text-[#FAF8F5] shadow-sm font-bold'
                   : 'bg-[#FAF8F5]/85 text-[#8C7851] border border-[#E2D9CE] hover:bg-white'
@@ -84,16 +84,16 @@ export const EventLayer: React.FC<EventLayerProps> = ({ couple }) => {
       {activeEvent && (
         <div className="space-y-2 text-left pt-1">
           <div className="flex items-center justify-between border-b border-[#D4AF37]/35 pb-1.5">
-            <span className="font-serif font-bold text-sm sm:text-base text-[#1B2A4A]">
+            <span className="font-serif font-bold text-base sm:text-lg text-[#1B2A4A]">
               {activeEvent.title}
             </span>
-            <div className="flex items-center space-x-1.5 text-xs text-[#8C7851] font-mono">
+            <div className="flex items-center space-x-1.5 text-xs sm:text-sm text-[#8C7851] font-mono">
               <Calendar className="w-3.5 h-3.5" />
               <span>{formatDate(activeEvent.startTime)}</span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-[13px]">
             <div className="flex items-start space-x-2">
               <Clock className="w-3.5 h-3.5 text-[#8C7851] shrink-0 mt-0.5" />
               <div>
@@ -120,7 +120,7 @@ export const EventLayer: React.FC<EventLayerProps> = ({ couple }) => {
               href={createGoogleCalendarUrl(activeEvent, coupleNames)}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 inline-flex items-center justify-center space-x-1.5 py-1.5 px-3 rounded-xl bg-white border border-[#E2D9CE] text-[11px] font-serif text-[#1B2A4A] hover:bg-[#FAF8F5] transition-all shadow-sm"
+              className="flex-1 inline-flex items-center justify-center space-x-1.5 py-1.5 px-3 rounded-xl bg-white border border-[#E2D9CE] text-xs sm:text-[13px] font-serif text-[#1B2A4A] hover:bg-[#FAF8F5] transition-all shadow-sm"
             >
               <CalendarPlus className="w-3.5 h-3.5 text-[#D4AF37]" />
               <span>Simpan ke Kalender</span>
@@ -131,7 +131,7 @@ export const EventLayer: React.FC<EventLayerProps> = ({ couple }) => {
                 href={activeEvent.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center space-x-1.5 py-1.5 px-3 rounded-xl bg-[#1B2A4A] text-[11px] font-serif text-[#FAF8F5] hover:bg-[#24375F] transition-all shadow-sm"
+                className="inline-flex items-center justify-center space-x-1.5 py-1.5 px-3 rounded-xl bg-[#1B2A4A] text-xs sm:text-[13px] font-serif text-[#FAF8F5] hover:bg-[#24375F] transition-all shadow-sm"
               >
                 <MapPin className="w-3.5 h-3.5 text-[#D4AF37]" />
                 <span>Petunjuk Arah</span>

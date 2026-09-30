@@ -32,20 +32,20 @@ export const OpeningLayer: React.FC<OpeningLayerProps> = ({ couple, guest }) => 
 
       {/* 1. Salam */}
       <div className="mb-2 relative z-10">
-        <p className="text-[11px] sm:text-xs font-serif italic text-[#8A7968] tracking-wide">
+        <p className="text-xs sm:text-[13px] font-serif italic text-[#8A7968] tracking-wide">
           Assalamu&apos;alaikum Warahmatullahi Wabarakatuh
         </p>
       </div>
 
       {/* 2. Sapaan */}
       <div className="w-full max-w-xs sm:max-w-sm px-2 space-y-1 mb-2.5 relative z-10">
-        <p className="text-[8px] sm:text-[9px] font-mono uppercase tracking-[0.24em] text-[#8C7851]">
+        <p className="text-[9.5px] sm:text-[10.5px] font-mono uppercase tracking-[0.24em] text-[#8C7851]">
           Kepada Yth. Bapak/Ibu/Saudara/i
         </p>
-        <p className="text-sm sm:text-base font-serif font-bold text-[#1B2A4A] tracking-tight">
+        <p className="text-base sm:text-lg font-serif font-bold text-[#1B2A4A] tracking-tight">
           {guest?.name || 'Tamu Undangan'}
         </p>
-        <p className="text-[10px] sm:text-[11px] text-[#4A5568] leading-relaxed">
+        <p className="text-[11.5px] sm:text-xs text-[#4A5568] leading-relaxed">
           Merupakan suatu kehormatan bagi kami apabila Anda berkenan hadir dan memberikan doa restu
           kepada kedua mempelai.
         </p>
@@ -60,14 +60,14 @@ export const OpeningLayer: React.FC<OpeningLayerProps> = ({ couple, guest }) => 
 
       {/* 4. Bismillah */}
       <div className="my-1.5 w-full max-w-xs sm:max-w-sm px-2 relative z-10" dir="rtl">
-        <p className="font-serif text-sm sm:text-base text-[#8C7851] tracking-normal leading-relaxed text-center font-normal">
+        <p className="font-serif text-base sm:text-lg text-[#8C7851] tracking-normal leading-relaxed text-center font-normal">
           بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
         </p>
       </div>
 
       {/* 5. Ayat (Arabic Text) */}
       <div className="w-full max-w-xs sm:max-w-sm px-2 my-1 relative z-10" dir="rtl">
-        <p className="font-serif text-xs sm:text-sm text-[#1B2A4A] leading-relaxed text-center font-normal">
+        <p className="font-serif text-[13px] sm:text-[15px] text-[#1B2A4A] leading-relaxed text-center font-normal">
           وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
         </p>
       </div>
@@ -82,11 +82,11 @@ export const OpeningLayer: React.FC<OpeningLayerProps> = ({ couple, guest }) => 
       {/* 7. Arti */}
       {couple.openingQuoteText && (
         <div className="w-full max-w-xs sm:max-w-sm px-2 space-y-1 mb-2 relative z-10">
-          <p className="text-[10px] sm:text-[11px] font-serif italic text-[#4A5568] leading-relaxed">
+          <p className="text-[11px] sm:text-xs font-serif italic text-[#4A5568] leading-relaxed">
             &ldquo;{couple.openingQuoteText}&rdquo;
           </p>
           {couple.openingQuoteTitle && (
-            <p className="text-[9px] sm:text-[10px] font-mono tracking-widest text-[#8C7851] uppercase">
+            <p className="text-[10px] sm:text-[11px] font-mono tracking-widest text-[#8C7851] uppercase">
               &mdash; {couple.openingQuoteTitle} &mdash;
             </p>
           )}
@@ -95,7 +95,7 @@ export const OpeningLayer: React.FC<OpeningLayerProps> = ({ couple, guest }) => 
 
       {/* Subtle Scroll Down Prompt */}
       <div className="flex flex-col items-center pt-1 text-[#8A7968]/75 animate-bounce select-none relative z-10">
-        <span className="text-[8px] sm:text-[9px] font-mono uppercase tracking-[0.2em]">
+        <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-[0.2em]">
           Scroll ke bawah
         </span>
         <ChevronDown className="w-3.5 h-3.5 text-[#D4AF37]" />

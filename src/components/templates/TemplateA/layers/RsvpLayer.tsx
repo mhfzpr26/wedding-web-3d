@@ -13,8 +13,8 @@ export const RsvpLayer: React.FC<RsvpLayerProps> = ({ couple, guest }) => {
   return (
     <div className="w-full p-3 sm:p-5 text-center select-text relative">
       <div className="space-y-0.5 mb-2.5">
-        <h2 className="text-xl sm:text-2xl font-serif text-[#1B2A4A]">Konfirmasi Kehadiran</h2>
-        <p className="text-[10px] sm:text-[11px] text-[#8A7968]">
+        <h2 className="text-2xl sm:text-[26px] font-serif text-[#1B2A4A]">Konfirmasi Kehadiran</h2>
+        <p className="text-xs sm:text-[13px] text-[#8A7968]">
           Mohon konfirmasikan kehadiran Anda untuk kemudahan pengaturan tempat
         </p>
       </div>

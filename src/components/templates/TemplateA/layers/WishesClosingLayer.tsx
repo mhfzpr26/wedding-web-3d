@@ -27,8 +27,10 @@ export const WishesClosingLayer: React.FC<WishesClosingLayerProps> = ({ couple }
   return (
     <div className="w-full p-3 sm:p-5 text-center select-text relative">
       <div className="space-y-0.5 mb-2.5">
-        <h2 className="text-xl sm:text-2xl font-serif text-[#1B2A4A]">Doa &amp; Terima Kasih</h2>
-        <p className="text-[10px] sm:text-[11px] text-[#8A7968]">
+        <h2 className="text-2xl sm:text-[26px] font-serif text-[#1B2A4A]">
+          Doa &amp; Terima Kasih
+        </h2>
+        <p className="text-xs sm:text-[13px] text-[#8A7968]">
           Untaian doa restu dari keluarga dan para sahabat tercinta
         </p>
       </div>
@@ -38,18 +40,18 @@ export const WishesClosingLayer: React.FC<WishesClosingLayerProps> = ({ couple }
         <div className="flex items-center justify-between pb-1 mb-1">
           <div className="flex items-center space-x-1.5 text-xs text-[#8C7851]">
             <MessageSquareQuote className="w-3.5 h-3.5 text-[#D4AF37]" />
-            <span className="font-serif font-bold text-[#1B2A4A] truncate max-w-[170px]">
+            <span className="font-serif font-bold text-sm sm:text-base text-[#1B2A4A] truncate max-w-[190px]">
               {activeWish?.senderName || 'Keluarga & Sahabat'}
             </span>
           </div>
           {activeWish?.createdAt && (
-            <span className="text-[10px] font-mono text-[#8A7968]">
+            <span className="text-[11px] sm:text-xs font-mono text-[#8A7968]">
               {formatDate(activeWish.createdAt, { day: 'numeric', month: 'short' })}
             </span>
           )}
         </div>
 
-        <p className="font-serif italic text-xs text-[#4A5568] leading-relaxed line-clamp-2">
+        <p className="font-serif italic text-[13px] sm:text-sm text-[#4A5568] leading-relaxed line-clamp-2">
           &ldquo;
           {activeWish?.message ||
             'Semoga menjadi keluarga yang sakinah, mawaddah, warahmah. Aamiin yaa Rabbal aalamin.'}
@@ -59,7 +61,7 @@ export const WishesClosingLayer: React.FC<WishesClosingLayerProps> = ({ couple }
         {/* Carousel Dots & Controls */}
         {wishes.length > 1 && (
           <div className="flex items-center justify-between pt-1 border-t border-[#D4AF37]/20 mt-1">
-            <span className="text-[9px] font-mono text-[#8A7968]">
+            <span className="text-[10px] sm:text-[11px] font-mono text-[#8A7968]">
               {currentWishIndex + 1} / {wishes.length} Doa
             </span>
             <div className="flex items-center space-x-1">
@@ -85,15 +87,15 @@ export const WishesClosingLayer: React.FC<WishesClosingLayerProps> = ({ couple }
       </div>
 
       {/* Closing Statement */}
-      <div className="py-1 px-1 space-y-1 text-center">
-        <p className="text-xs text-[#4A5568] leading-relaxed line-clamp-2">
+      <div className="py-1 px-1 space-y-1.5 text-center">
+        <p className="text-[13px] sm:text-sm text-[#4A5568] leading-relaxed line-clamp-2">
           {couple.closingMessage ||
             'Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu kepada kedua mempelai.'}
         </p>
-        <p className="text-[11px] font-serif italic text-[#8A7968]">
+        <p className="text-xs sm:text-[13px] font-serif italic text-[#8A7968]">
           Wassalamu&apos;alaikum Warahmatullahi Wabarakatuh
         </p>
-        <p className="font-serif font-bold text-xs text-[#1B2A4A] pt-0.5">
+        <p className="font-serif font-bold text-sm sm:text-base text-[#1B2A4A] pt-0.5">
           {couple.groomName.split(',')[0]} &amp; {couple.brideName.split(',')[0]}
         </p>
       </div>

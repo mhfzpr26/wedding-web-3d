@@ -31,8 +31,8 @@ export const CoupleLayer: React.FC<CoupleLayerProps> = ({ couple }) => {
   return (
     <div className="w-full p-3 sm:p-5 text-center select-text relative">
       <div className="space-y-0.5 mb-3">
-        <h2 className="text-xl sm:text-2xl font-serif text-[#1B2A4A]">Kedua Mempelai</h2>
-        <p className="text-[10px] sm:text-[11px] text-[#8A7968]">
+        <h2 className="text-2xl sm:text-[26px] font-serif text-[#1B2A4A]">Kedua Mempelai</h2>
+        <p className="text-xs sm:text-[13px] text-[#8A7968]">
           Dua hati yang dipersatukan dalam ikatan suci pernikahan
         </p>
       </div>
@@ -55,21 +55,21 @@ export const CoupleLayer: React.FC<CoupleLayerProps> = ({ couple }) => {
           ) : (
             <div className="w-16 h-20 sm:w-20 sm:h-24 rounded-[36px] bg-gradient-to-b from-[#1B2A4A] to-[#142036] border-2 border-white ring-2 ring-[#D4AF37]/65 flex flex-col items-center justify-center text-white mb-2 shadow-md">
               <span className="font-serif text-2xl text-[#E8C872]">{groomInitial}</span>
-              <span className="text-[8px] font-mono tracking-widest text-[#D4AF37]/80 uppercase">
+              <span className="text-[9px] font-mono tracking-widest text-[#D4AF37]/80 uppercase">
                 Groom
               </span>
             </div>
           )}
 
           <div>
-            <span className="text-[8px] sm:text-[9px] font-mono uppercase tracking-widest text-[#8C7851] bg-[#FAF8F5]/90 px-2 py-0.5 rounded-full border border-[#E2D9CE]">
+            <span className="text-[9.5px] sm:text-[10.5px] font-mono uppercase tracking-widest text-[#8C7851] bg-[#FAF8F5]/90 px-2 py-0.5 rounded-full border border-[#E2D9CE]">
               Mempelai Pria
             </span>
-            <h3 className="font-serif font-bold text-sm sm:text-base text-[#1B2A4A] mt-1 line-clamp-1">
+            <h3 className="font-serif font-bold text-base sm:text-lg text-[#1B2A4A] mt-1 line-clamp-1">
               {couple.groomName.split(',')[0]}
             </h3>
             {couple.groomParents && (
-              <p className="text-[10px] text-[#4A5568] mt-1 line-clamp-2 leading-tight">
+              <p className="text-[11px] sm:text-xs text-[#4A5568] mt-1 line-clamp-2 leading-tight">
                 Putra dari {couple.groomParents}
               </p>
             )}
@@ -80,7 +80,7 @@ export const CoupleLayer: React.FC<CoupleLayerProps> = ({ couple }) => {
               href={`https://instagram.com/${couple.groomInstagram}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center space-x-1 text-[10px] font-mono text-[#8C7851] hover:underline mt-2 pt-1 border-t border-[#E2D9CE]/60 w-full justify-center"
+              className="inline-flex items-center space-x-1 text-[11px] sm:text-xs font-mono text-[#8C7851] hover:underline mt-2 pt-1 border-t border-[#E2D9CE]/60 w-full justify-center"
             >
               <InstagramIcon className="w-2.5 h-2.5" />
               <span>@{couple.groomInstagram}</span>
@@ -104,21 +104,21 @@ export const CoupleLayer: React.FC<CoupleLayerProps> = ({ couple }) => {
           ) : (
             <div className="w-16 h-20 sm:w-20 sm:h-24 rounded-[36px] bg-gradient-to-b from-[#1B2A4A] to-[#142036] border-2 border-white ring-2 ring-[#D4AF37]/65 flex flex-col items-center justify-center text-white mb-2 shadow-md">
               <span className="font-serif text-2xl text-[#E8C872]">{brideInitial}</span>
-              <span className="text-[8px] font-mono tracking-widest text-[#D4AF37]/80 uppercase">
+              <span className="text-[9px] font-mono tracking-widest text-[#D4AF37]/80 uppercase">
                 Bride
               </span>
             </div>
           )}
 
           <div>
-            <span className="text-[8px] sm:text-[9px] font-mono uppercase tracking-widest text-[#8C7851] bg-[#FAF8F5]/90 px-2 py-0.5 rounded-full border border-[#E2D9CE]">
+            <span className="text-[9.5px] sm:text-[10.5px] font-mono uppercase tracking-widest text-[#8C7851] bg-[#FAF8F5]/90 px-2 py-0.5 rounded-full border border-[#E2D9CE]">
               Mempelai Wanita
             </span>
-            <h3 className="font-serif font-bold text-sm sm:text-base text-[#1B2A4A] mt-1 line-clamp-1">
+            <h3 className="font-serif font-bold text-base sm:text-lg text-[#1B2A4A] mt-1 line-clamp-1">
               {couple.brideName.split(',')[0]}
             </h3>
             {couple.brideParents && (
-              <p className="text-[10px] text-[#4A5568] mt-1 line-clamp-2 leading-tight">
+              <p className="text-[11px] sm:text-xs text-[#4A5568] mt-1 line-clamp-2 leading-tight">
                 Putri dari {couple.brideParents}
               </p>
             )}
@@ -129,7 +129,7 @@ export const CoupleLayer: React.FC<CoupleLayerProps> = ({ couple }) => {
               href={`https://instagram.com/${couple.brideInstagram}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center space-x-1 text-[10px] font-mono text-[#8C7851] hover:underline mt-2 pt-1 border-t border-[#E2D9CE]/60 w-full justify-center"
+              className="inline-flex items-center space-x-1 text-[11px] sm:text-xs font-mono text-[#8C7851] hover:underline mt-2 pt-1 border-t border-[#E2D9CE]/60 w-full justify-center"
             >
               <InstagramIcon className="w-2.5 h-2.5" />
               <span>@{couple.brideInstagram}</span>

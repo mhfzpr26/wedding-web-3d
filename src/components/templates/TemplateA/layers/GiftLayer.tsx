@@ -32,8 +32,8 @@ export const GiftLayer: React.FC<GiftLayerProps> = ({ bankAccounts }) => {
   return (
     <div className="w-full p-3 sm:p-5 text-center select-text relative">
       <div className="space-y-0.5 mb-2.5">
-        <h2 className="text-xl sm:text-2xl font-serif text-[#1B2A4A]">Tanda Kasih</h2>
-        <p className="text-[10px] sm:text-[11px] text-[#8A7968] max-w-xs mx-auto leading-relaxed">
+        <h2 className="text-2xl sm:text-[26px] font-serif text-[#1B2A4A]">Tanda Kasih</h2>
+        <p className="text-xs sm:text-[13px] text-[#8A7968] max-w-xs mx-auto leading-relaxed">
           Doa restu Anda merupakan karunia terindah bagi kami. Bagi yang ingin berbagi tanda kasih,
           dapat melalui:
         </p>
@@ -47,7 +47,7 @@ export const GiftLayer: React.FC<GiftLayerProps> = ({ bankAccounts }) => {
               key={acc.id}
               type="button"
               onClick={() => setActiveAccountIndex(idx)}
-              className={`px-3 py-1 rounded-full text-xs font-serif transition-all cursor-pointer ${
+              className={`px-3 py-1 rounded-full text-xs sm:text-sm font-serif transition-all cursor-pointer ${
                 activeAccountIndex === idx
                   ? 'bg-[#1B2A4A] text-[#FAF8F5] shadow-sm font-bold'
                   : 'bg-white/75 text-[#8C7851] border border-[#E2D9CE] hover:bg-white'
@@ -70,7 +70,7 @@ export const GiftLayer: React.FC<GiftLayerProps> = ({ bankAccounts }) => {
                 <div className="w-5 h-3 border-x border-[#B38C26]/40" />
               </div>
 
-              <span className="font-serif font-bold text-base sm:text-lg text-[#1B2A4A]">
+              <span className="font-serif font-bold text-lg sm:text-xl text-[#1B2A4A]">
                 {activeAccount.bankName}
               </span>
             </div>
@@ -79,27 +79,27 @@ export const GiftLayer: React.FC<GiftLayerProps> = ({ bankAccounts }) => {
               <button
                 type="button"
                 onClick={() => setSelectedQrisAccount(activeAccount)}
-                className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full bg-[#FAF8F5] border border-[#E2D9CE] text-[10px] font-mono text-[#8C7851] hover:bg-white transition-colors cursor-pointer"
+                className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full bg-[#FAF8F5] border border-[#E2D9CE] text-[11px] font-mono text-[#8C7851] hover:bg-white transition-colors cursor-pointer"
               >
-                <QrCode className="w-3 h-3" />
+                <QrCode className="w-3.5 h-3.5" />
                 <span>QRIS</span>
               </button>
             )}
           </div>
 
           <div className="space-y-1">
-            <p className="text-[9px] font-mono uppercase tracking-wider text-[#8A7968]">
+            <p className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-[#8A7968]">
               Nomor Rekening
             </p>
             <div className="flex items-center justify-between">
-              <span className="font-mono text-base sm:text-lg font-bold text-[#1B2A4A] tracking-wider select-all">
+              <span className="font-mono text-lg sm:text-xl font-bold text-[#1B2A4A] tracking-wider select-all">
                 {activeAccount.accountNumber}
               </span>
 
               <button
                 type="button"
                 onClick={() => handleCopy(activeAccount)}
-                className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-xl bg-[#FAF8F5] border border-[#E2D9CE] hover:bg-[#1B2A4A] hover:text-white transition-all text-xs font-serif text-[#1B2A4A] cursor-pointer shadow-sm"
+                className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-xl bg-[#FAF8F5] border border-[#E2D9CE] hover:bg-[#1B2A4A] hover:text-white transition-all text-xs sm:text-sm font-serif text-[#1B2A4A] cursor-pointer shadow-sm"
               >
                 {copiedId === activeAccount.id ? (
                   <>
@@ -116,8 +116,8 @@ export const GiftLayer: React.FC<GiftLayerProps> = ({ bankAccounts }) => {
             </div>
           </div>
 
-          <div className="pt-2 border-t border-[#E2D9CE]/60 flex items-center justify-between text-[11px] text-[#556270]">
-            <span className="font-mono text-[9px] uppercase tracking-wider text-[#8A7968]">
+          <div className="pt-2 border-t border-[#E2D9CE]/60 flex items-center justify-between text-xs sm:text-sm text-[#556270]">
+            <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-[#8A7968]">
               Atas Nama
             </span>
             <span className="font-serif font-bold text-[#1B2A4A]">
