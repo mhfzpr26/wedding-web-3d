@@ -13,6 +13,53 @@ export interface TemplateAThematicStage3DProps {
 function createTornParchmentShape(seed: number, w = 0.98, h = 1.38) {
   const shape = new THREE.Shape()
 
+  // Seed 0: Kertas Naskah Proklamasi (Dignified Archival Document with Softened Corners & Gentle Micro-Deckle)
+  if (seed === 0) {
+    const r = 0.045 // Corner soften curve radius
+    const microNoise = (t: number) => Math.sin(t * 19.3) * 0.005 + Math.cos(t * 37.1) * 0.003
+
+    // 1. Bottom edge (left to right): -w + r to w - r
+    shape.moveTo(-w + r, -h + microNoise(0))
+    const steps = 24
+    for (let i = 1; i <= steps; i++) {
+      const t = i / steps
+      const x = -w + r + t * (2 * w - 2 * r)
+      shape.lineTo(x, -h + microNoise(t * 5.0))
+    }
+    // Bottom-right softened corner
+    shape.quadraticCurveTo(w, -h, w, -h + r)
+
+    // 2. Right edge (bottom to top): -h + r to h - r
+    for (let i = 1; i <= steps; i++) {
+      const t = i / steps
+      const y = -h + r + t * (2 * h - 2 * r)
+      shape.lineTo(w + microNoise(t * 5.0 + 10), y)
+    }
+    // Top-right softened corner
+    shape.quadraticCurveTo(w, h, w - r, h)
+
+    // 3. Top edge (right to left): w - r to -w + r
+    for (let i = 1; i <= steps; i++) {
+      const t = i / steps
+      const x = w - r - t * (2 * w - 2 * r)
+      shape.lineTo(x, h + microNoise(t * 5.0 + 20))
+    }
+    // Top-left softened corner
+    shape.quadraticCurveTo(-w, h, -w, h - r)
+
+    // 4. Left edge (top to bottom): h - r to -h + r
+    for (let i = 1; i <= steps; i++) {
+      const t = i / steps
+      const y = h - r - t * (2 * h - 2 * r)
+      shape.lineTo(-w + microNoise(t * 5.0 + 30), y)
+    }
+    // Bottom-left softened corner
+    shape.quadraticCurveTo(-w, -h, -w + r, -h)
+
+    shape.closePath()
+    return shape
+  }
+
   // Deterministic multi-frequency harmonic noise based on seed for organic torn fibers
   const noise = (t: number) => {
     return (
@@ -30,13 +77,11 @@ function createTornParchmentShape(seed: number, w = 0.98, h = 1.38) {
     const x = -w + t * (2 * w)
     // Deep torn rip or missing corner chip
     const tear =
-      seed === 0 && t > 0.68
-        ? -0.14 * Math.sin(((t - 0.68) / 0.32) * Math.PI) // Torn bottom-right corner chip
-        : seed === 5 && t > 0.32 && t < 0.68
-          ? -0.16 * Math.sin(((t - 0.32) / 0.36) * Math.PI) // Deep jagged rip on Act 05 (sealed by wax seal)
-          : seed === 2 && t > 0.45 && t < 0.55
-            ? -0.06 * Math.sin(((t - 0.45) / 0.1) * Math.PI) // Perforation notch
-            : 0
+      seed === 5 && t > 0.32 && t < 0.68
+        ? -0.16 * Math.sin(((t - 0.32) / 0.36) * Math.PI) // Deep jagged rip on Act 05 (sealed by wax seal)
+        : seed === 2 && t > 0.45 && t < 0.55
+          ? -0.06 * Math.sin(((t - 0.45) / 0.1) * Math.PI) // Perforation notch
+          : 0
     const y = -h + noise(t * 5.5) + tear
     shape.lineTo(x, y)
   }
@@ -52,9 +97,7 @@ function createTornParchmentShape(seed: number, w = 0.98, h = 1.38) {
         ? -0.16 * Math.sin(((t - 0.44) / 0.12) * Math.PI) // Ticket cutout notch
         : seed === 4 && t > 0.72
           ? -0.09 * Math.sin(((t - 0.72) / 0.28) * Math.PI) // Postcard weathered edge
-          : seed === 0 && t < 0.2
-            ? -0.1 * ((0.2 - t) / 0.2) // Chipped corner matching bottom tear
-            : 0
+          : 0
     const x = w + noise(t * 5.5 + 10) + rip
     shape.lineTo(x, y)
   }
@@ -150,98 +193,143 @@ function useParchmentCanvasTexture() {
   }, [])
 }
 
-// Option 1: Pristine Luxury Cardstock with Gold Gilded Edge (600gsm Cotton Board)
-function createGildedCardShape(w = 0.98, h = 1.38, radius = 0.035) {
-  const shape = new THREE.Shape()
-  const x = -w
-  const y = -h
-  const width = w * 2
-  const height = h * 2
+// Procedural Canvas Texture for Kertas Naskah Proklamasi (Cross-Fold Creases & Archival Patina)
+function useProclamationTexture() {
+  return useMemo(() => {
+    if (typeof document === 'undefined') return null
 
-  shape.moveTo(x + radius, y)
-  shape.lineTo(x + width - radius, y)
-  shape.quadraticCurveTo(x + width, y, x + width, y + radius)
-  shape.lineTo(x + width, y + height - radius)
-  shape.quadraticCurveTo(x + width, y + height, x + width - radius, y + height)
-  shape.lineTo(x + radius, y + height)
-  shape.quadraticCurveTo(x, y + height, x, y + height - radius)
-  shape.lineTo(x, y + radius)
-  shape.quadraticCurveTo(x, y, x + radius, y)
+    const canvas = document.createElement('canvas')
+    canvas.width = 1024
+    canvas.height = 1440
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return null
 
-  return shape
+    // 1. Warm Aged Ivory Manila Base
+    ctx.fillStyle = '#FAF6ED'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+    // 2. Vintage Vignette & Historical Aging Patina
+    const grad = ctx.createRadialGradient(
+      canvas.width * 0.5,
+      canvas.height * 0.5,
+      canvas.width * 0.22,
+      canvas.width * 0.5,
+      canvas.height * 0.5,
+      canvas.width * 0.72
+    )
+    grad.addColorStop(0, '#FFFDF8')
+    grad.addColorStop(0.68, '#FAF3E5')
+    grad.addColorStop(0.88, '#EFE4CE')
+    grad.addColorStop(1, '#E4D4B9')
+    ctx.fillStyle = grad
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+    // 3. Historical Paper Texture & Organic Fibers
+    ctx.fillStyle = 'rgba(160, 135, 100, 0.06)'
+    for (let i = 0; i < 1800; i++) {
+      const px = Math.random() * canvas.width
+      const py = Math.random() * canvas.height
+      const pw = 1 + Math.random() * 2.5
+      const ph = 0.6 + Math.random() * 1.2
+      ctx.fillRect(px, py, pw, ph)
+    }
+
+    // 4. Subtle Historical Foxing & Age Patina Patches
+    for (let i = 0; i < 24; i++) {
+      const px = Math.random() * canvas.width
+      const py = Math.random() * canvas.height
+      const pr = 15 + Math.random() * 45
+      const spotGrad = ctx.createRadialGradient(px, py, 0, px, py, pr)
+      spotGrad.addColorStop(0, 'rgba(180, 150, 110, 0.045)')
+      spotGrad.addColorStop(1, 'rgba(180, 150, 110, 0)')
+      ctx.fillStyle = spotGrad
+      ctx.beginPath()
+      ctx.arc(px, py, pr, 0, Math.PI * 2)
+      ctx.fill()
+    }
+
+    // 5. Authentic Historical Cross-Fold Creases (Naskah Proklamasi Fold Marks)
+    // Horizontal Fold across y = 720 (Center)
+    const midY = canvas.height * 0.5
+    const hSpread = ctx.createLinearGradient(0, midY - 14, 0, midY + 14)
+    hSpread.addColorStop(0, 'rgba(120, 100, 75, 0)')
+    hSpread.addColorStop(0.48, 'rgba(120, 100, 75, 0.08)')
+    hSpread.addColorStop(0.5, 'rgba(100, 80, 55, 0.26)') // Dark crease groove
+    hSpread.addColorStop(0.52, 'rgba(255, 255, 255, 0.42)') // Light reflection ridge
+    hSpread.addColorStop(0.56, 'rgba(255, 255, 255, 0.12)')
+    hSpread.addColorStop(1, 'rgba(255, 255, 255, 0)')
+    ctx.fillStyle = hSpread
+    ctx.fillRect(20, midY - 14, canvas.width - 40, 28)
+
+    // Vertical Fold across x = 512 (Center)
+    const midX = canvas.width * 0.5
+    const vSpread = ctx.createLinearGradient(midX - 14, 0, midX + 14, 0)
+    vSpread.addColorStop(0, 'rgba(120, 100, 75, 0)')
+    vSpread.addColorStop(0.48, 'rgba(120, 100, 75, 0.08)')
+    vSpread.addColorStop(0.5, 'rgba(100, 80, 55, 0.26)') // Dark crease groove
+    vSpread.addColorStop(0.52, 'rgba(255, 255, 255, 0.42)') // Light reflection ridge
+    vSpread.addColorStop(0.56, 'rgba(255, 255, 255, 0.12)')
+    vSpread.addColorStop(1, 'rgba(255, 255, 255, 0)')
+    ctx.fillStyle = vSpread
+    ctx.fillRect(midX - 14, 20, 28, canvas.height - 40)
+
+    // 6. Classical Archival Double Frame Border
+    ctx.strokeStyle = 'rgba(180, 150, 105, 0.22)'
+    ctx.lineWidth = 1.5
+    ctx.strokeRect(36, 36, canvas.width - 72, canvas.height - 72)
+    ctx.strokeStyle = 'rgba(180, 150, 105, 0.12)'
+    ctx.lineWidth = 0.8
+    ctx.strokeRect(44, 44, canvas.width - 88, canvas.height - 88)
+
+    // 7. Corner Dot Accents on the Inner Frame
+    const corners = [
+      [44, 44],
+      [canvas.width - 44, 44],
+      [44, canvas.height - 44],
+      [canvas.width - 44, canvas.height - 44],
+    ]
+    ctx.fillStyle = 'rgba(180, 150, 105, 0.35)'
+    for (const [cx, cy] of corners) {
+      ctx.beginPath()
+      ctx.arc(cx, cy, 3, 0, Math.PI * 2)
+      ctx.fill()
+    }
+
+    const texture = new THREE.CanvasTexture(canvas)
+    texture.colorSpace = THREE.SRGBColorSpace
+    texture.wrapS = THREE.ClampToEdgeWrapping
+    texture.wrapT = THREE.ClampToEdgeWrapping
+    texture.needsUpdate = true
+    return texture
+  }, [])
 }
 
-// Procedural Rectangular Frame with Hollow Center for Debossed Gold Foil Borders
-function createRectFrameShape(w: number, h: number, thickness: number) {
-  const shape = new THREE.Shape()
-  shape.moveTo(-w, -h)
-  shape.lineTo(w, -h)
-  shape.lineTo(w, h)
-  shape.lineTo(-w, h)
-  shape.closePath()
-
-  const hole = new THREE.Path()
-  const iw = w - thickness
-  const ih = h - thickness
-  hole.moveTo(-iw, -ih)
-  hole.lineTo(-iw, ih)
-  hole.lineTo(iw, ih)
-  hole.lineTo(iw, -ih)
-  hole.closePath()
-  shape.holes.push(hole)
-
-  return shape
-}
-
-// Physical 3D Card / Parchment Container with Synchronous Swapping Motion
+// Physical 3D Torn Parchment Container with Synchronous Swapping Motion
 function TornParchmentContainer3D({
   sectionIndex,
   activeSection,
   direction,
   paperTexture,
+  proclamationTexture,
   children,
 }: {
   sectionIndex: number
   activeSection: number
   direction: number
   paperTexture: THREE.CanvasTexture | null
+  proclamationTexture?: THREE.CanvasTexture | null
   children?: React.ReactNode
 }) {
   const groupRef = useRef<THREE.Group | null>(null)
-  const isGildedCard = sectionIndex === 0
-  const cardShape = useMemo(
-    () =>
-      isGildedCard
-        ? createGildedCardShape(0.98, 1.38, 0.035)
-        : createTornParchmentShape(sectionIndex, 0.98, 1.38),
-    [sectionIndex, isGildedCard]
+  const parchmentShape = useMemo(
+    () => createTornParchmentShape(sectionIndex, 0.98, 1.38),
+    [sectionIndex]
   )
-
-  // Material setup: For Gilded Cardstock, front/back is cotton paper (mat 0) and edges/bevels are 24K gold leaf (mat 1)
-  const gildedMaterials = useMemo(() => {
-    if (!isGildedCard) return null
-    const faceMat = new THREE.MeshStandardMaterial({
-      color: '#FAF6EE',
-      roughness: 0.78,
-      metalness: 0.02,
-      emissive: new THREE.Color('#FFFFFF'),
-      emissiveIntensity: 0.16,
-      map: paperTexture || undefined,
-      side: THREE.DoubleSide,
-    })
-    const goldEdgeMat = new THREE.MeshStandardMaterial({
-      color: '#D4AF37',
-      metalness: 0.98,
-      roughness: 0.12,
-      emissive: new THREE.Color('#524010'),
-      emissiveIntensity: 0.28,
-      side: THREE.DoubleSide,
-    })
-    return [faceMat, goldEdgeMat]
-  }, [isGildedCard, paperTexture])
 
   const isActive = sectionIndex === activeSection
   const isPreviousActive = useRef(isActive)
+  const isProclamation = sectionIndex === 0
+  const activeTexture = isProclamation ? proclamationTexture || paperTexture : paperTexture
 
   // Motion physics refs
   const currentY = useRef(isActive ? 0 : 3.4)
@@ -304,67 +392,48 @@ function TornParchmentContainer3D({
 
   return (
     <group ref={groupRef} position={[0, isActive ? 0 : 3.4, 0]}>
-      {/* 1. Realistic Clean Soft Drop Shadow */}
+      {/* 1. Realistic Clean Soft Drop Shadow (Flat Shape, Zero Bevel Artifacts) */}
       <mesh position={[0.024, -0.032, -0.02]}>
-        <shapeGeometry args={[cardShape]} />
-        <meshBasicMaterial color="#2B1D12" transparent opacity={isGildedCard ? 0.18 : 0.14} />
+        <shapeGeometry args={[parchmentShape]} />
+        <meshBasicMaterial color="#2B1D12" transparent opacity={0.14} />
       </mesh>
 
-      {/* 2. Gilded Gold Leaf Deckle Underlay (For torn paper acts only) */}
-      {!isGildedCard && (
-        <mesh position={[0, 0, -0.004]} scale={[1.014, 1.01, 1]}>
-          <shapeGeometry args={[cardShape]} />
-          <meshStandardMaterial
-            color="#D4AF37"
-            metalness={0.96}
-            roughness={0.16}
-            emissive="#524010"
-            emissiveIntensity={0.25}
-          />
-        </mesh>
-      )}
+      {/* 2. Gilded Gold Leaf Deckle Underlay (Peeks along perimeter) */}
+      <mesh position={[0, 0, -0.004]} scale={isProclamation ? [1.012, 1.008, 1] : [1.014, 1.01, 1]}>
+        <shapeGeometry args={[parchmentShape]} />
+        <meshStandardMaterial
+          color="#D4AF37"
+          metalness={0.96}
+          roughness={0.16}
+          emissive="#524010"
+          emissiveIntensity={0.25}
+        />
+      </mesh>
 
-      {/* 3. 3D Card / Parchment Slab Body */}
-      {isGildedCard && gildedMaterials ? (
-        <mesh position={[0, 0, 0]} material={gildedMaterials}>
-          <extrudeGeometry
-            args={[
-              cardShape,
-              {
-                depth: 0.034,
-                bevelEnabled: true,
-                bevelThickness: 0.006,
-                bevelSize: 0.005,
-                bevelSegments: 3,
-              },
-            ]}
-          />
-        </mesh>
-      ) : (
-        <mesh position={[0, 0, 0]}>
-          <extrudeGeometry
-            args={[
-              cardShape,
-              {
-                depth: 0.03,
-                bevelEnabled: true,
-                bevelThickness: 0.004,
-                bevelSize: 0.003,
-                bevelSegments: 2,
-              },
-            ]}
-          />
-          <meshStandardMaterial
-            color="#FAF6EE"
-            roughness={0.76}
-            metalness={0.02}
-            emissive="#FFFFFF"
-            emissiveIntensity={0.16}
-            map={paperTexture || undefined}
-            side={THREE.DoubleSide}
-          />
-        </mesh>
-      )}
+      {/* 3. 3D Parchment Slab Body (Radiant Ivory Cotton Rag Paper) */}
+      <mesh position={[0, 0, 0]}>
+        <extrudeGeometry
+          args={[
+            parchmentShape,
+            {
+              depth: 0.03,
+              bevelEnabled: true,
+              bevelThickness: 0.004,
+              bevelSize: 0.003,
+              bevelSegments: 2,
+            },
+          ]}
+        />
+        <meshStandardMaterial
+          color={isProclamation ? '#FAF5EA' : '#FAF6EE'}
+          roughness={isProclamation ? 0.8 : 0.76}
+          metalness={0.02}
+          emissive="#FFFFFF"
+          emissiveIntensity={isProclamation ? 0.12 : 0.16}
+          map={activeTexture || undefined}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
 
       {/* 4. Bespoke Physical Accents for this Act */}
       {children}
@@ -372,72 +441,88 @@ function TornParchmentContainer3D({
   )
 }
 
-// 1. Act 00 Accents: Gold Foil Debossed Hairline Frame & Keystone Royal Seal (Option 1 Gilded Edge Cardstock)
+// 1. Act 00 Accents: Naskah Proklamasi Accents (Physical 3D Cross-Fold Creases & Royal Heritage Seal)
 function Act00Accents() {
-  const outerFrameShape = useMemo(() => createRectFrameShape(0.91, 1.31, 0.004), [])
-  const innerFrameShape = useMemo(() => createRectFrameShape(0.88, 1.28, 0.0025), [])
-
-  const cornerDiamonds = useMemo(
-    () => [
-      [-0.88, 1.28],
-      [0.88, 1.28],
-      [-0.88, -1.28],
-      [0.88, -1.28],
-    ],
-    []
-  )
+  const corners: [number, number][] = [
+    [-0.92, 1.32],
+    [0.92, 1.32],
+    [-0.92, -1.32],
+    [0.92, -1.32],
+  ]
 
   return (
     <group position={[0, 0, 0]}>
-      {/* Outer Hairline Gold Foil Border */}
-      <mesh position={[0, 0, 0.041]}>
-        <shapeGeometry args={[outerFrameShape]} />
-        <meshStandardMaterial
-          color="#D4AF37"
-          metalness={0.96}
-          roughness={0.14}
-          emissive="#524010"
-          emissiveIntensity={0.2}
-        />
-      </mesh>
-
-      {/* Inner Hairline Gold Foil Border */}
-      <mesh position={[0, 0, 0.041]}>
-        <shapeGeometry args={[innerFrameShape]} />
-        <meshStandardMaterial
-          color="#D4AF37"
-          metalness={0.96}
-          roughness={0.14}
-          emissive="#524010"
-          emissiveIntensity={0.2}
-        />
-      </mesh>
-
-      {/* 4 Corner Ornate Diamond Inlays */}
-      {cornerDiamonds.map(([cx, cy], idx) => (
-        <mesh key={idx} position={[cx, cy, 0.042]}>
-          <octahedronGeometry args={[0.016, 0]} />
-          <meshStandardMaterial color="#D4AF37" metalness={0.98} roughness={0.12} />
+      {/* 1. Physical 3D Cross-Fold Creases across X and Y axis */}
+      {/* Horizontal Fold Crease (y = 0) */}
+      <group position={[0, 0, 0.032]}>
+        <mesh position={[0, 0.001, 0]}>
+          <planeGeometry args={[1.9, 0.005]} />
+          <meshStandardMaterial
+            color="#FFFFFF"
+            roughness={0.3}
+            metalness={0.1}
+            transparent
+            opacity={0.45}
+          />
         </mesh>
-      ))}
-
-      {/* Top Royal Keystone Seal Medallion */}
-      <group position={[0, 1.23, 0.048]}>
-        <mesh>
-          <octahedronGeometry args={[0.052, 0]} />
-          <meshStandardMaterial color="#D4AF37" metalness={0.98} roughness={0.1} />
-        </mesh>
-        <mesh position={[0, 0, -0.004]}>
-          <torusGeometry args={[0.085, 0.01, 16, 32]} />
-          <meshStandardMaterial color="#D4AF37" metalness={0.98} roughness={0.1} />
+        <mesh position={[0, -0.002, 0]}>
+          <planeGeometry args={[1.9, 0.007]} />
+          <meshBasicMaterial color="#6B5945" transparent opacity={0.24} />
         </mesh>
       </group>
 
-      {/* Bottom Center Delicate Diamond Accent */}
-      <mesh position={[0, -1.23, 0.044]}>
-        <octahedronGeometry args={[0.02, 0]} />
-        <meshStandardMaterial color="#D4AF37" metalness={0.98} roughness={0.12} />
-      </mesh>
+      {/* Vertical Fold Crease (x = 0) */}
+      <group position={[0, 0, 0.032]}>
+        <mesh position={[0.001, 0, 0]}>
+          <planeGeometry args={[0.005, 2.7]} />
+          <meshStandardMaterial
+            color="#FFFFFF"
+            roughness={0.3}
+            metalness={0.1}
+            transparent
+            opacity={0.45}
+          />
+        </mesh>
+        <mesh position={[-0.002, 0, 0]}>
+          <planeGeometry args={[0.007, 2.7]} />
+          <meshBasicMaterial color="#6B5945" transparent opacity={0.24} />
+        </mesh>
+      </group>
+
+      {/* 2. Official Royal Lacquer Wax Seal / Cap Naskah Proklamasi at Header */}
+      <group position={[0, 1.26, 0.046]}>
+        {/* Scalloped Red Wax Base */}
+        <mesh>
+          <cylinderGeometry args={[0.076, 0.084, 0.016, 24]} />
+          <meshStandardMaterial
+            color="#8A1C22"
+            roughness={0.28}
+            metalness={0.12}
+            emissive="#380407"
+            emissiveIntensity={0.22}
+          />
+        </mesh>
+        {/* Concentric Gold Bezel Ring */}
+        <mesh position={[0, 0.009, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.062, 0.006, 16, 32]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.96} roughness={0.12} />
+        </mesh>
+        {/* Embossed Royal Diamond Monogram Crest */}
+        <mesh position={[0, 0.01, 0]}>
+          <octahedronGeometry args={[0.036, 0]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.96} roughness={0.12} />
+        </mesh>
+      </group>
+
+      {/* 3. Antique Brass Archival Corner Brackets */}
+      {corners.map(([cx, cy], idx) => (
+        <group key={idx} position={[cx, cy, 0.034]}>
+          <mesh>
+            <boxGeometry args={[0.048, 0.048, 0.003]} />
+            <meshStandardMaterial color="#C5A059" metalness={0.92} roughness={0.22} />
+          </mesh>
+        </group>
+      ))}
     </group>
   )
 }
@@ -689,6 +774,7 @@ export const TemplateAThematicStage3D: React.FC<TemplateAThematicStage3DProps> =
   const stageScale = isPortrait ? Math.max(0.72, Math.min(0.84, (frustumWidth * 0.88) / 1.96)) : 1.0
 
   const paperTexture = useParchmentCanvasTexture()
+  const proclamationTexture = useProclamationTexture()
 
   return (
     <>
@@ -703,12 +789,13 @@ export const TemplateAThematicStage3D: React.FC<TemplateAThematicStage3DProps> =
       <group scale={[stageScale, stageScale, stageScale]} position={[0, 0, 0]}>
         <GoldenBokehParticles isPortrait={isPortrait} />
 
-        {/* 6 Asymmetric Torn Parchment Sheets with Synchronized Physical Swapping */}
+        {/* 6 Sheets with Synchronized Physical Swapping (Act 00: Kertas Naskah Proklamasi) */}
         <TornParchmentContainer3D
           sectionIndex={0}
           activeSection={activeSection}
           direction={direction}
           paperTexture={paperTexture}
+          proclamationTexture={proclamationTexture}
         >
           <Act00Accents />
         </TornParchmentContainer3D>
