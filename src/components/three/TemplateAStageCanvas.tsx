@@ -2,16 +2,19 @@
 
 import { Canvas } from '@react-three/fiber'
 import React, { Suspense } from 'react'
+import type { CoupleWithDetails } from '@/types'
 import TemplateAThematicStage3D from './TemplateAThematicStage3D'
 
 export interface TemplateAStageCanvasProps {
   activeSection: number
   direction?: number
+  couple?: CoupleWithDetails
 }
 
 export const TemplateAStageCanvas: React.FC<TemplateAStageCanvasProps> = ({
   activeSection,
   direction = 0,
+  couple,
 }) => {
   return (
     <div className="w-full h-full pointer-events-none select-none">
@@ -25,7 +28,11 @@ export const TemplateAStageCanvas: React.FC<TemplateAStageCanvasProps> = ({
         }}
       >
         <Suspense fallback={null}>
-          <TemplateAThematicStage3D activeSection={activeSection} direction={direction} />
+          <TemplateAThematicStage3D
+            activeSection={activeSection}
+            direction={direction}
+            couple={couple}
+          />
         </Suspense>
       </Canvas>
     </div>

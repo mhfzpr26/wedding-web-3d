@@ -3,10 +3,12 @@
 import { useFrame, useThree } from '@react-three/fiber'
 import React, { useMemo, useRef } from 'react'
 import * as THREE from 'three'
+import type { CoupleWithDetails } from '@/types'
 
 export interface TemplateAThematicStage3DProps {
   activeSection: number
   direction?: number
+  couple?: CoupleWithDetails
 }
 
 // Procedural 3D Asymmetric Torn / Weathered Paper Shape Generator (100% WebGL Three.js - NO SVG)
@@ -304,6 +306,79 @@ function useProclamationTexture() {
   }, [])
 }
 
+// Procedural 3D Cameo Ring Shape for ExtrudeGeometry (Round Frame with Inner Aperture Hole)
+function createCameoRingShape(outerR = 0.34, innerR = 0.26) {
+  const shape = new THREE.Shape()
+  shape.absarc(0, 0, outerR, 0, Math.PI * 2, false)
+  const hole = new THREE.Path()
+  hole.absarc(0, 0, innerR, 0, Math.PI * 2, true)
+  shape.holes.push(hole)
+  return shape
+}
+
+// Robust Texture Loader Hook: Creates 1:1 Square Texture with Object-Fit Cover & Face Bias
+function usePhotoTexture(url?: string | null) {
+  const [texture, setTexture] = React.useState<THREE.CanvasTexture | null>(null)
+
+  React.useEffect(() => {
+    if (!url || typeof document === 'undefined') {
+      setTexture(null)
+      return
+    }
+
+    let isMounted = true
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+
+    img.onload = () => {
+      if (!isMounted) return
+      try {
+        const canvas = document.createElement('canvas')
+        canvas.width = 512
+        canvas.height = 512
+        const ctx = canvas.getContext('2d')
+        if (!ctx) return
+
+        // Subtle ivory warm backing in case image has alpha
+        ctx.fillStyle = '#FAF6EE'
+        ctx.fillRect(0, 0, 512, 512)
+
+        // Center cover crop with slight headshot bias
+        const scale = Math.max(512 / img.width, 512 / img.height)
+        const w = img.width * scale
+        const h = img.height * scale
+        const x = (512 - w) / 2
+        const y = Math.min(0, Math.max(512 - h, (512 - h) * 0.32))
+        ctx.drawImage(img, x, y, w, h)
+
+        const canvasTexture = new THREE.CanvasTexture(canvas)
+        canvasTexture.colorSpace = THREE.SRGBColorSpace
+        canvasTexture.generateMipmaps = true
+        canvasTexture.minFilter = THREE.LinearMipmapLinearFilter
+        canvasTexture.magFilter = THREE.LinearFilter
+        canvasTexture.needsUpdate = true
+
+        setTexture(canvasTexture)
+      } catch (err) {
+        console.warn('Canvas texture creation error:', err)
+        if (isMounted) setTexture(null)
+      }
+    }
+
+    img.onerror = () => {
+      if (isMounted) setTexture(null)
+    }
+
+    img.src = url
+
+    return () => {
+      isMounted = false
+    }
+  }, [url])
+
+  return texture
+}
+
 // Physical 3D Torn Parchment Container with Synchronous Swapping Motion
 function TornParchmentContainer3D({
   sectionIndex,
@@ -390,50 +465,59 @@ function TornParchmentContainer3D({
     groupRef.current.scale.set(s, s, s)
   })
 
+  const isPaperless = sectionIndex === 1
+
   return (
     <group ref={groupRef} position={[0, isActive ? 0 : 3.4, 0]}>
-      {/* 1. Realistic Clean Soft Drop Shadow (Flat Shape, Zero Bevel Artifacts) */}
-      <mesh position={[0.024, -0.032, -0.02]}>
-        <shapeGeometry args={[parchmentShape]} />
-        <meshBasicMaterial color="#2B1D12" transparent opacity={0.14} />
-      </mesh>
+      {!isPaperless && (
+        <>
+          {/* 1. Realistic Clean Soft Drop Shadow (Flat Shape, Zero Bevel Artifacts) */}
+          <mesh position={[0.024, -0.032, -0.02]}>
+            <shapeGeometry args={[parchmentShape]} />
+            <meshBasicMaterial color="#2B1D12" transparent opacity={0.14} />
+          </mesh>
 
-      {/* 2. Gilded Gold Leaf Deckle Underlay (Peeks along perimeter) */}
-      <mesh position={[0, 0, -0.004]} scale={isProclamation ? [1.012, 1.008, 1] : [1.014, 1.01, 1]}>
-        <shapeGeometry args={[parchmentShape]} />
-        <meshStandardMaterial
-          color="#D4AF37"
-          metalness={0.96}
-          roughness={0.16}
-          emissive="#524010"
-          emissiveIntensity={0.25}
-        />
-      </mesh>
+          {/* 2. Gilded Gold Leaf Deckle Underlay (Peeks along perimeter) */}
+          <mesh
+            position={[0, 0, -0.004]}
+            scale={isProclamation ? [1.012, 1.008, 1] : [1.014, 1.01, 1]}
+          >
+            <shapeGeometry args={[parchmentShape]} />
+            <meshStandardMaterial
+              color="#D4AF37"
+              metalness={0.96}
+              roughness={0.16}
+              emissive="#524010"
+              emissiveIntensity={0.25}
+            />
+          </mesh>
 
-      {/* 3. 3D Parchment Slab Body (Radiant Ivory Cotton Rag Paper) */}
-      <mesh position={[0, 0, 0]}>
-        <extrudeGeometry
-          args={[
-            parchmentShape,
-            {
-              depth: 0.03,
-              bevelEnabled: true,
-              bevelThickness: 0.004,
-              bevelSize: 0.003,
-              bevelSegments: 2,
-            },
-          ]}
-        />
-        <meshStandardMaterial
-          color={isProclamation ? '#FAF5EA' : '#FAF6EE'}
-          roughness={isProclamation ? 0.8 : 0.76}
-          metalness={0.02}
-          emissive="#FFFFFF"
-          emissiveIntensity={isProclamation ? 0.12 : 0.16}
-          map={activeTexture || undefined}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
+          {/* 3. 3D Parchment Slab Body (Radiant Ivory Cotton Rag Paper) */}
+          <mesh position={[0, 0, 0]}>
+            <extrudeGeometry
+              args={[
+                parchmentShape,
+                {
+                  depth: 0.03,
+                  bevelEnabled: true,
+                  bevelThickness: 0.004,
+                  bevelSize: 0.003,
+                  bevelSegments: 2,
+                },
+              ]}
+            />
+            <meshStandardMaterial
+              color={isProclamation ? '#FAF5EA' : '#FAF6EE'}
+              roughness={isProclamation ? 0.8 : 0.76}
+              metalness={0.02}
+              emissive="#FFFFFF"
+              emissiveIntensity={isProclamation ? 0.12 : 0.16}
+              map={activeTexture || undefined}
+              side={THREE.DoubleSide}
+            />
+          </mesh>
+        </>
+      )}
 
       {/* 4. Bespoke Physical Accents for this Act */}
       {children}
@@ -527,29 +611,207 @@ function Act00Accents() {
   )
 }
 
-// 2. Act 01 Accents: Dual Baroque Cameo Medallion Rings (Framing Bride & Groom Photos)
-function Act01Accents() {
+// 2. Act 01 Accents: Dual 3D ExtrudeGeometry Gold Cameo Medallions with Photos & Crystal Lens Cover
+function Act01Accents({
+  groomPhotoUrl,
+  bridePhotoUrl,
+}: {
+  groomPhotoUrl?: string | null
+  bridePhotoUrl?: string | null
+}) {
+  const groomTexture = usePhotoTexture(groomPhotoUrl)
+  const brideTexture = usePhotoTexture(bridePhotoUrl)
+
+  const ringShape = useMemo(() => createCameoRingShape(0.34, 0.26), [])
+  const extrudeSettings = useMemo(
+    () => ({
+      depth: 0.024,
+      bevelEnabled: true,
+      bevelThickness: 0.008,
+      bevelSize: 0.006,
+      bevelSegments: 3,
+      curveSegments: 48,
+    }),
+    []
+  )
+
   return (
     <group position={[0, 0, 0]}>
-      {/* Top Ribbon Accent */}
+      {/* Top Royal Ribbon Crown */}
       <mesh position={[0, 1.25, 0.048]}>
         <torusGeometry args={[0.09, 0.015, 16, 32]} />
         <meshStandardMaterial color="#D4AF37" metalness={0.96} roughness={0.12} />
       </mesh>
 
-      {/* Left Cameo Ring (Groom Photo at y ≈ -0.08) */}
-      <group position={[-0.46, -0.08, 0.042]}>
-        <mesh scale={[0.48, 0.62, 1]}>
-          <torusGeometry args={[0.32, 0.024, 16, 48]} />
-          <meshStandardMaterial color="#D4AF37" metalness={0.96} roughness={0.14} />
+      {/* Central Intertwined Love Knot / Ring Connection */}
+      <group position={[0, 0.22, 0.04]}>
+        <mesh position={[-0.065, 0, 0]} rotation={[0, 0.24, 0]}>
+          <torusGeometry args={[0.075, 0.012, 16, 32]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.96} roughness={0.12} />
+        </mesh>
+        <mesh position={[0.065, 0, 0]} rotation={[0, -0.24, 0]}>
+          <torusGeometry args={[0.075, 0.012, 16, 32]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.96} roughness={0.12} />
+        </mesh>
+        <mesh position={[0, 0, 0.01]}>
+          <octahedronGeometry args={[0.03, 0]} />
+          <meshStandardMaterial
+            color="#FFF2D6"
+            metalness={0.98}
+            roughness={0.08}
+            emissive="#D4AF37"
+            emissiveIntensity={0.25}
+          />
         </mesh>
       </group>
 
-      {/* Right Cameo Ring (Bride Photo at y ≈ -0.08) */}
-      <group position={[0.46, -0.08, 0.042]}>
-        <mesh scale={[0.48, 0.62, 1]}>
-          <torusGeometry args={[0.32, 0.024, 16, 48]} />
+      {/* Left Cameo Medallion (Groom Photo at X = -0.48, Y = 0.22) */}
+      <group position={[-0.48, 0.22, 0.04]}>
+        {/* Soft Drop Shadow */}
+        <mesh position={[0.018, -0.022, -0.015]}>
+          <circleGeometry args={[0.36, 32]} />
+          <meshBasicMaterial color="#1B120B" transparent opacity={0.16} />
+        </mesh>
+
+        {/* 3D Extruded Beveled Gold Cameo Ring Frame */}
+        <mesh position={[0, 0, 0]}>
+          <extrudeGeometry args={[ringShape, extrudeSettings]} />
+          <meshStandardMaterial
+            color="#D4AF37"
+            metalness={0.96}
+            roughness={0.14}
+            emissive="#453408"
+            emissiveIntensity={0.2}
+          />
+        </mesh>
+
+        {/* Outer Filigree Beaded Rim */}
+        <mesh position={[0, 0, 0.034]}>
+          <torusGeometry args={[0.34, 0.007, 16, 48]} />
+          <meshStandardMaterial color="#F5E4B5" metalness={0.98} roughness={0.12} />
+        </mesh>
+
+        {/* Inner Gold Bezel */}
+        <mesh position={[0, 0, 0.032]}>
+          <torusGeometry args={[0.26, 0.006, 16, 48]} />
           <meshStandardMaterial color="#D4AF37" metalness={0.96} roughness={0.14} />
+        </mesh>
+
+        {/* Groom Photo Aperture Disk */}
+        <mesh position={[0, 0, 0.014]}>
+          <circleGeometry args={[0.264, 48]} />
+          {groomTexture ? (
+            <meshStandardMaterial
+              map={groomTexture}
+              roughness={0.2}
+              metalness={0.02}
+              side={THREE.DoubleSide}
+            />
+          ) : (
+            <meshStandardMaterial color="#1B2A4A" roughness={0.3} metalness={0.2} />
+          )}
+        </mesh>
+
+        {/* Monogram Crest Fallback when photo is absent */}
+        {!groomTexture && (
+          <group position={[0, 0, 0.022]}>
+            <mesh>
+              <torusGeometry args={[0.09, 0.008, 16, 32]} />
+              <meshStandardMaterial color="#D4AF37" metalness={0.96} roughness={0.12} />
+            </mesh>
+            <mesh position={[0, 0, 0.002]}>
+              <octahedronGeometry args={[0.045, 0]} />
+              <meshStandardMaterial color="#F7E7CE" metalness={0.96} roughness={0.1} />
+            </mesh>
+          </group>
+        )}
+
+        {/* Protective Crystal Glass Lens Cover */}
+        <mesh position={[0, 0, 0.026]}>
+          <circleGeometry args={[0.262, 48]} />
+          <meshPhysicalMaterial
+            transmission={0.92}
+            roughness={0.06}
+            ior={1.46}
+            opacity={0.3}
+            transparent
+            color="#FFFFFF"
+          />
+        </mesh>
+      </group>
+
+      {/* Right Cameo Medallion (Bride Photo at X = 0.48, Y = 0.22) */}
+      <group position={[0.48, 0.22, 0.04]}>
+        {/* Soft Drop Shadow */}
+        <mesh position={[0.018, -0.022, -0.015]}>
+          <circleGeometry args={[0.36, 32]} />
+          <meshBasicMaterial color="#1B120B" transparent opacity={0.16} />
+        </mesh>
+
+        {/* 3D Extruded Beveled Gold Cameo Ring Frame */}
+        <mesh position={[0, 0, 0]}>
+          <extrudeGeometry args={[ringShape, extrudeSettings]} />
+          <meshStandardMaterial
+            color="#D4AF37"
+            metalness={0.96}
+            roughness={0.14}
+            emissive="#453408"
+            emissiveIntensity={0.2}
+          />
+        </mesh>
+
+        {/* Outer Filigree Beaded Rim */}
+        <mesh position={[0, 0, 0.034]}>
+          <torusGeometry args={[0.34, 0.007, 16, 48]} />
+          <meshStandardMaterial color="#F5E4B5" metalness={0.98} roughness={0.12} />
+        </mesh>
+
+        {/* Inner Gold Bezel */}
+        <mesh position={[0, 0, 0.032]}>
+          <torusGeometry args={[0.26, 0.006, 16, 48]} />
+          <meshStandardMaterial color="#D4AF37" metalness={0.96} roughness={0.14} />
+        </mesh>
+
+        {/* Bride Photo Aperture Disk */}
+        <mesh position={[0, 0, 0.014]}>
+          <circleGeometry args={[0.264, 48]} />
+          {brideTexture ? (
+            <meshStandardMaterial
+              map={brideTexture}
+              roughness={0.2}
+              metalness={0.02}
+              side={THREE.DoubleSide}
+            />
+          ) : (
+            <meshStandardMaterial color="#1B2A4A" roughness={0.3} metalness={0.2} />
+          )}
+        </mesh>
+
+        {/* Monogram Crest Fallback when photo is absent */}
+        {!brideTexture && (
+          <group position={[0, 0, 0.022]}>
+            <mesh>
+              <torusGeometry args={[0.09, 0.008, 16, 32]} />
+              <meshStandardMaterial color="#D4AF37" metalness={0.96} roughness={0.12} />
+            </mesh>
+            <mesh position={[0, 0, 0.002]}>
+              <octahedronGeometry args={[0.045, 0]} />
+              <meshStandardMaterial color="#F7E7CE" metalness={0.96} roughness={0.1} />
+            </mesh>
+          </group>
+        )}
+
+        {/* Protective Crystal Glass Lens Cover */}
+        <mesh position={[0, 0, 0.026]}>
+          <circleGeometry args={[0.262, 48]} />
+          <meshPhysicalMaterial
+            transmission={0.92}
+            roughness={0.06}
+            ior={1.46}
+            opacity={0.3}
+            transparent
+            color="#FFFFFF"
+          />
         </mesh>
       </group>
     </group>
@@ -762,6 +1024,7 @@ function GoldenBokehParticles({ isPortrait = false }: { isPortrait?: boolean }) 
 export const TemplateAThematicStage3D: React.FC<TemplateAThematicStage3DProps> = ({
   activeSection,
   direction = 0,
+  couple,
 }) => {
   const { size } = useThree()
   const aspect = size.width / Math.max(1, size.height)
@@ -806,7 +1069,10 @@ export const TemplateAThematicStage3D: React.FC<TemplateAThematicStage3DProps> =
           direction={direction}
           paperTexture={paperTexture}
         >
-          <Act01Accents />
+          <Act01Accents
+            groomPhotoUrl={couple?.groomPhotoUrl}
+            bridePhotoUrl={couple?.bridePhotoUrl}
+          />
         </TornParchmentContainer3D>
 
         <TornParchmentContainer3D

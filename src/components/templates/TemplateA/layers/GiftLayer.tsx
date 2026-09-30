@@ -32,8 +32,10 @@ export const GiftLayer: React.FC<GiftLayerProps> = ({ bankAccounts }) => {
   return (
     <div className="w-full p-3 sm:p-5 text-center select-text relative">
       <div className="space-y-0.5 mb-2.5">
-        <h2 className="text-2xl sm:text-[26px] font-serif text-[#1B2A4A]">Tanda Kasih</h2>
-        <p className="text-xs sm:text-[13px] text-[#8A7968] max-w-xs mx-auto leading-relaxed">
+        <h2 className="text-2xl sm:text-[28px] md:text-3xl font-serif text-[#1B2A4A]">
+          Tanda Kasih
+        </h2>
+        <p className="text-xs sm:text-sm md:text-base text-[#8A7968] max-w-sm mx-auto leading-relaxed">
           Doa restu Anda merupakan karunia terindah bagi kami. Bagi yang ingin berbagi tanda kasih,
           dapat melalui:
         </p>
@@ -47,7 +49,7 @@ export const GiftLayer: React.FC<GiftLayerProps> = ({ bankAccounts }) => {
               key={acc.id}
               type="button"
               onClick={() => setActiveAccountIndex(idx)}
-              className={`px-3 py-1 rounded-full text-xs sm:text-sm font-serif transition-all cursor-pointer ${
+              className={`px-3.5 py-1 rounded-full text-[13px] sm:text-sm md:text-base font-serif transition-all cursor-pointer ${
                 activeAccountIndex === idx
                   ? 'bg-[#1B2A4A] text-[#FAF8F5] shadow-sm font-bold'
                   : 'bg-white/75 text-[#8C7851] border border-[#E2D9CE] hover:bg-white'
@@ -61,16 +63,16 @@ export const GiftLayer: React.FC<GiftLayerProps> = ({ bankAccounts }) => {
 
       {/* Active Bank Account Details */}
       {activeAccount && (
-        <div className="p-3 sm:p-4 text-left max-w-xs sm:max-w-sm mx-auto w-full space-y-2">
+        <div className="p-3.5 sm:p-4 text-left max-w-sm sm:max-w-md mx-auto w-full space-y-2.5">
           {/* Card Top Row: EMV Chip & Bank Name */}
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center space-x-2.5">
               {/* Metallic Gold EMV Chip Graphic */}
-              <div className="w-8 h-6 rounded-md bg-gradient-to-tr from-[#D4AF37] via-[#FFF2C2] to-[#B38C26] border border-[#B38C26]/60 shadow-sm relative flex items-center justify-center">
-                <div className="w-5 h-3 border-x border-[#B38C26]/40" />
+              <div className="w-9 h-7 rounded-md bg-gradient-to-tr from-[#D4AF37] via-[#FFF2C2] to-[#B38C26] border border-[#B38C26]/60 shadow-sm relative flex items-center justify-center">
+                <div className="w-5 h-3.5 border-x border-[#B38C26]/40" />
               </div>
 
-              <span className="font-serif font-bold text-lg sm:text-xl text-[#1B2A4A]">
+              <span className="font-serif font-bold text-xl sm:text-2xl md:text-3xl text-[#1B2A4A]">
                 {activeAccount.bankName}
               </span>
             </div>
@@ -79,7 +81,7 @@ export const GiftLayer: React.FC<GiftLayerProps> = ({ bankAccounts }) => {
               <button
                 type="button"
                 onClick={() => setSelectedQrisAccount(activeAccount)}
-                className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full bg-[#FAF8F5] border border-[#E2D9CE] text-[11px] font-mono text-[#8C7851] hover:bg-white transition-colors cursor-pointer"
+                className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#FAF8F5] border border-[#E2D9CE] text-xs sm:text-sm font-mono text-[#8C7851] hover:bg-white transition-colors cursor-pointer"
               >
                 <QrCode className="w-3.5 h-3.5" />
                 <span>QRIS</span>
@@ -88,27 +90,27 @@ export const GiftLayer: React.FC<GiftLayerProps> = ({ bankAccounts }) => {
           </div>
 
           <div className="space-y-1">
-            <p className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-[#8A7968]">
+            <p className="text-[11px] sm:text-xs md:text-sm font-mono uppercase tracking-wider text-[#8A7968]">
               Nomor Rekening
             </p>
             <div className="flex items-center justify-between">
-              <span className="font-mono text-lg sm:text-xl font-bold text-[#1B2A4A] tracking-wider select-all">
+              <span className="font-mono text-xl sm:text-2xl md:text-3xl font-bold text-[#1B2A4A] tracking-wider select-all">
                 {activeAccount.accountNumber}
               </span>
 
               <button
                 type="button"
                 onClick={() => handleCopy(activeAccount)}
-                className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-xl bg-[#FAF8F5] border border-[#E2D9CE] hover:bg-[#1B2A4A] hover:text-white transition-all text-xs sm:text-sm font-serif text-[#1B2A4A] cursor-pointer shadow-sm"
+                className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-[#FAF8F5] border border-[#E2D9CE] hover:bg-[#1B2A4A] hover:text-white transition-all text-xs sm:text-sm md:text-base font-serif text-[#1B2A4A] cursor-pointer shadow-sm"
               >
                 {copiedId === activeAccount.id ? (
                   <>
-                    <Check className="w-3.5 h-3.5 text-emerald-600" />
+                    <Check className="w-4 h-4 text-emerald-600" />
                     <span className="text-emerald-700 font-semibold">Tersalin</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="w-3.5 h-3.5 text-[#8C7851]" />
+                    <Copy className="w-4 h-4 text-[#8C7851]" />
                     <span>Salin</span>
                   </>
                 )}
@@ -116,11 +118,11 @@ export const GiftLayer: React.FC<GiftLayerProps> = ({ bankAccounts }) => {
             </div>
           </div>
 
-          <div className="pt-2 border-t border-[#E2D9CE]/60 flex items-center justify-between text-xs sm:text-sm text-[#556270]">
-            <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-[#8A7968]">
+          <div className="pt-2 border-t border-[#E2D9CE]/60 flex items-center justify-between text-xs sm:text-sm md:text-base text-[#556270]">
+            <span className="font-mono text-[11px] sm:text-xs md:text-sm uppercase tracking-wider text-[#8A7968]">
               Atas Nama
             </span>
-            <span className="font-serif font-bold text-[#1B2A4A]">
+            <span className="font-serif font-bold text-sm sm:text-base md:text-lg text-[#1B2A4A]">
               {activeAccount.accountHolder}
             </span>
           </div>

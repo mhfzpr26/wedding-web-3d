@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import React from 'react'
 import type { CoupleWithDetails } from '@/types'
 
@@ -25,51 +24,34 @@ interface CoupleLayerProps {
 }
 
 export const CoupleLayer: React.FC<CoupleLayerProps> = ({ couple }) => {
-  const groomInitial = couple.groomName ? couple.groomName.charAt(0) : 'B'
-  const brideInitial = couple.brideName ? couple.brideName.charAt(0) : 'A'
-
   return (
-    <div className="w-full p-3 sm:p-5 text-center select-text relative">
-      <div className="space-y-0.5 mb-3">
-        <h2 className="text-2xl sm:text-[26px] font-serif text-[#1B2A4A]">Kedua Mempelai</h2>
-        <p className="text-xs sm:text-[13px] text-[#8A7968]">
+    <div className="w-full p-2 sm:p-4 text-center select-text relative">
+      {/* Title & Subtitle */}
+      <div className="space-y-1 mb-2">
+        <h2 className="text-2xl sm:text-[28px] md:text-3xl font-serif text-[#1B2A4A] tracking-wide">
+          Kedua Mempelai
+        </h2>
+        <p className="text-xs sm:text-sm md:text-base text-[#8A7968]">
           Dua hati yang dipersatukan dalam ikatan suci pernikahan
         </p>
       </div>
 
-      {/* Grid: Groom & Bride Cameo Medallions */}
-      <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-1">
-        {/* The Groom Cameo */}
-        <div className="flex flex-col items-center justify-between text-center px-1">
-          {/* Cameo Oval Frame */}
-          {couple.groomPhotoUrl ? (
-            <div className="relative w-16 h-20 sm:w-20 sm:h-24 rounded-[36px] overflow-hidden border-2 border-white ring-2 ring-[#D4AF37]/65 shadow-md mb-2">
-              <Image
-                src={couple.groomPhotoUrl}
-                alt={couple.groomName}
-                fill
-                className="object-cover"
-                unoptimized
-              />
-            </div>
-          ) : (
-            <div className="w-16 h-20 sm:w-20 sm:h-24 rounded-[36px] bg-gradient-to-b from-[#1B2A4A] to-[#142036] border-2 border-white ring-2 ring-[#D4AF37]/65 flex flex-col items-center justify-center text-white mb-2 shadow-md">
-              <span className="font-serif text-2xl text-[#E8C872]">{groomInitial}</span>
-              <span className="text-[9px] font-mono tracking-widest text-[#D4AF37]/80 uppercase">
-                Groom
-              </span>
-            </div>
-          )}
+      {/* Reserved 3D Cameo Viewport Window (Allows the 3D ExtrudeGeometry photo medallions to float freely) */}
+      <div className="w-full h-28 sm:h-32 md:h-36 pointer-events-none" aria-hidden="true" />
 
+      {/* Grid: Groom & Bride Profile Cards */}
+      <div className="grid grid-cols-2 gap-2.5 sm:gap-4 pt-1">
+        {/* The Groom Card */}
+        <div className="flex flex-col items-center justify-between text-center p-2.5 sm:p-3.5 rounded-2xl bg-white/80 backdrop-blur-md border border-[#E2D9CE]/90 shadow-sm transition-transform hover:scale-[1.01]">
           <div>
-            <span className="text-[9.5px] sm:text-[10.5px] font-mono uppercase tracking-widest text-[#8C7851] bg-[#FAF8F5]/90 px-2 py-0.5 rounded-full border border-[#E2D9CE]">
+            <span className="text-[10px] sm:text-xs md:text-xs font-mono uppercase tracking-widest text-[#8C7851] bg-[#FAF8F5] px-2.5 py-0.5 rounded-full border border-[#E2D9CE]">
               Mempelai Pria
             </span>
-            <h3 className="font-serif font-bold text-base sm:text-lg text-[#1B2A4A] mt-1 line-clamp-1">
+            <h3 className="font-serif font-bold text-lg sm:text-xl md:text-2xl text-[#1B2A4A] mt-1.5 line-clamp-1">
               {couple.groomName.split(',')[0]}
             </h3>
             {couple.groomParents && (
-              <p className="text-[11px] sm:text-xs text-[#4A5568] mt-1 line-clamp-2 leading-tight">
+              <p className="text-xs sm:text-[13px] md:text-sm text-[#4A5568] mt-1 line-clamp-2 leading-tight">
                 Putra dari {couple.groomParents}
               </p>
             )}
@@ -80,45 +62,25 @@ export const CoupleLayer: React.FC<CoupleLayerProps> = ({ couple }) => {
               href={`https://instagram.com/${couple.groomInstagram}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center space-x-1 text-[11px] sm:text-xs font-mono text-[#8C7851] hover:underline mt-2 pt-1 border-t border-[#E2D9CE]/60 w-full justify-center"
+              className="inline-flex items-center space-x-1 text-xs sm:text-[13px] md:text-sm font-mono text-[#8C7851] hover:underline mt-2.5 pt-1.5 border-t border-[#E2D9CE]/70 w-full justify-center"
             >
-              <InstagramIcon className="w-2.5 h-2.5" />
+              <InstagramIcon className="w-3 h-3" />
               <span>@{couple.groomInstagram}</span>
             </a>
           )}
         </div>
 
-        {/* The Bride Cameo */}
-        <div className="flex flex-col items-center justify-between text-center px-1">
-          {/* Cameo Oval Frame */}
-          {couple.bridePhotoUrl ? (
-            <div className="relative w-16 h-20 sm:w-20 sm:h-24 rounded-[36px] overflow-hidden border-2 border-white ring-2 ring-[#D4AF37]/65 shadow-md mb-2">
-              <Image
-                src={couple.bridePhotoUrl}
-                alt={couple.brideName}
-                fill
-                className="object-cover"
-                unoptimized
-              />
-            </div>
-          ) : (
-            <div className="w-16 h-20 sm:w-20 sm:h-24 rounded-[36px] bg-gradient-to-b from-[#1B2A4A] to-[#142036] border-2 border-white ring-2 ring-[#D4AF37]/65 flex flex-col items-center justify-center text-white mb-2 shadow-md">
-              <span className="font-serif text-2xl text-[#E8C872]">{brideInitial}</span>
-              <span className="text-[9px] font-mono tracking-widest text-[#D4AF37]/80 uppercase">
-                Bride
-              </span>
-            </div>
-          )}
-
+        {/* The Bride Card */}
+        <div className="flex flex-col items-center justify-between text-center p-2.5 sm:p-3.5 rounded-2xl bg-white/80 backdrop-blur-md border border-[#E2D9CE]/90 shadow-sm transition-transform hover:scale-[1.01]">
           <div>
-            <span className="text-[9.5px] sm:text-[10.5px] font-mono uppercase tracking-widest text-[#8C7851] bg-[#FAF8F5]/90 px-2 py-0.5 rounded-full border border-[#E2D9CE]">
+            <span className="text-[10px] sm:text-xs md:text-xs font-mono uppercase tracking-widest text-[#8C7851] bg-[#FAF8F5] px-2.5 py-0.5 rounded-full border border-[#E2D9CE]">
               Mempelai Wanita
             </span>
-            <h3 className="font-serif font-bold text-base sm:text-lg text-[#1B2A4A] mt-1 line-clamp-1">
+            <h3 className="font-serif font-bold text-lg sm:text-xl md:text-2xl text-[#1B2A4A] mt-1.5 line-clamp-1">
               {couple.brideName.split(',')[0]}
             </h3>
             {couple.brideParents && (
-              <p className="text-[11px] sm:text-xs text-[#4A5568] mt-1 line-clamp-2 leading-tight">
+              <p className="text-xs sm:text-[13px] md:text-sm text-[#4A5568] mt-1 line-clamp-2 leading-tight">
                 Putri dari {couple.brideParents}
               </p>
             )}
@@ -129,9 +91,9 @@ export const CoupleLayer: React.FC<CoupleLayerProps> = ({ couple }) => {
               href={`https://instagram.com/${couple.brideInstagram}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center space-x-1 text-[11px] sm:text-xs font-mono text-[#8C7851] hover:underline mt-2 pt-1 border-t border-[#E2D9CE]/60 w-full justify-center"
+              className="inline-flex items-center space-x-1 text-xs sm:text-[13px] md:text-sm font-mono text-[#8C7851] hover:underline mt-2.5 pt-1.5 border-t border-[#E2D9CE]/70 w-full justify-center"
             >
-              <InstagramIcon className="w-2.5 h-2.5" />
+              <InstagramIcon className="w-3 h-3" />
               <span>@{couple.brideInstagram}</span>
             </a>
           )}

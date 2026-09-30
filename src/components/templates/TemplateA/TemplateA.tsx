@@ -208,7 +208,11 @@ export const TemplateA: React.FC<InvitationProps> = ({ couple, guest }) => {
     >
       {/* 1. 3D WebGL Physical Torn Parchment Stage Canvas (Apple-style Camera Choreography) */}
       <div className="fixed inset-0 w-full h-full pointer-events-none z-0">
-        <DynamicTemplateAStageCanvas activeSection={activeSection} direction={direction} />
+        <DynamicTemplateAStageCanvas
+          activeSection={activeSection}
+          direction={direction}
+          couple={couple}
+        />
       </div>
 
       {/* 2. Responsive Subtle Couple Monogram Watermark in Background */}
@@ -286,7 +290,7 @@ export const TemplateA: React.FC<InvitationProps> = ({ couple, guest }) => {
               duration: 0.46,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="w-full max-w-[330px] sm:max-w-[355px] md:max-w-[385px] select-text relative"
+            className="w-full max-w-[345px] sm:max-w-[380px] md:max-w-[420px] lg:max-w-[450px] select-text relative"
           >
             {/* Bespoke Layer Content */}
             {currentSection.component}
