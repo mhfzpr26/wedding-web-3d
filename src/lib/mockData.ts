@@ -1,0 +1,113 @@
+import type { CoupleWithDetails } from '@/types'
+
+export const mockCoupleData: CoupleWithDetails = {
+  id: 'couple-budi-ani-001',
+  slug: 'budi-ani',
+  brideName: 'dr. Anindya Putri Rahayu',
+  groomName: 'Budi Santoso, S.T.',
+  brideParents: 'Putri pertama dari Bpk. Ir. Hendro Prabowo & Ibu Sri Wahyuni',
+  groomParents: 'Putra kedua dari Bpk. Drs. Agus Susanto & Ibu Hj. Siti Fatimah',
+  brideInstagram: 'anindyaputri',
+  groomInstagram: 'budisantoso',
+  openingQuoteTitle: 'Ar-Rum: 21',
+  openingQuoteText:
+    'Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.',
+  closingMessage:
+    'Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu kepada kedua mempelai. Atas kehadiran dan doa restunya kami ucapkan terima kasih.',
+  coverPhotoUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop',
+  groomPhotoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop',
+  bridePhotoUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop',
+  closingPhotoUrl: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200&auto=format&fit=crop',
+  videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+  backgroundMusicUrl: '/audio/romantic-wedding.mp3',
+  dressCodeDesc: 'Formal & Batik Modern (Earth Tone / Champagne Gold)',
+  dressCodeColors: ['#1B2A4A', '#8C7851', '#D4AF37', '#F4F1EA'],
+  selectedTemplate: 'TEMPLATE_A',
+  createdAt: new Date('2026-01-01T00:00:00Z'),
+  updatedAt: new Date('2026-01-01T00:00:00Z'),
+  events: [
+    {
+      id: 'event-akad-001',
+      coupleId: 'couple-budi-ani-001',
+      title: 'Akad Nikah',
+      startTime: new Date('2026-10-24T08:00:00+07:00'),
+      endTime: new Date('2026-10-24T10:00:00+07:00'),
+      locationName: 'Masjid Agung Al-Azhar',
+      address: 'Jl. Sisingamangaraja No.1, Selong, Kebayoran Baru, Jakarta Selatan',
+      mapsUrl: 'https://maps.google.com/?q=Masjid+Agung+Al-Azhar',
+      sortOrder: 1,
+      createdAt: new Date('2026-01-01T00:00:00Z'),
+      updatedAt: new Date('2026-01-01T00:00:00Z'),
+    },
+    {
+      id: 'event-resepsi-001',
+      coupleId: 'couple-budi-ani-001',
+      title: 'Resepsi Pernikahan',
+      startTime: new Date('2026-10-24T11:00:00+07:00'),
+      endTime: new Date('2026-10-24T14:00:00+07:00'),
+      locationName: 'Grand Ballroom Hotel Mulia Senayan',
+      address: 'Jl. Asia Afrika, Gelora, Tanah Abang, Jakarta Pusat',
+      mapsUrl: 'https://maps.google.com/?q=Hotel+Mulia+Senayan',
+      sortOrder: 2,
+      createdAt: new Date('2026-01-01T00:00:00Z'),
+      updatedAt: new Date('2026-01-01T00:00:00Z'),
+    },
+  ],
+  bankAccounts: [
+    {
+      id: 'bank-001',
+      coupleId: 'couple-budi-ani-001',
+      bankName: 'BCA',
+      accountNumber: '8820192831',
+      accountHolder: 'Budi Santoso',
+      qrisImageUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=Budi-Santoso-Wedding-Gift',
+      sortOrder: 1,
+      createdAt: new Date('2026-01-01T00:00:00Z'),
+      updatedAt: new Date('2026-01-01T00:00:00Z'),
+    },
+    {
+      id: 'bank-002',
+      coupleId: 'couple-budi-ani-001',
+      bankName: 'Bank Mandiri',
+      accountNumber: '1370019283741',
+      accountHolder: 'Anindya Putri Rahayu',
+      qrisImageUrl: null,
+      sortOrder: 2,
+      createdAt: new Date('2026-01-01T00:00:00Z'),
+      updatedAt: new Date('2026-01-01T00:00:00Z'),
+    },
+  ],
+  wishes: [
+    {
+      id: 'wish-001',
+      coupleId: 'couple-budi-ani-001',
+      guestId: 'guest-001',
+      senderName: 'Rian & Keluarga',
+      message: 'Selamat menempuh hidup baru Budi dan Anin! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah.',
+      createdAt: new Date('2026-09-10T10:30:00Z'),
+      updatedAt: new Date('2026-09-10T10:30:00Z'),
+    },
+    {
+      id: 'wish-002',
+      coupleId: 'couple-budi-ani-001',
+      guestId: null,
+      senderName: 'Nadia Salsabila',
+      message: 'Happy wedding dear Anindya! Semoga bahagia selalu bersama suami sampai kakek nenek, aamiin.',
+      createdAt: new Date('2026-09-11T14:15:00Z'),
+      updatedAt: new Date('2026-09-11T14:15:00Z'),
+    },
+  ],
+}
+
+/**
+ * Photoless/Videoless Mock Data for testing typography-only and minimalist privacy mode.
+ */
+export const mockPhotolessCoupleData: CoupleWithDetails = {
+  ...mockCoupleData,
+  id: 'couple-budi-ani-photoless',
+  coverPhotoUrl: null,
+  groomPhotoUrl: null,
+  bridePhotoUrl: null,
+  closingPhotoUrl: null,
+  videoUrl: null,
+}

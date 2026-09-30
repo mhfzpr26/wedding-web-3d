@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TemplateType {
+  TEMPLATE_A // Soft Arch & Botanical
+  TEMPLATE_B // Contemporary Editorial
+  TEMPLATE_C // Frosted Glass & Muted Tone
+}
+
+enum RsvpStatus {
+  PENDING
+  ATTENDING
+  DECLINED
+}
+
+model AdminUser {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("admin_users")
+}
+
+model Couple {
+  id                 String       @id @default(uuid())
+  slug               String       @unique // e.g. "budi-ani"
+  brideName          String       @map("bride_name")
+  groomName          String       @map("groom_name")
+  brideParents       String?      @map("bride_parents")
+  groomParents       String?      @map("groom_parents")
+  brideInstagram     String?      @map("bride_instagram")
+  groomInstagram     String?      @map("groom_instagram")
+
+  // Narrative Quotes
+  openingQuoteTitle  String?      @map("opening_quote_title")
+  openingQuoteText   String?      @db.Text @map("opening_quote_text")
+  closingMessage     String?      @db.Text @map("closing_message")
+
+  // Optional Media (Nullable for Photoless/Videoless mode)
+  coverPhotoUrl      String?      @map("cover_photo_url")
+  groomPhotoUrl      String?      @map("groom_photo_url")
+  bridePhotoUrl      String?      @map("bride_photo_url")
+  closingPhotoUrl    String?      @map("closing_photo_url")
+  videoUrl           String?      @map("video_url") // YouTube embed or direct MP4
+  backgroundMusicUrl String?      @map("background_music_url")
+
+  // Styling & Theme Selection
+  dressCodeDesc      String?      @map("dress_code_desc")
+  dressCodeColors    String[]     @default([]) @map("dress_code_colors") // ["#1B2A4A", "#F4F1EA"]
+  selectedTemplate   TemplateType @default(TEMPLATE_A) @map("selected_template")
+
+  events             Event[]
+  bankAccounts       BankAccount[]
+  guests             Guest[]
+  wishes             Wish[]
+
+  createdAt          DateTime     @default(now()) @map("created_at")
+  updatedAt          DateTime     @updatedAt @map("updated_at")
+
+  @@map("couples")
+}
+
+model Event {
+  id           String   @id @default(uuid())
+  coupleId     String   @map("couple_id")
+  title        String   // "Akad Nikah", "Resepsi"
+  startTime    DateTime @map("start_time")
+  endTime      DateTime? @map("end_time")
+  locationName String   @map("location_name")
+  address      String   @db.Text
+  mapsUrl      String?  @map("maps_url")
+  sortOrder    Int      @default(0) @map("sort_order")
+
+  couple       Couple   @relation(fields: [coupleId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([coupleId])
+  @@map("events")
+}
+
+model BankAccount {
+  id            String   @id @default(uuid())
+  coupleId      String   @map("couple_id")
+  bankName      String   @map("bank_name") // "BCA", "Mandiri", "BRI"
+  accountNumber String   @map("account_number")
+  accountHolder String   @map("account_holder")
+  qrisImageUrl  String?  @map("qris_image_url")
+  sortOrder     Int      @default(0) @map("sort_order")
+
+  couple        Couple   @relation(fields: [coupleId], references: [id], onDelete: Cascade)
+
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([coupleId])
+  @@map("bank_accounts")
+}
+
+model Guest {
+  id             String     @id @default(uuid())
+  coupleId       String     @map("couple_id")
+  name           String     // Recipient name
+  slug           String     // URL slug: "budi-hartono"
+  phoneNumber    String?    @map("phone_number")
+  isOpened       Boolean    @default(false) @map("is_opened")
+  statusRsvp     RsvpStatus @default(PENDING) @map("status_rsvp")
+  attendeesCount Int        @default(1) @map("attendees_count")
+
+  couple         Couple     @relation(fields: [coupleId], references: [id], onDelete: Cascade)
+  wishes         Wish[]
+
+  createdAt      DateTime   @default(now()) @map("created_at")
+  updatedAt      DateTime   @updatedAt @map("updated_at")
+
+  @@unique([coupleId, slug])
+  @@index([coupleId])
+  @@map("guests")
+}
+
+model Wish {
+  id         String   @id @default(uuid())
+  coupleId   String   @map("couple_id")
+  guestId    String?  @map("guest_id") // Nullable if posted from generic public link
+  senderName String   @map("sender_name")
+  message    String   @db.Text
+
+  couple     Couple   @relation(fields: [coupleId], references: [id], onDelete: Cascade)
+  guest      Guest?   @relation(fields: [guestId], references: [id], onDelete: SetNull)
+
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@index([coupleId])
+  @@index([guestId])
+  @@map("wishes")
+}
